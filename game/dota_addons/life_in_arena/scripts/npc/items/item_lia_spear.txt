@@ -10,13 +10,14 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"					"90"
+	"ItemCost"					"110"
 	"ItemShopTags"					"damage"
 	"ItemAliases"					"spear"
 	"ItemDroppable"                                 "1"
 	"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 	"ItemSellable"                                  "1"
 	"ItemPurchasable"		                "1"
+	"ItemKillable" 					"0" 
 	"ItemQuality"					"component"
 
 	// Special	
@@ -37,7 +38,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"

@@ -22,7 +22,7 @@ function spiderAutocast( keys )
 		local randUnitI = RandomInt( 1, #table_target )
 		local randUnit = table_target[randUnitI]
 		--
-		print(randUnit)
+		--print(randUnit)
 		if randUnit ~= nil and not randUnit:HasModifier(modifier) then
 			if ability:IsCooldownReady() and not caster:IsChanneling() then
 				caster:CastAbilityOnTarget(randUnit, ability, playerID)
@@ -53,6 +53,17 @@ function IsChanneling ( hero )
 	return false
 end
 
+function Infection(event)
+	local target = event.target
+	local ability = event.ability
+	local caster = event.caster
+	if target:TriggerSpellAbsorb(ability) then
+		return 
+	end
+	target:EmitSound("Hero_Broodmother.SpawnSpiderlingsImpact")
+	ability:ApplyDataDrivenModifier(caster, target, "modifier_infection", nil)
+	ApplyDamage({victim = target, attacker = caster, damage = ability:GetSpecialValueFor("damage"), damage_type = DAMAGE_TYPE_MAGICAL, ability = ability})
+end
 
 function spiderCreate(keys)
 	--
@@ -85,6 +96,7 @@ function spiderCreate(keys)
 		--
 		cre:AddNewModifier(caster, nil, "modifier_kill", { duration = durat })
 		cre:AddNewModifier(caster, nil, "modifier_phased", { duration = 0.03 })
+		ResolveNPCPositions(cre:GetAbsOrigin(),65)
 	end
 	
 end

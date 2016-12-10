@@ -11,6 +11,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"600"	
 	"ItemShopTags"					"str;damage;attack_speed"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -26,7 +28,7 @@
 {
 	"ID"							"1331"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1105"
+	"ItemCost"						"1065"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -36,6 +38,12 @@
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 	"AbilityCooldown"				"16"
 	"AbilityManacost"				"90"
+
+	"precache"
+	{
+		"particle"  "particles/units/heroes/hero_morphling/morphling_morph_str.vpcf"
+	}
+
 	"OnSpellStart"
 	{
 		"ApplyModifier"
@@ -51,6 +59,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		    "%bonus_strength"
@@ -63,6 +72,10 @@
 			"Duration"		"%duration"
 			"Attributes" 	"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 			"IsBuff"		"1"
+
+			"EffectName"	"particles/units/heroes/hero_morphling/morphling_morph_str.vpcf"
+			"EffectAttachType"	"follow_origin"
+			
 			"OnCreated"
 			{	
 				"RunScript"
@@ -87,7 +100,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_attack_speed" "80"
+			"bonus_attack_speed" "55"
 		}
 		"02"
 		{

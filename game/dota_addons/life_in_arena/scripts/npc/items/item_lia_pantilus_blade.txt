@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"265"	
+	"ItemCost"						"280"	
 	"ItemShopTags"					"agi;damage;attack_speed"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -40,6 +42,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
@@ -53,7 +56,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_attack_speed" "50"
+			"bonus_attack_speed" "35"
 		}
 		"02"
 		{

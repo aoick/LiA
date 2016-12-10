@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"400"	
+	"ItemCost"						"180"	
 	"ItemShopTags"					"damage;lifesteal"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -17,7 +19,7 @@
 	"ItemResult"					"item_lia_alanith_spear"
 	"ItemRequirements"
 	{
-		"01"						"item_lia_spear"
+		"01"						"item_lia_spear;item_lia_mask_of_death"
 	}
 }
 
@@ -62,13 +64,16 @@
 		"modifier_item_alanith_datadriven_lifesteal"
 		{
 			"Passive"			"0"
-			"IsHidden"			"1"
-			
+			"IsHidden"			"1"		
 			"OnDealDamage"
 			{
 				"Lifesteal"
 				{
-					"Target"			"ATTACKER"
+					"Target"			
+					{
+						"Center"	"ATTACKER"
+						"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"LifestealPercent"	"%lifesteal_percent"
 				}
 			}

@@ -4,6 +4,8 @@
     //-------------------------------------------------------------------------------------------------------------
     "BaseClass"           "ability_datadriven"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+    "AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+    "AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
     "AbilityTextureName"     "beastmaster_dominate"
   
     // Stats    
@@ -36,6 +38,11 @@
         {
             "var_type"        "FIELD_INTEGER"
             "damage"          "90 180 270"
+        }
+        "03"
+        {
+            "var_type"        "FIELD_FLOAT"
+            "duration"        "10"
         }
     }
   
@@ -70,10 +77,30 @@
                 "Radius"  "%radius"
                 "Teams"   "DOTA_UNIT_TARGET_TEAM_ENEMY"
                 "Types"   "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
-                "Flags"     "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+                "Flags"   "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
             }
         }   
     }  
+
+    "Modifiers"
+    {
+        "modifier_beastmaster_dominate_kill"
+        {
+            "Passive"            "0"
+            "IsHidden"            "0"
+
+            "Duration"  "%duration"
+
+            "OnDestroy"
+            {
+                "RunScript"
+                {
+                    "ScriptFile"  "heroes/Beastmaster/Dominate.lua" 
+                    "Function"    "OnDestroy"
+                }
+            }
+        }
+    }
 }
 
 "beastmaster_brutality"
@@ -187,7 +214,7 @@
     "BaseClass"             "ability_lua"
     "ScriptFile"            "heroes\Beastmaster\beastmaster_help.lua"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
-    "AbilityTextureName"    "beastmaster_help"
+    "AbilityTextureName"    "beastmaster_inner_beast"
     
     "MaxLevel"               "3"
     "RequiredLevel"          "2"
@@ -217,7 +244,7 @@
 
     "AbilityCastRange"              "400"
     "AbilityCastPoint"              "0.3"
-    "AbilityCooldown"               "40 60 80"
+    "AbilityCooldown"               "60"
 
     "AbilityManaCost"               "120"
 
@@ -649,7 +676,7 @@
   //-------------------------------------------------------------------------------------------------------------
   "precache"
   {
-    "particle"   "particles/units/heroes/hero_lina/lina_base_attack.vpcf"  
+    "particle"   "particles/lion_spell_finger_of_death_top1.vpcf"  
     "particle"  "particles/units/heroes/hero_phoenix/phoenix_sunray_debuff.vpcf" 
     "particle"  "particles/econ/items/shadow_fiend/sf_fire_arcana/sf_fire_arcana_base_attack_impact_glow.vpcf"
     "particle"  "particles/units/heroes/hero_lion/lion_spell_finger_of_death.vpcf"
@@ -695,7 +722,7 @@
     "modifier_phoenix_bm_phoenix_fire_start"
   {
         "Passive"   "1"
-
+        "IsHidden"  "1"
         "ThinkInterval" "0.5"
         "OnIntervalThink"
       {
@@ -737,6 +764,7 @@
     "modifier_phoenix_bm_phoenix_fire"
     {   
         "IsDebuff"  "1"
+        "IsHidden"  "1"
         "EffectName"        "particles/units/heroes/hero_phoenix/phoenix_sunray_debuff.vpcf"
         "EffectAttachType"  "follow_origin"
         "ThinkInterval"  "1.0"

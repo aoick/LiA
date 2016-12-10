@@ -45,9 +45,11 @@
 	"HealthBarOffset"			"150"
 
 	"TeamName" 					"DOTA_TEAM_GOODGUYS" 
-	"CombatClassAttack" 		"DOTA_COMBAT_CLASS_ATTACK_BASIC"
-	"CombatClassDefend" 		"DOTA_COMBAT_CLASS_DEFEND_STRONG"
-	"UnitRelationshipClass" 	"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
+	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "normal"
+	"ArmorType"     "heavy" 
 
 	"VisionDaytimeRange" 		"900" 
 	"VisionNighttimeRange" 		"800" 
@@ -100,9 +102,11 @@
 	"StatusManaRegen"			"0.75"			
 
 	"TeamName"					"DOTA_TEAM_GOODGUYS"			
-	"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
-	"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRONG"
-	"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
+	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "pierce"
+	"ArmorType"     "heavy" 
 
 	"VisionDaytimeRange"		"1400"		
 	"VisionNighttimeRange"		"1400"		
@@ -191,9 +195,11 @@
 
 
 	"TeamName" "DOTA_TEAM_GOODGUYS" 
-	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_STRONG"
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
 	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "pierce"
+	"ArmorType"     "heavy" 
 
 
 
@@ -220,6 +226,80 @@
 		}
 	}
 }
+
+"npc_lia_troll_healer" 
+{
+	"BaseClass" "npc_dota_creature" 
+	"Model" "models/creeps/neutral_creeps/n_creep_forest_trolls/n_creep_forest_troll_high_priest.vmdl" 
+	"SoundSet" "n_creep_Ranged" 
+	"ModelScale" "0.9" 
+	"Level" "1" 
+
+
+
+
+	"Ability1" "spell_immunity" 
+	"Ability2" "troll_healer_heal"
+
+
+
+
+	"ArmorPhysical" "15" 
+	"MagicalResistance" "0" 
+
+
+
+	"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+	"AttackDamageMin" "0" 
+	"AttackDamageMax" "0" 
+	"AttackRate" "1.8" 
+	"AttackAnimationPoint" "0.3" 
+	"AttackAcquisitionRange" "500" 
+	"AttackRange" "600" 
+	"ProjectileModel" "particles/base_attacks/ranged_badguy.vpcf"
+	"ProjectileSpeed" "1200" 
+
+
+
+	"BountyXP" "0" 
+	"BountyGoldMin" "0" 
+	"BountyGoldMax" "0" 
+
+
+
+	"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND" 
+	"MovementSpeed" "290" 
+	"MovementTurnRate" "0.5" 
+
+
+
+	"StatusHealth" "700" 
+	"StatusHealthRegen" "0.5" 
+	"StatusMana" "100" 
+	"StatusManaRegen" "0.5" 
+
+
+
+	"TeamName" "DOTA_TEAM_GOODGUYS" 
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
+	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "pierce"
+	"ArmorType"     "heavy" 
+
+
+
+	"VisionDaytimeRange" "1000" 
+	"VisionNighttimeRange" "1000" 
+
+
+
+	"HasInventory" "0" 
+
+	"vscripts"	"AI\TrollHealer.lua"
+}
+
 
 "npc_doom_guard_spawn"
 {
@@ -278,9 +358,11 @@
 
 
 "TeamName"					"DOTA_TEAM_GOODGUYS"			
-"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
-"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
-"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO" 
+"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
+"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+"AttackType"    "chaos"
+"ArmorType"     "heavy"
 
 
 
@@ -413,9 +495,11 @@
 
 
 	"TeamName" "DOTA_TEAM_GOODGUYS" 
-	"CombatClassAttack"  "DOTA_COMBAT_CLASS_ATTACK_LIGHT" //
-	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_STRONG"
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO" 
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
 	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "chaos"
+	"ArmorType"     "heavy"
 
 
 
@@ -431,7 +515,8 @@
 {
 	"BaseClass" 				"npc_dota_creature" 
 						//
-	"Model" 				"models/items/warlock/golem/obsidian_golem/obsidian_golem.vmdl" 						//"models/creeps/neutral_creeps/n_creep_ogre_med/n_creep_ogre_med.vmdl"
+	"Model" 				"models/items/warlock/golem/obsidian_golem/obsidian_golem.vmdl" 	
+	//"Model" 				"models/creeps/lane_creeps/creep_dire_hulk/creep_dire_diretide_ancient_hulk.vmdl"
 	"SoundSet"				"Hero_WarlockGolem"
 	"IdleSoundLoop"				"Hero_WarlockGolem.Spawn_Loop"
 	"ModelScale" "1" 
@@ -440,6 +525,7 @@
 	"precache"
 	{
 		"model"	"models/items/warlock/golem/obsidian_golem/obsidian_golem.vmdl"
+		"model"	"models/creeps/lane_creeps/creep_dire_hulk/creep_dire_diretide_ancient_hulk.vmdl"
 	}
 
 	"Ability1" "spell_immunity" // 
@@ -481,9 +567,11 @@
 	"StatusManaRegen" 			"0" 
 
 	"TeamName" 			"DOTA_TEAM_GOODGUYS" 
-	"CombatClassAttack" 		"DOTA_COMBAT_CLASS_ATTACK_BASIC"
-	"CombatClassDefend" 		"DOTA_COMBAT_CLASS_DEFEND_STRONG"
-	"UnitRelationshipClass" 	"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO" 
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
+	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "chaos"
+	"ArmorType"     "heavy"
 
 	"VisionDaytimeRange" 		"900" 
 	"VisionNighttimeRange" 		"800" 
@@ -508,17 +596,17 @@
 
 
 
-	"ArmorPhysical" "1" 
+	"ArmorPhysical" "0" 
 	"MagicalResistance" "0" 
 
 
 
 	"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
 	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
-	"AttackDamageMin" "15" 
-	"AttackDamageMax" "15" 
+	"AttackDamageMin" "16" 
+	"AttackDamageMax" "17" 
 	"AttackRate" "1.25" 
-	"AttackAnimationPoint" "0.64" 
+	"AttackAnimationPoint" "0.33" 
 	"AttackAcquisitionRange" "500" 
 	"AttackRange" "500" 
 	"ProjectileModel" "particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf" 
@@ -546,9 +634,11 @@
 
 
 	"TeamName" "DOTA_TEAM_GOODGUYS" 
-	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_STRONG"
+	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
+	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
 	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	"AttackType"    "pierce"
+	"ArmorType"     "heavy" 
 
 
 

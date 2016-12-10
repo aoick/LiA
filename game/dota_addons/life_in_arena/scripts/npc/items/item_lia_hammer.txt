@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"650"	
-	"ItemShopTags"					"int;str;damage;health_pool;hard_to_tag"
+	"ItemCost"						"600"	
+	"ItemShopTags"					"str;damage;health_pool;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -17,7 +19,7 @@
 	"ItemResult"					"item_lia_hammer"
 	"ItemRequirements"
 	{
-		"01"						"item_lia_spear;item_lia_amulet;item_lia_gloves_of_strength;item_lia_staff"
+		"01"						"item_lia_spear;item_lia_amulet;item_lia_gloves_of_strength"
 	}
 }
 
@@ -35,10 +37,11 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"1280"
-	"ItemShopTags"					"int;str;damage;health_pool;hard_to_tag"
+	"ItemCost"						"1030"
+	"ItemShopTags"					"str;damage;health_pool;hard_to_tag"
 	"ItemQuality"					"epic"
 	"ItemAliases"					"basher"
+	"ItemKillable" 					"0" 
 	// Special	
 	//-------------------------------------------------------------------------------------------------------------
 	"AbilitySpecial"
@@ -56,24 +59,19 @@
 		"03"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_intelligence"	"18"
+			"bonus_health"	"250"
 		}
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_health"	"200"
+			"minibash_chance"			"30"
 		}
 		"05"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bash_chance"			"40"
+			"bash_damage"			"250"
 		}
 		"06"
-		{
-			"var_type"				"FIELD_INTEGER"
-			"bash_damage"			"300"
-		}
-		"07"
 		{
 			"var_type"				"FIELD_FLOAT"
 			"bash_stun"				"0.01"
@@ -87,12 +85,11 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+			"AllowIllusionDuplicate"    "1"
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
-				"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
 				"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health"
 			}
 			
@@ -100,21 +97,15 @@
 			{
 				"Random"
 				{
-					"Chance"			"%bash_chance"
+					"Chance"			"%minibash_chance"
 					"PseudoRandom"		"DOTA_PSEUDO_RANDOM_ITEM_MKB"
 					"OnSuccess"
 					{
-						"Damage"
-						{
-							"Target"		"TARGET"
-							"Type"			"DAMAGE_TYPE_MAGICAL"
-							"Damage"		"%bash_damage"
-						}
 						
-						"ApplyModifier"
+						"RunScript"
 						{
-							"Target"			"TARGET"
-							"ModifierName"		"modifier_item_lia_hammer_bash"
+							"ScriptFile"	"items\Hammer.lua"
+							"Function"		"Bash"
 						}
 						
 						"FireSound"
@@ -124,24 +115,6 @@
 						}
 					}
 				}
-			}
-		}
-		"modifier_item_lia_hammer_bash"
-		{
-			"Duration"              "%bash_stun"
-			"Passive"				"0"
-			"IsHidden"				"0"
-			"IsBuff"				"0"
-			"IsDebuff"				"1"
-			"IsPurgable"			"1"
-			
-			"EffectName"            "particles/generic_gameplay/generic_stunned.vpcf"
-			"EffectAttachType"      "follow_overhead"
-			"OverrideAnimation"     "ACT_DOTA_DISABLED"
-			
-			"States"
-			{
-				"MODIFIER_STATE_STUNNED" 		"MODIFIER_STATE_VALUE_ENABLED"
 			}
 		}
 	}

@@ -1,3 +1,5 @@
+LinkLuaModifier("modifier_lia_shadow", "heroes/ShadowMaster/modifier_lia_shadow.lua",LUA_MODIFIER_MOTION_NONE)
+
 function ShadowCast( event )
 
 	local caster = event.caster
@@ -18,62 +20,69 @@ function SpawnShadow(event)
 	local abiLevel = ability:GetLevel()
 
 	local lifetime = ability:GetSpecialValueFor("shadow_lifetime")
-	local attrPerc = ability:GetLevelSpecialValueFor("shadow_attributes_perc", abiLevel-1)*0.01
-
-	local shadow_abilities = {"shadow_return_to_owner","",""}
+	local attrPerc = ability:GetSpecialValueFor("shadow_attributes_perc")*0.01
 
 	if ability.shadow and IsValidEntity(ability.shadow) then
-		ability.shadow:ForceKill(true)
+		ability.shadow:ForceKill(false)
 	end
 
-	local spawnPos = caster:GetAbsOrigin() + RotatePosition(Vector(0,0,0), QAngle(0,90,0),caster:GetForwardVector())*125
+	local casterForwardVec = caster:GetForwardVector()
+	local spawnPos = caster:GetAbsOrigin() + RotatePosition(Vector(0,0,0), QAngle(0,90,0),casterForwardVec)*125
 
-	local shadow = CreateUnitByName("npc_dota_hero_terrorblade", spawnPos, true, caster, nil, caster:GetTeamNumber())
+	local strength = caster:GetStrength() * attrPerc
+	local agility = caster:GetAgility() * attrPerc
+	local intellect = caster:GetIntellect() * attrPerc
+
+	ability.shadow = CreateShadow(caster,spawnPos,casterForwardVec,lifetime,strength,agility,intellect,abiLevel)
+
+	local modifierAgi = caster:FindModifierByName("modifier_art_of_shadows_buff") --бафф ульты
+	if modifierAgi then
+		local abiAgi = modifierAgi:GetAbility()
+		abiAgi:ApplyDataDrivenModifier(caster, ability.shadow, "modifier_art_of_shadows_buff", {duration = modifierAgi:GetRemainingTime()})
+	end
+
+	ability.shadow:EmitSound("Hero_Terrorblade.Reflection")
+
+	
+end
+
+function HeroDied(event)
+	if event.ability.shadow and IsValidEntity(event.ability.shadow) then
+		event.ability.shadow:ForceKill(false)
+	end
+end
+
+function _G.CreateShadow(caster,originVec,forwardVec,lifetime,strength,agility,intellect,lvl)
+	local shadow = CreateUnitByName("shadow_master_shadow", originVec, true, caster, caster, caster:GetTeamNumber())
 	shadow:SetControllableByPlayer(caster:GetPlayerID(), true)
-	shadow:SetPlayerID(caster:GetPlayerID())
 
-	shadow:SetRenderColor(20, 20, 20)
+	ResolveNPCPositions(shadow:GetAbsOrigin(),65)
+
+	--shadow:SetRenderColor(20, 20, 20)
 	
-	shadow:SetForwardVector(caster:GetForwardVector()) 
-
-	shadow:AddNewModifier(shadow, nil, "modifier_kill", {duration = lifetime})
-	
-	shadow:RemoveAbility("shadow_master_shadow")
-	shadow:RemoveAbility("shadow_master_steal_shadow")
-	shadow:RemoveAbility("shadow_master_art_of_shadows")
-	shadow:RemoveAbility("shadow_master_sleight_of_shadows")
-	shadow:RemoveAbility("attribute_bonuses")
-
-	for i=1, abiLevel, 1 do 
-		shadow:AddAbility(shadow_abilities[i])
-		shadow:FindAbilityByName(shadow_abilities[i]):SetLevel(1)
-	end
-
-	shadow:SetAbilityPoints(0)
-
-	shadow:SetBaseAgility(math.ceil(caster:GetAgility()*attrPerc))
-	shadow:SetBaseStrength(math.ceil(caster:GetStrength()*attrPerc))
-	shadow:SetBaseIntellect(math.ceil(caster:GetIntellect()*attrPerc))
-	shadow:CalculateStatBonus()
-
-	shadow:SetHealth(shadow:GetMaxHealth()*caster:GetHealthPercent()*0.01)
+	shadow:SetForwardVector(forwardVec) 
 
 	shadow:SetHasInventory(false)
 
-	shadow:EmitSound("Hero_Terrorblade.Reflection")
+	local healthBonus = strength * HERO_STATS_HEALTH_BONUS
+    local armorBonus = agility * HERO_STATS_ARMOR_BONUS
+    shadow:SetMaxHealth(shadow:GetMaxHealth()+healthBonus)
+    shadow:SetHealth(shadow:GetMaxHealth())
+    shadow:SetPhysicalArmorBaseValue(shadow:GetPhysicalArmorBaseValue()+armorBonus)
 
-	ability:ApplyDataDrivenModifier(caster, shadow, "modifier_shadow", nil)
+    for i=1,lvl do
+    	local ability = shadow:GetAbilityByIndex(i-1)
+    	if ability then 
+    		ability:SetLevel(1)
+    	end
+    end
+	
+	shadow:AddNewModifier(caster, ability, "modifier_lia_shadow", {agility = agility, strength = strength, intellect = intellect})
+	shadow:AddNewModifier(shadow, nil, "modifier_kill", {duration = lifetime})
 
-	shadow.owner = caster
-	ability.shadow = shadow
-end
+	shadow.strength = strength
+	shadow.agility = agility
+	shadow.intellect = intellect
 
-function RemoveShadow(event)
-	Timers:CreateTimer(3,function()
-		event.unit:RemoveSelf()
-	end)
-end
-
-function KillShadow(event)
-	event.ability.shadow:ForceKill(true)
+	return shadow
 end

@@ -2,7 +2,7 @@
 	{
 
 		"ID"							"1108"
-		"ItemCost"						"175"
+		"ItemCost"						"195"
 		"ItemKillable" "0" 
 		"ItemDroppable" "1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -32,7 +32,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+			"AllowIllusionDuplicate"    "1"
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"

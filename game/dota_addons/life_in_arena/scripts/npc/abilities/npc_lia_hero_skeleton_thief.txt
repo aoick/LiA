@@ -3,7 +3,7 @@
     // General  
     // ----------------------------------------------------------------------------------------
     "BaseClass"              "ability_datadriven"
-    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
     "AbilityTextureName"     "skeleton_thief_wind_walk"
 	
 	"MaxLevel"               "3"
@@ -18,7 +18,7 @@
 		"01"
 		{
 			"var_type"			"FIELD_INTEGER"
-			"bonus_movespeed"	"10 20 40"
+			"bonus_movespeed"	"10 20 30"
 		}
 		"02"
 		{
@@ -36,27 +36,24 @@
 	{
 		"FireEffect"
 		{
-			"Target"			"CASTER"
+			"Target"		
+			{
+				"Center"	"CASTER"
+				"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
 			"EffectName"		"particles/units/heroes/hero_bounty_hunter/bounty_hunter_windwalk.vpcf"
 			"EffectAttachType"	"attach_origin"
 		}
 
 		"FireSound"
 		{
-			"Target"		"CASTER"
+			"Target"		
+			{
+				"Center"	"CASTER"
+				"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
 			"EffectName"	"Hero_BountyHunter.WindWalk"
 		}
-
-		//"ApplyModifier"
-		//{
-		//	"ModifierName" 	"modifier_invisible"
-		//	"Target"		
-		//	{
-		//		"Center"	"CASTER"
-		//		"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-		//	}
-		//	"Duration"		"%duration"
-		//}
 
 		"ApplyModifier"
 		{
@@ -86,7 +83,11 @@
 				"ApplyModifier"
 				{
 					"ModifierName" 	"modifier_invisible"
-					"Target"		"CASTER"
+					"Target"		
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"Duration"		"%duration"
 				}
 			}
@@ -107,13 +108,21 @@
 				"RemoveModifier"
 				{
 					"ModifierName" 	"modifier_invisible"
-					"Target"		"CASTER"
+					"Target"		
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 				}
 
 				"RemoveModifier"
 				{
 					"ModifierName" 	"modifier_skeleton_thief_wind_walk"
-					"Target"		"CASTER"
+					"Target"		
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 				}
 
 				"Damage"
@@ -142,13 +151,21 @@
 				"RemoveModifier"
 				{
 					"ModifierName" 	"modifier_invisible"
-					"Target"		"CASTER"
+					"Target"		
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 				}
 
 				"RemoveModifier"
 				{
 					"ModifierName" 	"modifier_skeleton_thief_wind_walk"
-					"Target"		"CASTER"
+					"Target"		
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 				}
 			}
 		}
@@ -176,7 +193,7 @@
 
 	"precache"
 	{
-	"particle"	"particles/units/heroes/hero_skeletonking/wraith_king_reincarnate.vpcf"
+		"particle"	"particles/units/heroes/hero_skeletonking/wraith_king_ghosts_ambient.vpcf"
 	}
 	
 	 "AbilitySpecial"
@@ -197,12 +214,21 @@
 	  //-------------------------------------------------------------------------------------------------------------
 	"OnSpellStart"
 	{
-	 "ApplyModifier"
+	 	"ApplyModifier"
 		{
-		 "ModifierName"   "modifier_skeleton_thief_fury"
-		 "Target"         "CASTER"
-		 "Duration"       "%duration"
+		 	"ModifierName"   "modifier_skeleton_thief_fury"
+			"Target"		
+			{
+				"Center"	"CASTER"
+				"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
+			"Duration"       "%duration"
 		}
+		"RunScript"
+		{
+			"ScriptFile"	"heroes\SkeletonThief\Fury.lua"
+			"Function"		"Purge"
+		}	
 	}
     
     // Modifiers
@@ -213,19 +239,24 @@
       {
         "Passive"       "0"
         "IsHidden"      "0"
-        "IsBuff"        "1"
-		
-		"EffectName"	"particles/units/heroes/hero_skeletonking/wraith_king_reincarnate.vpcf"
+		"Attributes"	"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"		
+		"EffectName"	"particles/units/heroes/hero_skeletonking/wraith_king_ghosts_ambient.vpcf"
 		"EffectAttachType"	"follow_origin"
 		
         "Properties"
         {
-         "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attackspeed" 
+         	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attackspeed" 
+         	//"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL"     "1"
+         	//"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"     "1"
+         	//"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE"     "1"
+			//"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"100"
+
         }
 
         "States"
         {
-         "MODIFIER_STATE_INVULNERABLE"     "MODIFIER_STATE_VALUE_ENABLED"
+         	"MODIFIER_STATE_INVULNERABLE"     "MODIFIER_STATE_VALUE_ENABLED"
+			//"MODIFIER_STATE_MAGIC_IMMUNE"  "MODIFIER_STATE_VALUE_ENABLED"
         }
       }
     }
@@ -266,6 +297,114 @@
 	}
  
   }
+
+"skeleton_thief_concentration"
+{
+	"BaseClass"				"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityTextureName"			"skeleton_thief_shield_of_death"
+
+    "MaxLevel"               "3"
+    "RequiredLevel"          "2"
+    "LevelsBetweenUpgrades"  "2"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"crit_mult"					"150 175 200"
+		}
+		"02"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"crit_chance"				"7 10 13"
+		}
+		"03"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"crit_chance_cap"			"50"
+		}
+	}
+
+	"OnUpgrade"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/SkeletonThief/Concentration.lua"
+			"Function"		"OnUpgrade"
+		}
+	}
+
+	"OnOwnerSpawned"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_skeleton_thief_concentration_chance"
+			"Target" 		"CASTER"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_skeleton_thief_concentration_attack"	
+		{
+			"Passive"	"1"
+			"OnAttackStart"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/SkeletonThief/Concentration.lua"
+					"Function"		"OnAttackStart"
+				}
+			}
+		}
+
+		"modifier_skeleton_thief_concentration_chance"	
+		{
+			"IsHidden"	"1"
+			"ThinkInterval"  "1.0"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/SkeletonThief/Concentration.lua"
+					"Function"		"Recalculate"
+				}
+			}
+
+			"OnTakeDamage"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/SkeletonThief/Concentration.lua"
+					"Function"		"OnTakeDamage"
+				}
+			}
+		}
+
+		"modifier_skeleton_thief_concentration_crit"
+		{
+		    "IsHidden"  "1"
+		    "Properties"
+		    {
+		        "MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
+		    }
+
+		    "OnAttackLanded"
+		    {
+		       "RunScript"
+				{
+					"ScriptFile"	"heroes/SkeletonThief/Concentration.lua"
+					"Function"		"OnAttackLanded"
+				}
+		    }
+		}
+	}
+}
 
   "skeleton_thief_obsession"
   {

@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"225"	
+	"ItemCost"						"275"	
 	"ItemShopTags"					"health;armor;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -48,7 +50,8 @@
 {
 	// General
 	//-------------------------------------------------------------------------------------------------------------
-	"BaseClass"						"item_datadriven"
+	"BaseClass"						"item_lua"
+	"ScriptFile"					"items\item_lia_enchanted_shield.lua"
 	"ID"							"1411"  //Valve's version of this item uses the ID "135".
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"Model"							"models/props_gameplay/red_box.vmdl" 
@@ -57,13 +60,15 @@
 	
 	"UpgradesItems"					"item_lia_enchanted_shield;item_lia_enchanted_shield_2"
 	"UpgradeRecipe"					"item_recipe_lia_enchanted_shield"
+
+	"ItemKillable" 					"0" 
 	
 	"MaxUpgradeLevel"				"2"
 	"ItemBaseLevel"					"1"
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"940"
+	"ItemCost"						"910"
 	"ItemShopTags"					"health;armor;hard_to_tag"
 	"ItemQuality"					"epic"
 	"ItemAliases"					"basher"
@@ -74,13 +79,13 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_armor"	"13 16"
+			"bonus_armor"			"13 16"
 		}
 
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_health" "325 525"
+			"bonus_health" 			"325 525"
 		}
 
 		"03"
@@ -91,80 +96,8 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"damage_blocked"			"50 70"
+			"damage_block"			"50 70"
 		}
-	}
-	
-	"Modifiers"
-	{
-		"modifier_item_lia_enchanted_shield"
-		{
-			"Passive"			"1"
-			"IsHidden"			"1"
-			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
-			"Properties"
-			{
-		    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-		    	"MODIFIER_PROPERTY_HEALTH_BONUS"		 "%bonus_health"
-			}
-			
-			 "OnCreated"
-				{
-					"Random"
-					{
-						"Chance" "%block_chance"
-						"OnSuccess"
-						{
-							"ApplyModifier"
-							{
-								"Target" "CASTER"
-								"ModifierName" "block_modifier"
-							}
-						}
-					}
-				}
-			"OnAttacked"
-				{
-					"Random"
-					{
-						"Chance" "%block_chance"
-						"OnSuccess"
-						{
-							"ApplyModifier"
-							{
-								"Target" "CASTER"
-								"ModifierName" "block_modifier"
-							}
-						}
-						"OnFailure"
-						{
-							"RemoveModifier"
-							{
-								"Target" "CASTER"
-								"ModifierName" "block_modifier"
-							}
-						}
-					}
-				}
-		}
-		"block_modifier"
-			{
-				"IsBuff" "1"
-				"IsHidden" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_blocked"
-				}
-				"OnAttacked"
-				{
-					"RemoveModifier"
-					{
-						"Target" "CASTER"
-						"ModifierName" "block_modifier"
-					}
-				}
-			}
 	}
 }
 
@@ -173,12 +106,15 @@
 {
 	// General
 	//-------------------------------------------------------------------------------------------------------------
-	"BaseClass"						"item_datadriven"
+	"BaseClass"						"item_lua"
+	"ScriptFile"					"items\item_lia_enchanted_shield_2.lua"
 	"ID"							"1412"  //Valve's version of this item uses the ID "135".
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"Model"							"models/props_gameplay/red_box.vmdl" 
 	"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-	"AbilityTextureName"			"item_lia_enchanted_shield"
+	"AbilityTextureName"			"item_lia_enchanted_shield_2"
+
+	"ItemKillable" 					"0" 
 
 	"UpgradesItems"					"item_lia_enchanted_shield;item_lia_enchanted_shield_2"
 	"UpgradeRecipe"					"item_recipe_lia_enchanted_shield"
@@ -188,7 +124,7 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"1165"
+	"ItemCost"						"1185"
 	"ItemShopTags"					"health;armor;hard_to_tag"
 	"ItemQuality"					"epic"
 	"ItemAliases"					"basher"
@@ -199,13 +135,13 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_armor"	"16"
+			"bonus_armor"			"16"
 		}
 
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_health" "525"
+			"bonus_health" 			"525"
 		}
 
 		"03"
@@ -216,79 +152,7 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"damage_blocked"			"70"
+			"damage_block"			"70"
 		}
-	}
-	
-	"Modifiers"
-	{
-		"modifier_item_lia_enchanted_shield_2"
-		{
-			"Passive"			"1"
-			"IsHidden"			"1"
-			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
-			"Properties"
-			{
-		    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-		    	"MODIFIER_PROPERTY_HEALTH_BONUS"		 "%bonus_health"
-			}
-			
-			 "OnCreated"
-				{
-					"Random"
-					{
-						"Chance" "%block_chance"
-						"OnSuccess"
-						{
-							"ApplyModifier"
-							{
-								"Target" "CASTER"
-								"ModifierName" "block_modifier_2"
-							}
-						}
-					}
-				}
-			"OnAttacked"
-				{
-					"Random"
-					{
-						"Chance" "%block_chance"
-						"OnSuccess"
-						{
-							"ApplyModifier"
-							{
-								"Target" "CASTER"
-								"ModifierName" "block_modifier_2"
-							}
-						}
-						"OnFailure"
-						{
-							"RemoveModifier"
-							{
-								"Target" "CASTER"
-								"ModifierName" "block_modifier_2"
-							}
-						}
-					}
-				}
-		}
-		"block_modifier_2"
-			{
-				"IsBuff" "1"
-				"IsHidden" "1"
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_blocked"
-				}
-				"OnAttacked"
-				{
-					"RemoveModifier"
-					{
-						"Target" "CASTER"
-						"ModifierName" "block_modifier_2"
-					}
-				}
-			}
 	}
 }

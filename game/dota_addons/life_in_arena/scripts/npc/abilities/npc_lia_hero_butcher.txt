@@ -11,7 +11,7 @@
 	"RequiredLevel"          "1"
 	"LevelsBetweenUpgrades"  "2"
 	
-	"AbilityCooldown"				"20.0 17.0 15.0"	
+	"AbilityCooldown"				"20.0 18.0 16.0"	
 	"AbilityDuration"	"10.0"
 	"AbilityCastRange"	"225"
 	"AbilityManaCost"				"60 70 80"	
@@ -19,8 +19,8 @@
 	"precache"
 	{
 		"soundfile"			"soundevents/game_sounds_heroes/game_sounds_huskar.vsndevts"
-		"particle"			"particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact_drops_b_lv.vpcf"
-		"particle"  		"particles/units/heroes/hero_huskar_temp/huskar_burning_spear_debuff.vpcf"		
+		"particle"			"particles/units/heroes/hero_pudge/pudge_dismember.vpcf"
+		"particle"  		"particles/bloodseeker_bloodbath_custom.vpcf"		
 	}
 	
 	"AbilitySpecial"
@@ -28,7 +28,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"hp_damage_percentage"		"10 15 20"
+			"hp_damage_percentage"		"8 12 16"
 		}
 		"02"
 		{
@@ -78,6 +78,31 @@
 					}
 					"Damage"	"%bonus_damage"
 				}
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"TARGET"
+						"Radius" 	"%radius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+						"Flags" 		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+					}
+				
+					"Action"    
+					{
+						"FireEffect"
+						{
+							"EffectName"        "particles/units/heroes/hero_pudge/pudge_dismember.vpcf"
+							"EffectAttachType"  "follow_origin"
+							"Target"
+							{
+								"Center"	"TARGET"
+								"Flags" 	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -113,15 +138,16 @@
 
  "butcher_zombie"
 {
-	"BaseClass"				"ability_datadriven"
-	"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"BaseClass"				"ability_lua"
+	"ScriptFile"			"heroes\Butcher\butcher_zombie.lua"
+	"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_TOGGLE"
 	"AbilityTextureName"	"butcher_zombie"
 		
 	"MaxLevel"               "3"
 	"RequiredLevel"          "2"
 	"LevelsBetweenUpgrades"  "2"
 
-	"AbilityCooldown"		 "15"
+	"AbilityCooldown"		 "0"
 	
 	"AbilitySpecial"
 	{
@@ -135,37 +161,11 @@
 			"var_type"				"FIELD_INTEGER"
 			"zombie_damage_tooltip"	"14 39 69"
 		}
-	}
-
-	
-	"Modifiers"
-	{
-		"modifier_butcher_zombie"
+		"03"
 		{
-			"Passive"	"1"
-			//"IsHidden"	"1"
-			"ThinkInterval"	"15"
-			"OnIntervalThink"
-			{
-				"RunScript"
-				{
-					"ScriptFile"	"heroes\Butcher\Zombie.lua"
-					"Function"		"SpawnZombie"
-				}
-			}
+			"var_type"				"FIELD_INTEGER"
+			"zombie_cooldown"		"15"
 		}
-		"modifier_butcher_zombie_death"
-		{
-			"IsHidden"	"1"
-			"OnDeath"
-			{
-				"RunScript"
-				{
-					"ScriptFile"	"heroes\Butcher\Zombie.lua"
-					"Function"		"ZombieDeath"
-				}
-			}
-		}	
 	}
 }
 
@@ -189,7 +189,7 @@
 	
 		"precache"
 	{
-		"soundfile"			"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
+		"soundfile"			"soundevents/game_sounds_heroes/game_sounds_vengefulspirit.vsndevts"
 		"particle"			"particles/units/heroes/hero_lycan/lycan_howl_cast.vpcf"
 		"particle"			"particles/units/heroes/hero_lycan/lycan_howl_buff.vpcf"
 	}
@@ -199,12 +199,12 @@
 		"01"
 		{
 			"var_type"					"FIELD_INTEGER"
-			"damage_penalty_percentage"	"-60 -70 -80"
+			"damage_penalty_percentage"	"-50 -60 -70"
 		}
 		"02"
 		{
 			"var_type"					"FIELD_FLOAT"
-			"duration"			"20.0 25.0 30.0"
+			"duration"			"14 17 20"
 		}
 		"03"
 		{
@@ -217,7 +217,7 @@
     {
 			"FireSound"
 		{
-			"EffectName"	"Hero_Beastmaster.Primal_Roar"
+			"EffectName"	"Hero_VengefulSpirit.WaveOfTerror"
 			"Target" 		"CASTER"
 		}
 		"AttachEffect"
@@ -227,20 +227,26 @@
 			"EffectRadius"       "%radius"
 			"Target"	"CASTER"	
 		}
-		"ApplyModifier"
-		{
-			"ModifierName"  "modifier_butcher_howl_of_terror"
 
+		"ActOnTargets"
+		{
 			"Target"
 			{
-				 "Center"    "CASTER"
-				 "Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Center"  	"CASTER"
+				"Radius" 	"%radius"
+				"Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
 				 "Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 				 "Flags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-				 "Radius"    "%radius"
 			}
-
-			"Duration"    "%duration"
+		
+			"Action"    
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Butcher/HowlOfTerror.lua"
+					"Function"		"HowlOfTerror"
+				}
+			}
 		}
     }
 

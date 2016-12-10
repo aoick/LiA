@@ -31,9 +31,9 @@
 	   	}
 		"02"
 	   	{
-		    "var_type" "FIELD_INTEGER"
-		    "regen_percent" "50"
-	   	}
+			"var_type" "FIELD_INTEGER"
+			"bonus_attack_speed" "15"
+		}
 		"03"
 	   	{
 		    "var_type" "FIELD_INTEGER"
@@ -47,16 +47,6 @@
   	}
 
 	
-		"OnUnequip" 
-	{
-		"RunScript"
-		{
-			"ScriptFile" "items\AuraFix.lua"
-			"Function"  "OnUnequip"
-			"ModifierName" "horn_aura_Modifier"
-		}
-	}
-	
   	"Modifiers"
   	{
    		"modifier_item_lia_stormwind_horn"
@@ -67,45 +57,22 @@
     		"Aura_Radius" "900"
     		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
     		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
-
+			"Aura_Flags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ALLIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE" 
    		}
  
    		"horn_aura_armor"
    		{
-    	
+  	  		"Attributes"		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"  	
 	    	"IsBuff" "1"
 	    	"IsPurgable" "0"
-	    	"OnCreated"
-	    	{
-	    		"RunScript"
-	    		{
-	    			"ScriptFile"	"items/StormwindHorn.lua"
-	    			"Function"		"CalcRegeneration"
-	    		}
-	    	}
-	    	"OnDestroy"
-	    	{
-				"RunScript"
-    			{
-			        "ScriptFile"    "items/StormwindHorn.lua"
-			        "Function"      "AuraNone"	
-				}
-	    	}
 
 	    	"Properties"
 	    	{
 	     		"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE" "%bonus_movement_speed_percent"
+	     		"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
 	    	}
 	    }
-	    "horn_regeneration"
-   		{
-   			"IsHidden"	"0"
-   			"Properties"
-	    	{
-	     		"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%regen"
-	    	}
 
-   		}
    	}
 
 }

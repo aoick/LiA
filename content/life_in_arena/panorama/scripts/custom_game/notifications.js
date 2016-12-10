@@ -1,7 +1,8 @@
 "use strict";
+   
 
 function OnRoundStart( msg )
-{
+{        
 
 	$.GetContextPanel().SetHasClass( "round_start", true );
 	
@@ -10,15 +11,15 @@ function OnRoundStart( msg )
 
 	$.Schedule( 5, ClearRoundStartMessage );
 }
-		
-function ClearRoundStartMessage()
+		       
+function ClearRoundStartMessage() 
 {
 	$.GetContextPanel().SetHasClass( "round_start", false );
 }
-
+  
 function OnDuelStart( msg )
 {
-
+ 
 	$.GetContextPanel().SetHasClass( "duel_start", true );
 	
 	$( "#LiaDuel_Number" ).SetDialogVariable( "duel_num", $.Localize( "#Duel"+msg.duel_number ) );
@@ -31,17 +32,35 @@ function OnDuelStart( msg )
 
 	//$( "#LiaDuel_Text" ).SetDialogVariable( "hero1", $.Localize( "#"+msg.hero1 ) );
 	//$( "#LiaDuel_Text" ).SetDialogVariable( "hero2", $.Localize( "#"+msg.hero2 ) );
-
-	$.Schedule( 5, ClearDuelStartMessage );
-}
-		
+ 
+	$.Schedule( 5, ClearDuelStartMessage ); 
+}  
+		  
 function ClearDuelStartMessage()
+{  
+	$.GetContextPanel().SetHasClass( "duel_start", false ); 
+} 
+
+
+
+function OnHintFallen(ndata)
 {
-	$.GetContextPanel().SetHasClass( "duel_start", false );
+	$.GetContextPanel().SetHasClass( "fstart", true );
+	if (ndata.count > 0)
+		$( "#LiaFallenChampion_Count" ).text = ndata.count.toFixed(0)
+	else
+		$( "#LiaFallenChampion_Count" ).text = '0';
+	//$( "#LiaFallenChampion_Count" ).SetDialogVariableInt( "count_fallen", ndata.count );
+	//$.Msg( "		$( #LiaFallenChampion_Count ) = ", $( "#LiaFallenChampion_Count" ));
+	//$.Msg( "		ndata.count = ", ndata.count);
 }
 
-(function () {
+        
+(function () { 
 	GameEvents.Subscribe( "round_start", OnRoundStart );
-	GameEvents.Subscribe( "duel_start", OnDuelStart );
+	//GameEvents.Subscribe( "duel_start", OnDuelStart ); 
+	//
+	GameEvents.Subscribe( "upd_action_fallen", OnHintFallen ); 
+
 })();
 

@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"250"	
+	"ItemCost"						"330"	
 	"ItemShopTags"					"health;armor;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -33,6 +35,7 @@
 	"Model"							"models/props_gameplay/red_box.vmdl" 
 	"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 	"AbilityTextureName"			"item_lia_mithril_armor"
+	"ItemKillable" 					"0" 
 	
 	"precache"
 	{
@@ -44,6 +47,8 @@
 	"AbilityCooldown"				"14.0"
 
 	"AbilityManaCost"				"80"	
+
+	"AbilitySharedCooldown" "Taunt"
 
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
@@ -74,7 +79,7 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"radius"				"500"
+			"radius"				"400"
 		}
 		"05"
 		{
@@ -114,11 +119,10 @@
 		
 			"Action"    
 			{
-				"ApplyModifier"
+				"RunScript"
 				{
-					"ModifierName"	"modifier_beserkers_call_enemy_datadriven"
-					"Target" 		"TARGET"
-					"Duration"		"%duration"
+					"ScriptFile"	"items/mithril_armor.lua"
+					"Function"		"ApplyTaunt"
 				}
 			}
 		}
@@ -130,7 +134,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+			"AllowIllusionDuplicate"    "1"
 			"Properties"
 			{
 		    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
@@ -141,7 +145,7 @@
 			
 		}
 
-		"modifier_beserkers_call_enemy_datadriven"
+		"modifier_item_lia_mithril_armor_taunt"
 		{
 			"IsPurgable"		"0"
 			"IsDebuff"			"1"
@@ -166,6 +170,11 @@
 					"ScriptFile"	"items/mithril_armor.lua"
 					"Function"		"TauntEnd"
 				}
+			}
+
+			"States"
+			{
+				"MODIFIER_STATE_MUTED"		"MODIFIER_STATE_VALUE_ENABLED"
 			}
 		}
 	}

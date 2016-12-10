@@ -181,7 +181,7 @@ function LocustSwarmPhysics( event )
 			
 			-- If no enemies, set the unit to collide with a random point.
 			else
-				unit.state = "target_acquired"
+				unit.state = "acquiring"
 				unit.current_target = nil
 				point = source + RandomVector(RandomInt(radius/2, radius))
 				--print("Acquiring -> Random Point Target acquired")
@@ -221,6 +221,7 @@ function LocustSwarmPhysics( event )
 						damage_table.attacker = caster					
 						damage_table.damage_type = abilityDamageType
 						damage_table.damage = locust_damage
+						damage_table.ability = ability
 
 						ApplyDamage(damage_table)
 

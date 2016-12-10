@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"400"	
+	"ItemCost"						"500"	
 	"ItemShopTags"					"int"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1468"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1330"
+	"ItemCost"						"1315"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -38,20 +40,13 @@
 	
 	"AbilityCooldown"				"14.0"
 	"AbilityManaCost"				"275"
+
+	"AoERadius"  "500"
 	
 	"precache"
 	{
 		"particle"	"particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf"
 		"soundfile"	"soundevents/game_sounds_heroes/game_sounds_ancient_apparition.vsndevts"
-	}
-	"OnUnequip" 
-	{
-		"RunScript"
-		{
-			"ScriptFile" "items\AuraFix.lua"
-			"Function"  "OnUnequip"
-			"ModifierName" "ice_sword_aura_Modifier"
-		}
 	}
 
 	"OnSpellStart"
@@ -61,6 +56,7 @@
 			"EffectName"		"Hero_Ancient_Apparition.ColdFeetTick"
 			"Target" 			"CASTER"
 		}
+		
 		"ActOnTargets"
 		{
 			"Target"
@@ -96,13 +92,20 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+
+		    "Aura" 				"modifier_ice_sword_aura_effect"
+    		"Aura_Radius" 		"900"
+    		"Aura_Teams" 		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+    		"Aura_Types" 		"DOTA_UNIT_TARGET_ALL"
+			"Aura_Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE" 
+
 		    "Properties"
 		    {
 				"MODIFIER_PROPERTY_MANA_BONUS"			"%bonus_mana"
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 		    }  
 			
-			  "Orb"
+			"Orb"
 			{
 				"Priority"  "DOTA_ORB_PRIORITY_ITEM"
 				"ProjectileName" "particles\items2_fx\skadi_projectile.vpcf"
@@ -118,59 +121,36 @@
 				}   
 			} 
 		}
+
 		"modifier_ice_sword_slow" 
 		{
 			"IsDebuff" "1"
 			"Duration"  "3"
+
+			"EffectName"    "particles/generic_gameplay/generic_slowed_cold.vpcf"
+			"EffectAttachType" "attach_hitloc"
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"  "%move_speed_slow"
 				"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%attack_speed_slow"
 			}
-			"EffectName"    "particles/generic_gameplay/generic_slowed_cold.vpcf"
-			"EffectAttachType" "attach_hitloc"
-			"Target" "TARGET"
-
 		}
-		"ice_sword_aura_armor"
+
+		"modifier_ice_sword_aura_effect"
    		{
-    	
-	    	"IsBuff" "1"
-	    	"IsPurgable" "0"
-	    	"OnCreated"
-	    	{	
+	    	"IsBuff" 			"1"
+	    	"IsPurgable" 		"0"
 
-	    		"RunScript"
-	    		{
-	    			"ScriptFile"	"items/StormwindHorn.lua"
-	    			"Function"		"CalcRegeneration"
-	    		}
-
-	    	}
-	    	"OnDestroy"
-	    	{
-				"RunScript"
-    			{
-			        "ScriptFile"    "items/StormwindHorn.lua"
-			        "Function"      "AuraNone"	
-				}
-	    	}
+	  		"Attributes"		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 
 	    	"Properties"
 	    	{
 	     		"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE" "%bonus_movement_speed_percent"
+	     		"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
 	    	}
 	    }
-		 "ice_sword_aura_Modifier"
-   		{
-    		"Passive" "1"
-    		"IsHidden" "1"
-    		"Aura" "ice_sword_aura_armor"
-    		"Aura_Radius" "900"
-    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
 
-   		}
 		"modifier_ice_sword_stun"
 		{
 			"IsDebuff"	"1"
@@ -202,9 +182,9 @@
 	   	}
 		"04"
 	   	{
-		    "var_type" "FIELD_INTEGER"
-		    "regen_percent" "120"
-	   	}
+			"var_type" "FIELD_INTEGER"
+			"bonus_attack_speed" "25"
+		}
 		"05"
 	   	{
 		    "var_type" "FIELD_INTEGER"

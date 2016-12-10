@@ -11,7 +11,7 @@
 	"AbilityCastRange"				"500"
 	"AbilityCastPoint"				"0.0"
 
-	"AbilityCooldown"				"9.0 10.0 11.0"
+	"AbilityCooldown"				"10"
 
 	"AbilityManaCost"				"40 50 60"	
 
@@ -35,7 +35,7 @@
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_health"	"100 200 300"
+			"bonus_health"			"100 200 300"
 		}
 		"03"
 		{
@@ -53,9 +53,9 @@
 		}
 		"ApplyModifier"
 		{
-		"ModifierName" "modifier_dice_rage"
-		"Target"	"TARGET"
-		"Duration"	"%duration"
+			"ModifierName" "modifier_dice_rage"
+			"Target"	"TARGET"
+			"Duration"	"%duration"
 		}
 
 		
@@ -64,6 +64,9 @@
 	{
 		"modifier_dice_rage"
 		{
+			"IsPurgable"	"1"
+			"IsBuff"	"1"
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -94,19 +97,21 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bash_chance"			"9 18 21"
+			"bash_chance"			"15 18 21"
 		}
 		"02"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"stun_hero_duration"	"1.0"
+			"bash_stun"	"1.0"
+		}
+		"03"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"bash_damage"	"70 140 210"
 		}
 	}
 
-		"OnRespawn"
-	{
-		"ApplyModifier"	"modifier_dice_bash"
-	}
+
 	
 	"Modifiers"
 	{
@@ -124,29 +129,13 @@
 
 					"OnSuccess"
 					{
-						"FireSound"
+						"RunScript"
 						{
-							"EffectName"	"Roshan.Bash"
-							"Target"		"TARGET"
+							"ScriptFile"	"heroes\Dice\Bash.lua"
+							"Function"		"Bash"
 						}
 
-						"ApplyModifier"
-						{
-							"ModifierName"	"modifier_stunned"
-							"Target"
-							{
-								"Center"	"TARGET"
-								"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-							}
-							"Duration"		"%stun_hero_duration"	
-						}
 
-						"Damage"
-						{
-							"Target"	"TARGET"
-							"Type"		"DAMAGE_TYPE_MAGICAL"
-							"Damage"	"%AbilityDamage"
-						}
 					}
 				}
 			}
@@ -230,7 +219,8 @@
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 
 	"AbilityCastRange"				"300"
 	"AbilityCastPoint"				"0.0"
@@ -260,7 +250,7 @@
 		"03"
 		{
 			"var_type"					"FIELD_FLOAT"
-			"duration"					"10.0"
+			"duration"					"6.0 8.0 10.0"
 		}
 	}
 
@@ -269,7 +259,11 @@
 		"ApplyModifier"
 		{
 			"ModifierName"	"modifier_steelstorm"
-			"Target" 		"CASTER"
+			"Target"
+			{
+				"Center"  	"CASTER"
+				"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
 			"Duration"		"%duration"
 		}	
 	}
@@ -291,7 +285,11 @@
 				{
 					"EffectName"        "particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf"
 					"EffectAttachType"  "follow_origin"
-					"Target"            "CASTER"
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"ControlPoints"
 					{
 						"05"	"%steelstorm_radius 0 0"
@@ -300,7 +298,11 @@
 				"FireSound"
 				{
 					"EffectName"	"Hero_Juggernaut.BladeFuryStart"
-					"Target" 		"CASTER"
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 				}			
 			}
 			
@@ -327,7 +329,7 @@
 								"Center"	"TARGET"
 								"Flags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 							}
-							"Type"			"DAMAGE_TYPE_PHYSICAL"
+							"Type"			"DAMAGE_TYPE_PURE"
 							"Damage"		"%AbilityDamage * %steelstorm_damage_tick"
 						}
 						"FireSound"
@@ -337,11 +339,7 @@
 						}
 					}
 				}	
-				"Rotate"
-				{
-					"Target"	"CASTER"
-					"PitchYawRoll"	"0 30 0"
-				}
+
 			}
 			"OnDestroy"
 			{

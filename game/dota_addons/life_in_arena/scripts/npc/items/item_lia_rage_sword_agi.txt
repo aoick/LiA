@@ -11,6 +11,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"600"	
 	"ItemShopTags"					"agi;damage;attack_speed"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -18,7 +20,7 @@
 	"ItemResult"					"item_lia_blade_of_rage_agi"
 	"ItemRequirements"
 	{
-		"01"						"item_lia_pantilus_blade"
+		"01"						"item_lia_steel_sword;item_lia_runed_gloves;item_lia_thugs_dagger"
 	}
 }
 
@@ -26,7 +28,7 @@
 {
 	"ID"							"1329"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1120"
+	"ItemCost"						"1065"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -36,6 +38,12 @@
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 	"AbilityCooldown"				"16"
 	"AbilityManacost"				"90"
+
+	"precache"
+	{
+		"particle"  "particles/units/heroes/hero_morphling/morphling_morph_agi.vpcf"
+	}
+
 	"OnSpellStart"
 	{
 		"ApplyModifier"
@@ -51,6 +59,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		    "%bonus_agility"
@@ -63,6 +72,10 @@
 			"Duration"		"%duration"
 			"Attributes" 	"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 			"IsBuff"		"1"
+
+			"EffectName"	"particles/units/heroes/hero_morphling/morphling_morph_agi.vpcf"
+			"EffectAttachType"	"follow_origin"
+
 			"OnCreated"
 			{
 				"RunScript"
@@ -87,7 +100,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_attack_speed" "80"
+			"bonus_attack_speed" "55"
 		}
 		"02"
 		{

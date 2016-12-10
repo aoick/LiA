@@ -111,16 +111,10 @@
 	
 	"OnSpellStart"
 	{
-		"FireSound"
+		"RunScript"
 		{
-			"EffectName"		"DOTA_Item.RodOfAtos.Activate"
-			"Target"			"TARGET"
-		}
-			
-		"ApplyModifier"
-		{
-			"Target"			"TARGET"
-			"ModifierName"		"modifier_item_rod_of_atos_datadriven_cripple"
+			"ScriptFile"	"abilities/Cripple.lua"
+			"Function"		"Cripple"
 		}
 	}
 	
@@ -265,6 +259,7 @@
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+
 	"AbilityTextureName"			"ogre_magi_bloodlust"
 
 	"AbilityCastRange"				"600"
@@ -319,6 +314,7 @@
 	{
 		"modifier_bloodlust_hell_beast"
 		{
+			"IsPurgable"		"1"
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -340,10 +336,13 @@
 {
 	// General
 	//-------------------------------------------------------------------------------------------------------------
-	"BaseClass"				"ability_datadriven"
+	"BaseClass"				"ability_lua"
+	"ScriptFile"			"abilities\hell_beast_sleep.lua"
+	
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetFlag"			"DOTA_UNIT_TARGET_FLAG_CHECK_DISABLE_HELP"	
 	"AbilityTextureName"			"bane_nightmare"
 
 	"AbilityCastRange"				"800"
@@ -370,39 +369,6 @@
 		{
 			"var_type"				"FIELD_FLOAT"
 			"duration_invul"	"2"
-		}
-	}
-
-	"OnSpellStart"
-	{
-		"RunScript"
-		{
-			"ScriptFile"		"abilities\hell_beast_sleep.lua"
-			"Function"			"hell_beast_sleep_on_spell_start"
-			"duration_hero" 	"%duration_hero"
-			"duration_creep"	"%duration_creep"
-			"duration_invul"	"%duration_invul"
-		}
-	}
-	"Modifiers"
-	{
-		"modifier_hellbeast_sleep"
-		{
-			"States"
-			{
-				"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
-			}
-			"EffectName"        "particles/generic_gameplay/generic_sleep.vpcf"
-			"EffectAttachType"  "follow_overhead"
-			"OverrideAnimation"     "ACT_DOTA_DISABLED"
-			"OnAttacked"
-			{
-				"RemoveModifier"
-				{
-					"Target"		"TARGET"
-					"ModifierName"	"modifier_hellbeast_sleep"
-				}
-			}
 		}
 	}
 }
@@ -457,7 +423,7 @@
 		"modifier_boar_poison"
 		{
 			"Passive"               "1"
-			"IsHidden"				"0"
+			"IsHidden"				"1"
 	
 			"OnAttackLanded"
 			{
@@ -490,4 +456,103 @@
 			}
 		}
 	}
+}
+
+"troll_healer_heal"
+{
+	// General
+	//-------------------------------------------------------------------------------------------------------------
+	"BaseClass"						"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityTextureName"			"forest_troll_high_priest_heal"
+
+	"MaxLevel"               "1"
+
+	"AoERadius"               "400"	
+	"AbilityCastRange"				"500"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCooldown"				"1.5"
+	"AbilityManaCost"				"5"	
+
+	"precache"
+	{
+		"soundfile"	"soundevents/game_sounds_heroes/game_sounds_omniknight.vsndevts"
+		"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification.vpcf"
+		//"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification_hit.vpcf"
+		"particle"	"particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
+
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"value_heal"			"50"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"value_heal_percent"	"5"
+		}
+		"03"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"radius"				"400"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"FireSound"
+		{
+			"EffectName"	"n_creep_ForestTrollHighPriest.Heal"
+			"Target"		"CASTER"
+		}
+
+		"ActOnTargets"
+		{
+			"Target"
+			{
+				"Center" "TARGET"
+				"Radius" "%radius"
+				"Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY" 
+				"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
+
+			"Action"
+			{
+				"FireEffect"
+				{
+					"Target"			"TARGET"
+					"EffectName"		"particles/neutral_fx/troll_heal.vpcf"
+					"EffectAttachType"	"follow_origin"
+				}
+			}
+		}
+		"RunScript"
+		{
+			"ScriptFile"	"abilities/TrollHealer.lua"
+			"Function"		"Heal"
+			"Target"
+			{
+				"Center" "TARGET"
+				"Radius" "%radius"
+				"Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY" 
+				"Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
+		}
+		"Heal"
+		{
+			"Target"        "TARGET"
+			"HealAmount"	"%value_heal"
+		}
+	}
+
+
+
 }

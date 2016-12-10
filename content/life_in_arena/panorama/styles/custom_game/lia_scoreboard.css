@@ -1,33 +1,40 @@
-@define BACKGROUND_COLOR: #303030;
+@define BACKGROUND_COLOR: #303030DE;
 @define BACKGROUND_COLOR_WHITE: #FFFFFF28;
 
 .FlyoutScoreboardRoot
 {
 	horizontal-align: left;
 	vertical-align: top;
-	margin-top: 80px;
+	margin-top: 150px;
     flow-children: down;
     padding: 10px;
 	
-    transform: translatex( -670px );
+    transform: translatex( -750px );
     transition-property: transform;
     transition-duration: 0.2s;
+
+    visibility: collapse;
+
 }
 
 .FlyoutScoreboardRoot.flyout_scoreboard_visible
 {
     transform: translatey( 0px );
+    visibility: visible;
 }
 
 #TeamsContainer
 {
     flow-children: down;
     horizontal-align: center;
+    box-shadow: #000000 0px 1px 10px 0px;
+    margin-left: 73px;
+
 }
 
 .FlyoutTeam
 {
-	margin-top: 8px;
+	margin-top: 3px;
 }
 
 .FlyoutTeam.no_players
@@ -51,18 +58,6 @@
 	height: 100%;
 }
 
-#TeamColor_GradentFromTransparentLeft
-{
-	width: 100%;
-	height: 100%;
-}
-
-#TeamColorOverlay
-{
-	background-color: gradient( linear, 80% 0%, 100% 0%, from( #00000000 ), to( #000000FF ) );
-	width: 100%;
-	height: 100%;
-}
 
 .FlyoutPlayer
 { 
@@ -76,12 +71,9 @@
 #PlayersContainer
 {
     flow-children: down;
+    
 }
 
-.local_player_team #PlayersContainer
-{
-    box-shadow: fill #ffffff40 -3px -3px 3px 6px;
-}
 
 .TeamId
 {
@@ -130,45 +122,69 @@
 
 .Legend Label
 {
-	text-shadow: 3px 3px 3px black;
-	font-size: 20px;
-	
-	background-color: BACKGROUND_COLOR;
+	text-shadow: 5px 5px 5px black;
+	font-size: 15px;
+	color:#DDDDDD;
+	//background-color: BACKGROUND_COLOR;
 }
 
 .PlayerRow
 {
-	height: 32px;
+	height: 35px;
+	flow-children: right;
+
+	transition-property: position;
+	transition-duration: 0.5s;
+
 }
 
 #PlayerRowContainer
 {
 	flow-children: right;
-	height: 32px;
+	height: 35px;
+	background-color: BACKGROUND_COLOR;
+	border-bottom: 1px solid #00000066;
+
 }
 
 #HeroIcon
 {
     vertical-align: middle;
 	border: 1px solid black;
+
+	transition-property: saturation;
+	transition-duration: 0.5s;
 }
 
 #LevelContainer,
 #KillsBossesContainer,
 #KillsCreepsContainer,
 #DeathsContainer,
-#RatingContainer,
 #TeamScoreContainer
+{
+	height: 100%;
+	width: 60px;
+	border-right: 1px solid #00000066;
+}
+
+#RatingContainer
 {
 	height: 100%;
 	width: 60px;
 }
 
+#UpdContainer
+{
+	height: 100%;
+	width: 85px;
+	border-right: 1px solid #00000066;
+}
+
 .ScoreboardPanel
 {
-    background-color: BACKGROUND_COLOR;
-	margin-top: 1px;
-	margin-left: 1px;
+    //background-color: BACKGROUND_COLOR;
+	//margin-top: 1px;
+	//margin-left: 1px;
 }
 
 .LegendPanel
@@ -179,11 +195,14 @@
 
 .is_local_player .ScoreboardPanel
 {
-    /*background-color: BACKGROUND_COLOR_WHITE;*/
-    background-color: BACKGROUND_COLOR; /*#55534c;*/
-	box-shadow: fill #ffffff70 -3px -3px 3px 6px; /*#ffffff40*/
+	//background-color: #444444;
+   // background-color: BACKGROUND_COLOR_WHITE;
 }
 
+.is_local_player #PlayerRowContainer
+{
+    box-shadow: fill #222222aa 0px 0px 3px 0px;
+}
 .ScoreboardPanel Label
 {
 	font-size: 30px;
@@ -192,9 +211,6 @@
 
 .UltimateIndicatorShared
 {
-	margin-left: 44px;
-	margin-top: 2px;
-	vertical-align: center;
 	width: 20px;
 	height: 20px;
     background-size: 20px;
@@ -214,22 +230,25 @@
 #KillsBosses,
 #Deaths,
 #Rating,
-#Assists
+#Upd
 {
 	vertical-align: center;
-	font-size: 18px;
+	font-size: 19px;
 	text-align: center;
-	margin-top: 3px;
+	margin-top: 5px;
 	width: 100%;
+	color: #ffffff98;
 }
 
 #PlayerName
 {
-	color: white;
+	vertical-align: center;
+	color: #ffffff98;
 	font-size: 20px;
-	margin-bottom: -4px;
-	margin-top: 0px;
+	//margin-bottom: -4px;
+	margin-top: 5px;
 	white-space: nowrap;
+
 }
 
 #HeroNameAndDescription
@@ -238,13 +257,15 @@
 	font-size: 13px;
 	text-shadow: 2px 2px 2px black;
 	margin-top: -1px;
+	vertical-align: center;
+
 }
 #MuteButton
 {
 	margin-right: 0px;
 	margin-top: 0px;
 	horizontal-align: right;
-	vertical-align: top;
+	vertical-align: center;
 	width: 18px;
 	height: 18px;
     background-size: 100%;
@@ -290,23 +311,25 @@
 #PlayerDetailsContainer
 {
 	height: 100%;
+	border-right: 1px solid #00000066;
 }
 
 #PlayerAndHeroName
 {
 	flow-children: down;
 	padding-left: 8px;
+	vertical-align: center;
 }
 
 .is_local_player #KillsBosses,
 .is_local_player #KillsCreeps,
-.is_local_player #Deaths,
-.is_local_player #Rating,
-.is_local_player #Assists,
 .is_local_player #Level,
-.is_local_player #HeroName
+.is_local_player #Deaths,
+.is_local_player #Upd,
+.is_local_player #PlayerName,
+.is_local_player #Rating
 {
-	/* color: white; */
+	color: #ffffffff;
 }
 
 .ScoreCol_TeamInfo
@@ -316,28 +339,34 @@
 
 .ScoreCol_PlayerDetails
 {
-	width: 170px;
+	width: 200px;
 }
 
 .ScoreCol_Hero
 {
-	width: 53px;
+	width: 60px;
 }
 
 .ScoreCol_TeamScore
 {
 	width: 60px;
 	text-align: center;
+	margin-left: -60px;
 }
 
 .ScoreCol_KillsBosses,
 .ScoreCol_KillsCreeps,
 .ScoreCol_Deaths,
 .ScoreCol_Rating,
-.ScoreCol_Level,
-.ScoreCol_Assists
+.ScoreCol_Level
 {
 	width: 60px;
+	text-align: center;
+}
+
+.ScoreCol_Upd
+{
+	width: 85px;
 	text-align: center;
 }
 
@@ -353,7 +382,7 @@
 .player_dead #HeroIcon
 {
 	wash-color: #CCCCCC;
-	desaturation: 1;
+	saturation: 0;
 }
 
 .player_connection_abandoned #DisconnectionIndicator,
@@ -363,30 +392,16 @@
 	opacity: 1;
 }
 
+.player_connection_abandoned #HeroIcon,
+.player_connection_failed #HeroIcon,
+.player_connection_disconnected #HeroIcon
+{
+	saturation:0.5;
+}
+
 #ScoreRow
 {
     width: 100%;
 }
 
-#RespawnTimer
-{
-	opacity: 0;
-    color: #e5460e;
-    width: 100%;
-	text-align: center;
-    vertical-align: bottom;
-	margin-bottom: 4px;
-    font-size: 18px;
-    text-shadow: 2px 2px 2px black;
-}
 
-.player_dead #RespawnTimer
-{
-	opacity: 1;
-}
-
-.ScoreboardPlayerWrapper.player_dead #RespawnIndicator
-{
-	opacity: 1;
-	transform: translateY(0px);
-}

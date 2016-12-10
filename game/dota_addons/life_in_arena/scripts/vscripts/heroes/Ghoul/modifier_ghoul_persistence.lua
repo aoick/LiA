@@ -4,6 +4,10 @@ function modifier_ghoul_persistence:IsHidden()
 	return true
 end
 
+function modifier_ghoul_persistence:IsPurgable()
+	return false
+end
+
 --------------------------------------------------------------------------------
 
 function modifier_ghoul_persistence:IsAura()
@@ -25,7 +29,7 @@ end
 --------------------------------------------------------------------------------
 
 function modifier_ghoul_persistence:GetAuraSearchType()
-	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP + DOTA_UNIT_TARGET_MECHANICAL
+	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP
 end
 
 --------------------------------------------------------------------------------
@@ -37,7 +41,7 @@ end
 --------------------------------------------------------------------------------
 
 function modifier_ghoul_persistence:GetAuraRadius()
-	return self.aura_radius
+	return self:GetParent():IsIllusion() and 1 or self.aura_radius 
 end
 
 --------------------------------------------------------------------------------

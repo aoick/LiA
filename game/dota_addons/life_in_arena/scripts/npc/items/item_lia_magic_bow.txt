@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"800"	
+	"ItemCost"						"650"	
 	"ItemShopTags"					"damage;attack_speed;agi"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -17,7 +19,7 @@
 	"ItemResult"					"item_lia_magic_bow"
 	"ItemRequirements"
 	{
-		"01"						"item_lia_runed_gloves;item_lia_spear;item_lia_necklace"
+		"01"						"item_lia_runed_gloves;item_lia_spear;item_lia_thugs_dagger"
 	}
 }
 
@@ -25,7 +27,7 @@
 {
 	"ID"							"1327"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1200"
+	"ItemCost"						"1180"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -40,6 +42,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%bonus_attack_speed"
@@ -53,7 +56,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_attack_speed" "100"
+			"bonus_attack_speed" "70"
 		}
 		"02"
 		{

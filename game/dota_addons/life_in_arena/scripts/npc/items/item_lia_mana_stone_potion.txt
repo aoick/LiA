@@ -9,6 +9,7 @@
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 	"AbilitySharedCooldown" "ReplenishMana"
 
+	"Model"							"models/props_gameplay/halloween_candy.vmdl"
 
 	
 	"BaseClass"						"item_datadriven"
@@ -53,7 +54,7 @@
 			"ScriptFile"		"items.lua"
 			"Function"			"ReplenishMana"
 			"Target"			"UNIT"
-			"mana_amount"		"%manà_amount"
+			"mana_amount"		"%mana_amount"
 		}
 
 		
@@ -71,7 +72,7 @@
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"manà_amount"				"250"
+			"mana_amount"				"250"
 		}
 	}
 		

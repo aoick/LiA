@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"1000"	
 	"ItemShopTags"					"int;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -201,7 +203,7 @@
 			    "Passive"          "1"    
 			    "IsHidden"         "1"
 			   	"Attributes" 	   "MODIFIER_ATTRIBUTE_MULTIPLE"
-	
+
 			    "Properties"
 			    {
 					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"		"%bonus_mana_regen_percentage"

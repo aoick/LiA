@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"900"	
+	"ItemCost"						"700"	
 	"ItemShopTags"					"str;agi;attack;armor;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -35,10 +37,11 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"2000"
+	"ItemCost"						"1805"
 	"ItemShopTags"					"str;agi;attack;armor;hard_to_tag"
 	"ItemQuality"					"epic"
 	"ItemAliases"					"basher"
+	"ItemKillable" 					"0" 
 	// Special	
 	//-------------------------------------------------------------------------------------------------------------
 	"AbilitySpecial"
@@ -46,41 +49,46 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_agility"			"15"
+			"bonus_damage"			"30"
 		}
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_strength"	"25"
+			"bonus_agility"			"25"
 		}
 		"03"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"bonus_strength"	"25"
+		}
+		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
 			"bonus_armor"	"6"
 		}
 
-		"04"
+		"05"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_attack_speed" "60"
+			"bonus_attack_speed" "50"
 		}
 
-		"05"
+		"06"
 		{
 			"var_type"				"FIELD_INTEGER"
 			"bash_chance"			"18"
 		}
-		"06"
+		"07"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bash_damage"			"100"
+			"bash_damage"			"175"
 		}
-		"07"
+		"08"
 		{
 			"var_type"				"FIELD_FLOAT"
 			"bash_stun"				"1.5"
 		}
-		"08"
+		"09"
 		{
 			"var_type"					"FIELD_INTEGER"
 			"crit_mult"					"175"
@@ -94,7 +102,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+			"AllowIllusionDuplicate"    "1"
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
@@ -112,70 +120,18 @@
 					"PseudoRandom"		"DOTA_PSEUDO_RANDOM_ITEM_BASHER"
 					"OnSuccess"
 					{
-						"Damage"
-						{
-							"Target"		"TARGET"
-							"Type"			"DAMAGE_TYPE_MAGICAL"
-							"Damage"		"%bash_damage"
-						}
 						
-						"ApplyModifier"
+						"RunScript"
 						{
-							"Target"			"TARGET"
-							"ModifierName"		"modifier_item_lia_ghost_blade_bash"
+							"ScriptFile"	"items\BattleAxe.lua"
+							"Function"		"Bash"
+							"modifierName"	"modifier_item_lia_ghost_blade"
 						}
-						
-						"ApplyModifier"
-						{
-							"Target"			"CASTER"
-							"ModifierName"		"modifier_item_lia_ghost_blade_crit"
-						}
-
-						"FireSound"
-						{
-							"EffectName"		"DOTA_Item.MKB.Minibash"
-							"Target"			"TARGET"
-						}
+		
 					}
 				}
 			}
 		}
-		"modifier_item_lia_ghost_blade_bash"
-		{
-			"Duration"              "%bash_stun"
-			"Passive"				"0"
-			"IsHidden"				"0"
-			"IsBuff"				"0"
-			"IsDebuff"				"1"
-			"IsPurgable"			"1"
-			
-			"EffectName"            "particles/generic_gameplay/generic_stunned.vpcf"
-			"EffectAttachType"      "follow_overhead"
-			"OverrideAnimation"     "ACT_DOTA_DISABLED"
-			
-			"States"
-			{
-				"MODIFIER_STATE_STUNNED" 		"MODIFIER_STATE_VALUE_ENABLED"
-			}
 
-		}
-
-		"modifier_item_lia_ghost_blade_crit"
-		{
-		    "IsHidden"  "1"
-		    "Properties"
-		    {
-		        "MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
-		    }
-		  
-		  "OnAttackLanded"
-		    {
-		        "RemoveModifier"
-		        {
-		            "ModifierName"  "modifier_item_lia_ghost_blade_crit"
-		            "Target"   		"CASTER"    
-		        }
-		    }
-		}
 	}
 }

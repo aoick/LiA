@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"550"	
 	"ItemShopTags"					"damage;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -48,7 +50,7 @@
 {
 	"ID"							"1459"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"785"
+	"ItemCost"						"750"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -85,6 +87,7 @@
 			"Passive"               "1"
 			"IsHidden"				"1"
 			"Attributes"			"MODIFIER_ATTRIBUTE_MULTIPLE"
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" 	    "%bonus_damage"
@@ -142,7 +145,7 @@
 		"07"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"duration"	"20.0"
+			"duration"	"16.0"
 		}
 	}
 }
@@ -151,13 +154,13 @@
 {
 	"ID"							"1460"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1335"
+	"ItemCost"						"1300"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
 	"ItemPurchasable"		 		"1"
 	"ItemQuality"					"rare"
-	"AbilityTextureName"			"item_lia_sword_of_solidarity"
+	"AbilityTextureName"			"item_lia_sword_of_solidarity_2"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
     "AbilityCooldown"        		"28"
 
@@ -245,7 +248,7 @@
 		"07"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"duration"	"20.0"
+			"duration"	"16.0"
 		}
 	}
 }

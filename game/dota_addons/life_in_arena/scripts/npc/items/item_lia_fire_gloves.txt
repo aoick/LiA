@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"350"	
 	"ItemShopTags"					"mana;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -50,7 +52,7 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"BaseClass"						"item_datadriven"
 	"ID"							"1435"  //Valve's version of this item uses the ID "135".
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_TOGGLE"
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -64,7 +66,7 @@
 	"MaxUpgradeLevel"				"2"
 	"ItemBaseLevel"					"1"
 	
-
+	"ItemKillable" 					"0" 
 
 	"AbilityCastRange"				"220"
 
@@ -78,7 +80,7 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"695"
+	"ItemCost"						"690"
 	"ItemShopTags"					"mana;hard_to_tag"
 	"ItemQuality"					"epic"
 	"ItemAliases"					"basher"
@@ -123,7 +125,11 @@
 			{
 				"ApplyModifier"
 				{
-					"Target"			"CASTER"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"ModifierName"		"modifier_immolation"
 				}
 				"FireSound"
@@ -137,7 +143,11 @@
 			{
 				"RemoveModifier"
 				{
-					"Target"			"CASTER"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"ModifierName"		"modifier_immolation"
 				}
 			}	
@@ -148,7 +158,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+
 			"Properties"
 			{
 		    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -200,7 +210,7 @@
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 	"Model"							"models/props_gameplay/red_box.vmdl" 
 	"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-	"AbilityTextureName"			"item_lia_fire_gloves"
+	"AbilityTextureName"			"item_lia_fire_gloves_2"
 	
 	"UpgradesItems"					"item_lia_fire_gloves;item_lia_fire_gloves_2"
 	"UpgradeRecipe"					"item_recipe_lia_fire_gloves"
@@ -208,7 +218,7 @@
 	"MaxUpgradeLevel"				"2"
 	"ItemBaseLevel"					"2"
 	
-
+	"ItemKillable" 					"0" 
 
 	"AbilityCastRange"				"220"
 
@@ -222,7 +232,7 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"1045"
+	"ItemCost"						"1040"
 	"ItemShopTags"					"mana;hard_to_tag"
 	"ItemQuality"					"epic"
 	"ItemAliases"					"basher"
@@ -267,7 +277,11 @@
 			{
 				"ApplyModifier"
 				{
-					"Target"			"CASTER"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"ModifierName"		"modifier_immolation"
 				}
 				"FireSound"
@@ -281,7 +295,11 @@
 			{
 				"RemoveModifier"
 				{
-					"Target"			"CASTER"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"ModifierName"		"modifier_immolation"
 				}
 			}	
@@ -292,7 +310,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+			"AllowIllusionDuplicate"    "1"
 			"Properties"
 			{
 		    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"

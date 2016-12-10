@@ -34,10 +34,19 @@
 	{
 		"ApplyModifier"
 		{
-			"Target"		"CASTER"
+			"Target"
+			{
+				"Center"	"CASTER"
+				"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
 			"ModifierName"	"modifier_item_lia_anti_magic_potion"
 			"Duration"		"%duration"
 		}
+		"RunScript"
+		{
+			"ScriptFile"	"items\AntimagicPotion.lua"
+			"Function"		"Purge"
+		}	
 		"SpendCharge"
 		{}	
 	}

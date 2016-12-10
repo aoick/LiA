@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"1050"	
 	"ItemShopTags"					"armor;regen_health;health_pool"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1325"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"2245"
+	"ItemCost"						"2240"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -64,6 +66,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+			"AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" 	"%bonus_armor"
@@ -75,7 +78,11 @@
 		    	"ApplyModifier"
 		    	{
 		    		"ModifierName"	"modifier_knight_cuirass_damage_return_lua"
-		    		"Target"		"CASTER"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 		    	}
 		    }
 		    "OnDestroy"
@@ -83,14 +90,15 @@
 		    	"RemoveModifier"
 		    	{
 		    		"ModifierName"	"modifier_knight_cuirass_damage_return_lua"
-		    		"Target"		"CASTER"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 		    	}
 		    }
 		  
 		}   
-	}
-	"Modifiers"
-	{
 		"modifier_item_lia_knight_cuirass_ability" 
 		{
 			//"IsHidden"				"1"
@@ -103,6 +111,7 @@
    			"EffectAttachType" 		"follow_origin"
 		}
 	}
+
 	"AbilitySpecial"
 	{
 		"01"

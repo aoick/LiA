@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"440"	
+	"ItemCost"						"400"	
 	"ItemShopTags"					"hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1428"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1100"
+	"ItemCost"						"1060"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -40,8 +42,10 @@
 	
 
 	"AbilityCastPoint"				"0.0"
-	"AbilityCooldown"				"12.0"
-	"AbilityManaCost"				"180"
+	"AbilityCooldown"				"14.0"
+	"AbilityManaCost"				"120"
+
+	"AbilityCastRange"				"300"
 	
 	"precache"
 	{
@@ -56,32 +60,18 @@
 			"EffectName"	"Hero_Invoker.EMP.Discharge"
 			"Target"		"CASTER"
 		}
-			"AttachEffect"
+		"AttachEffect"
 		{
 			"EffectName"	"particles/units/heroes/hero_queenofpain/queen_scream_of_pain_owner.vpcf"
 			"EffectAttachType"	"attach_origin"
 			"Target"		"CASTER"
 		}
-		"ApplyModifier"
-		{
-			"ModifierName"	"modifier_item_shield_of_death_damage"
-			"Target"
-			{
-				"Center"	"CASTER"
-				"Radius"	"%radius"
-				"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-			}
-		}
 	
-		"ApplyModifier"
+		"RunScript"
 		{
-			"ModifierName"	"modifier_item_shield_of_death_armor"
-			"Target"
-			{
-				"Center"  	"CASTER"
-				"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-			}
-		}		
+			"ScriptFile"	"items/shield_of_death.lua"
+			"Function"		"ApplyArmor"
+		}	
 
 		"Damage"
 		{
@@ -103,39 +93,14 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
 				"MODIFIER_PROPERTY_HEALTH_BONUS"		"%bonus_health"
 			}
 		}
-		
-				"modifier_item_shield_of_death_damage"
-		{
-			"Passive"			"0"
-			"IsHidden"			"0"
-			"IsDebuff"			"1"
-	
-	
-		}
-		
-		"modifier_item_shield_of_death_armor"
-		{
-			"Passive"				"0"
-			"IsHidden"				"0"
-			"IsBuff"				"1"
-			"IsDebuff"				"0"
-			"IsPurgable"			"1"
-			"TextureName"			"item_lia_shield_of_death"
-			"Duration"				"%duration"
-			"Attributes"			"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 
-			"Properties"
-			{
-				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%active_armor"
-			}
-		}
 	}
 	"AbilitySpecial"
 	{
@@ -157,12 +122,12 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"radius"			"200"
+			"radius"			"300"
 		}
 		"05"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"active_armor"			"25"
+			"active_armor"			"20"
 		}
 		"06"
 		{

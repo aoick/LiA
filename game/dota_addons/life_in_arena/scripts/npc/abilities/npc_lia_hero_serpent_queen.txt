@@ -72,7 +72,7 @@
 		"09"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"locust_heal_threshold"	"1000"	//The amount of physical damage that needs to be done to return and heal the caster
+			"locust_heal_threshold"	"20 40 60"	//The amount of physical damage that needs to be done to return and heal the caster
 		}
 		"10"
 		{
@@ -202,7 +202,7 @@
 	"AbilityTextureName"			"serpent_queen_heavenly_power"
 
 
-	"AbilityCooldown"				"16 18 20"
+	"AbilityCooldown"				"20"
 
 	"MaxLevel"               "3"
 	"RequiredLevel"          "2"
@@ -226,25 +226,36 @@
 	{
 		"ApplyModifier"
 		{
-		"ModifierName" "modifier_serpent_queen_heavenly_power"
-		"Target"
-		{
-			"Center"  	"CASTER"
-			"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-		}
-		"Duration"	"%duration"
-		}
-
-		
+			"ModifierName" "modifier_serpent_queen_heavenly_power"
+			"Target"
+			{
+				"Center"  	"CASTER"
+				"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
+			"Duration"	"%duration"
+		}	
 	}
+	
 	"Modifiers"
 	{
 		"modifier_serpent_queen_heavenly_power"
 		{
 			"Attributes"			"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
-			"Properties"
+			"OnCreated"
 			{
-				"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
+				"RunScript"
+				{
+					"ScriptFile"	"heroes\SerpentQueen\HeavenlyPower.lua"
+					"Function"		"AddAgility"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes\SerpentQueen\HeavenlyPower.lua"
+					"Function"		"RemoveAgility"
+				}
 			}
 		}
 
@@ -258,40 +269,34 @@
 
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 	"AbilityDamage"					"30 45 60"
 
 	"MaxLevel"               "3"
 	"RequiredLevel"          "2"
 	"LevelsBetweenUpgrades"  "2"
-	
+
+	"AbilityCooldown"		 "1"
+
 	"AbilitySpecial"
 	{
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bash_chance"			"50 65 80"
+			"minibash_chance"			"50 65 80"
 		}
 		"02"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"stun_duration"	"0.15 0.20 0.25"
+			"bash_stun"	"0.15 0.20 0.25"
 		}
 		"03"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"damage"	"30 45 60"
+			"bash_damage"	"30 45 60"
 		}
 	}
 
-	"OnOwnerSpawned"
-	{
-		"ApplyModifier"	
-		{
-			"ModifierName"	"serpent_queen_accuracy"
-			"Target"	"CASTER"
-		}
-	}
 	
 	"Modifiers"
 	{
@@ -302,32 +307,11 @@
 
 			"OnAttackLanded"
 			{
-				"Random"
+
+				"RunScript"
 				{
-					"Chance"		"%bash_chance"
-					"PseudoRandom"	"DOTA_PSEUDO_RANDOM_FACELESS_BASH"
-
-					"OnSuccess"
-					{
-
-						"ApplyModifier"
-						{
-							"ModifierName"	"modifier_stunned"
-							"Target"
-							{
-								"Center"	"TARGET"
-								"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-							}
-							"Duration"		"%stun_duration"	
-						}
-
-						"Damage"
-						{
-							"Target"	"TARGET"
-							"Type"		"DAMAGE_TYPE_MAGICAL"
-							"Damage"	"%damage"
-						}
-					}
+					"ScriptFile"	"heroes\SerpentQueen\Accuracy.lua"
+					"Function"		"Bash"
 				}
 			}
 		}

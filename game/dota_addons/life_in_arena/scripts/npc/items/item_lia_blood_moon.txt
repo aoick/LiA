@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"750"	
 	"ItemShopTags"					"str;damage;attack_speed;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1303"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"2155"
+	"ItemCost"						"2135"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -41,8 +43,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-
-			"OnCreated"
+		    "OnCreated"
 			{
 				"RunScript"
 				{
@@ -96,7 +97,7 @@
 		"03"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_attack_speed" "60"
+			"bonus_attack_speed" "40"
 		}
 		"04"
 		{

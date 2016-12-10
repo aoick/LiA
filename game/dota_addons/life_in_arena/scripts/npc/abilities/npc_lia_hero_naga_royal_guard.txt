@@ -158,6 +158,7 @@
 	"MaxLevel"               "3"
 	"RequiredLevel"          "2"
 	"LevelsBetweenUpgrades"  "2"
+
 	
 	"precache"
 	{
@@ -170,12 +171,12 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bash_chance"			"25 30 35"
+			"bash_chance"			"25"
 		}
 		"02"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"stun_hero_duration"	"1.0 1.5 2.0"
+			"bash_stun"	"1.0 1.5 2.0"
 		}
 	}
 	
@@ -196,29 +197,13 @@
 
 					"OnSuccess"
 					{
-						"FireSound"
+
+						"RunScript"
 						{
-							"EffectName"	"Hero_Slardar.Bash"
-							"Target"		"TARGET"
+							"ScriptFile"	"heroes\NagaRoyalGuard\Bash.lua"
+							"Function"		"Bash"
 						}
 
-						"ApplyModifier"
-						{
-							"ModifierName"	"modifier_stunned"
-							"Target"
-							{
-								"Center"	"TARGET"
-								"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-							}
-							"Duration"		"%stun_hero_duration"	
-						}
-
-						"Damage"
-						{
-							"Target"	"TARGET"
-							"Type"		"DAMAGE_TYPE_MAGICAL"
-							"Damage"	"%AbilityDamage"
-						}
 					}
 				}
 			}
@@ -235,7 +220,7 @@
   "AbilityTextureName"      "slardar_slithereen_crush"
 	
 	"AbilityCooldown"				"180 140 100"
-	"AbilityManacost"				"100 120 140"
+	"AbilityManaCost"				"100 120 140"
 	"AbilityCastRange"				"300"
 	
     "AbilityType"            "DOTA_ABILITY_TYPE_ULTIMATE"	
@@ -253,7 +238,7 @@
   	"01"
     {
       "var_type"      "FIELD_FLOAT"
-      "damage_per_second"  "200 200 200"
+      "damage_per_second"  "100 150 200"
     }
 	"02"
     {
@@ -305,14 +290,22 @@
 		{	
 			"FireEffect"
 			{
-				"Target" "CASTER"
+				"Target"
+				{
+					"Center"  	"CASTER"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"EffectName"			"particles/units/heroes/hero_slardar/slardar_crush.vpcf"
 				"EffectAttachType"		"follow_origin"	
 			}
 			"FireSound"
 			{
 				"EffectName" "Hero_NagaSiren.Riptide.Cast"
-				"Target" "CASTER"
+				"Target"
+				{
+					"Center"  	"CASTER"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 			}
 				"RunScript"
     			{

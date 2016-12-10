@@ -8,11 +8,12 @@ _G.SURVIVAL_STATE_ROUND_FINALBOSS = 5
 _G.SURVIVAL_STATE_DUEL_TIME = 6
 _G.SURVIVAL_STATE_POST_GAME = 7
 
-_G.WAVE_SPAWN_COORD_LEFT    = Vector(-5700,  1850, 0)
-_G.WAVE_SPAWN_COORD_TOP     = Vector(-3670,  3970, 0) 
-_G.ARENA_TELEPORT_COORD_TOP = Vector(-5024, -1360, 0)
-_G.ARENA_TELEPORT_COORD_BOT = Vector(-5024, -2360, 0)
-_G.ARENA_CENTER_COORD       = Vector(-5024, -1860, 0)
+_G.WAVE_SPAWN_COORD_LEFT    = Vector(-1770,  1177, 0)
+_G.WAVE_SPAWN_COORD_TOP     = Vector(108,  3068, 0) 
+_G.ARENA_TELEPORT_COORD_TOP = Vector(-7, -2004, 0)
+_G.ARENA_TELEPORT_COORD_BOT = Vector(-7, -3050, 0)
+_G.ARENA_CENTER_COORD       = Vector(-7, -2506, 0)
+
 
 ------------------------------------------------------------------------------------------------
 
@@ -31,25 +32,33 @@ require('survival/utils')
 
 ------------------------------------------------------------------------------------------------
 
+LinkLuaModifier( "modifier_16_wave_debuff", "survival/modifier_16_wave_debuff.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_17_wave_debuff", "survival/modifier_17_wave_debuff.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_18_wave_debuff", "survival/modifier_18_wave_debuff.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier( "modifier_19_wave_debuff", "survival/modifier_19_wave_debuff.lua", LUA_MODIFIER_MOTION_NONE)
+
+------------------------------------------------------------------------------------------------
 
 function Survival:InitSurvival()
-    Survival = self
+    _G.WORLD_BOUNDS_BOSS_MIN = Entities:FindByName(nil, "world_bounds_boss_min"):GetAbsOrigin()
+    _G.WORLD_BOUNDS_BOSS_MAX = Entities:FindByName(nil, "world_bounds_boss_max"):GetAbsOrigin()
+    _G.WORLD_BOUNDS_MIN = Entities:FindByName(nil, "world_bounds_min"):GetAbsOrigin()
+    _G.WORLD_BOUNDS_MAX = Entities:FindByName(nil, "world_bounds_max"):GetAbsOrigin()
+    _G.ARENA_TOP_RIGHT_CORNER = Entities:FindByName(nil, "arena_top_right_corner"):GetAbsOrigin()
+    _G.ARENA_LEFT_BOTTOM_CORNER = Entities:FindByName(nil, "arena_left_bottom_corner"):GetAbsOrigin()
+    _G.BOSS_ARENA_CENTER = Entities:FindByName(nil, "boss_arena_center"):GetAbsOrigin()
 
     self.tHeroes = {}
 	self.nRoundNum = 0
 
-    self.tProrogueHide = {}
-    self.tProrogueUnhide = {}
 
-    self.nHeroCount = 0
-	self.nDeathHeroes = 0
 	self.nDeathCreeps = 0
-	self.nWaveSpawnCount = {20,26,32,38,44,50,56,62,68,74}   --крипов на спавн
-	self.nWaveMaxCount = {42,54,66,78,90,102,114,126,138,150}
+	self.nWaveSpawnCount = {20,26,32,38,44,50,56,62}   --крипов на спавн
+	self.nWaveMaxCount = {42,54,66,78,90,102,114,126}
 
-	self.nGoldPerWave = {12,12,12,12,12,15,15,18,18,18,18,21,24,24,27,27,30,30,30}
+	self.nGoldPerWave = {12,12,12,12,12,15,15,18,18,18,18,18,21,24,24,27,27,30,30}
 
-    self.flExpFix = {0.8, 0.9, 1., 1.1, 1.2, 1.3, 1.4, 1.5}
+    self.flExpFix = {0.75, 1, 1.15, 1.2, 1.25, 1.29, 1.32, 1.3}
     
     self.IsAllRandom = false
     self.IsExtreme = false
@@ -62,10 +71,17 @@ function Survival:InitSurvival()
     self.flLightGoldMultiplier = 0.8
 
     self.nEqualGoldPool = 0
+	self.barrelExplosions = 0
     
 	self.nPreRoundTime = 60
 	self.nPreDuelTime = 30
     self.nDuelTime = 120
+
+    -- Золото за быстрое прохождение
+    self.nfastWaveTime = 15
+    self.nfastBossTime = 30
+    self.nfastRoundGold = 60
+
 
     self.State = SURVIVAL_STATE_PRE_GAME
 
@@ -84,25 +100,63 @@ function Survival:InitSurvival()
 	GameMode:SetThink("onThinkAIcreepsUpdate", self)
     GameMode:SetFogOfWarDisabled(true)
 
-    for playerID = 0, DOTA_MAX_PLAYERS-1 do
-        PlayerResource:SetGold(playerID, 0, true)
-        PlayerResource:SetGold(playerID, 100, false)
-    end
+    --for playerID = 0, DOTA_MAX_PLAYERS-1 do
+    --    PlayerResource:SetGold(playerID, 0, true)
+    --    PlayerResource:SetGold(playerID, 500, false)
+    --end
 
     GameMode:SetModifyExperienceFilter(Dynamic_Wrap(Survival, "ExperienceFilter"), self)
+    GameMode:SetModifyGoldFilter(Dynamic_Wrap(Survival, "GoldFilter"), self)
+    GameMode:SetExecuteOrderFilter(Dynamic_Wrap(Survival, "OrderFilter"), self)
+
 
     ListenToGameEvent('entity_killed', Dynamic_Wrap(Survival, 'OnEntityKilled'), self)
     ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(Survival, 'OnPlayerPickHero'), self)
+    ListenToGameEvent('player_chat', Dynamic_Wrap(Survival, 'OnPlayerChat'), self)
     
     GameMode:SetContextThink( "AIThink", AIThink , 3)
     self.AICreepCasts = 0
     self.AIMaxCreepCasts = 2
+
+    self.hHealer = Entities:FindByName(nil,"lia_trigger_healer")
+    if not self.hHealer then 
+        print("Survival: Cant find lia_trigger_healer")
+    end
+
+    SetRuneSpawnRegion("rectangle",ARENA_LEFT_BOTTOM_CORNER,ARENA_TOP_RIGHT_CORNER)
+    StartRunesSpawn()
+
+    for i = 0, DOTA_MAX_PLAYERS-1 do
+        if PlayerResource:IsValidTeamPlayerID(i) then
+            CustomPlayerResource:InitPlayer(i)
+        end
+    end
+
 end
 
 function AIThink()
     --print("CleanAICasts")
+    local nHeroesAlive = Survival:GetHeroCount(true)
+
+    Survival.AIMaxCreepCasts = math.ceil(nHeroesAlive/2)
+
     Survival.AICreepCasts = 0
     return 3
+end
+
+function Survival:OrderFilter(filterTable)
+    if filterTable.order_type == DOTA_UNIT_ORDER_GLYPH then
+        return false
+    end
+    return true
+end
+
+function Survival:GoldFilter(filterTable)
+    --PrintTable("GoldFilter",filterTable)
+    if filterTable.reason_const == DOTA_ModifyGold_HeroKill or filterTable.reason_const == DOTA_ModifyGold_SharedGold then 
+        return false 
+    end
+    return true
 end
 
 function Survival:ExperienceFilter(filterTable)
@@ -111,7 +165,11 @@ function Survival:ExperienceFilter(filterTable)
         return false
     end
 
-    local expMultiplier = self.flExpFix[self.nHeroCount] -- коррекция получаемого опыта в зависимости от кол-ва героев в игре
+    if filterTable.reason_const == DOTA_ModifyXP_CreepKill then
+        return false
+    end
+
+    local expMultiplier = self.flExpFix[Survival:GetHeroCount(false)] -- коррекция получаемого опыта в зависимости от кол-ва героев в игре
     
     if self.IsExtreme then --множители опыта для экстрима или лайта
         expMultiplier = expMultiplier + self.flExtremeExpMultiplier
@@ -120,25 +178,40 @@ function Survival:ExperienceFilter(filterTable)
     end
 
     filterTable.experience = filterTable.experience * expMultiplier
+    print(filterTable.experience)
     return true
 
 end
 
 function Survival:onThink()
-    for i = 1, #self.tHeroes do
-        local hero = self.tHeroes[i]
-        hero.rating = hero.creeps * 2 + hero.bosses * 20 + hero.deaths * -15 + hero:GetLevel() * 30
-    end 
-    table.sort(self.tHeroes,function(a,b) return a.rating > b.rating end)
-
-    local data = self:GetDataForSend()
-
-    if not IsDuel then
-        if #self.tHeroes ~= 0 then
-            CustomGameEventManager:Send_ServerToAllClients( "upd_action", data )
+	
+	-- update lumber in hud
+	local playerID
+    local playersCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+    for i = 1, playersCount do 
+        playerID = PlayerResource:GetNthPlayerIDOnTeam(DOTA_TEAM_GOODGUYS, i)
+        --local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+		local dataL = self:GetDataForSendUlu(true, nil,playerID,nil,nil,nil)
+        local player = PlayerResource:GetPlayer(playerID)
+        if player then
+		  CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerID), "upd_action_lumber", dataL )
         end
-    end
-
+		--CustomGameEventManager:Send_ServerToAllClients( "upd_action_lumber", dataL )
+	end
+	--
+	-- update for fallen count get damage
+	local ndata
+    for i = 1, #self.tHeroes do
+        hero = self.tHeroes[i]
+		if hero:GetUnitName() == "npc_dota_hero_nyx_assassin" then
+			if hero.accumDamage then
+				ndata = {count = hero.accumDamage}
+				CustomGameEventManager:Send_ServerToPlayer( hero:GetPlayerOwner(), "upd_action_fallen", ndata )
+			end
+		end
+	end
+	--
+	--
     return 0.5
 end
 
@@ -151,7 +224,8 @@ function Survival:_TeleportHeroesWithoutBossArena()
 end
 
 function Survival:_GiveRoundBounty()
-    goldBounty = self.nWaveSpawnCount[self.nHeroCount] / self.nHeroCount * self.nGoldPerWave[self.nRoundNum]
+    local heroCount = Survival:GetHeroCount(false)
+    goldBounty = self.nWaveSpawnCount[heroCount] / heroCount * self.nGoldPerWave[self.nRoundNum]
     lumberBounty = 3 + self.nRoundNum
 
     if self.IsExtreme then
@@ -166,28 +240,62 @@ function Survival:_GiveRoundBounty()
     end
 
     if self.IsEqualGold then
-        goldBounty = goldBounty + (self.nEqualGoldPool / self.nHeroCount)
+        goldBounty = goldBounty + (self.nEqualGoldPool / heroCount)
     end
+
+
+    goldBounty = goldBounty + 30 --компенсация за отключенные тики золота
+
+    -- Золото за быстрое прохождение
+    local roundDuration = GameRules:GetGameTime() - self.flRoundStartTime - 1
+
+    local roundDurationMessage = roundDuration --для дебага
+    
+    if self.nRoundNum % 5 == 0 then
+        roundDuration = roundDuration - self.nfastBossTime
+    else
+        roundDuration = roundDuration - self.nfastWaveTime
+    end
+
+    if roundDuration < 0 then
+        roundDuration = 0
+    end
+
+    local fastRoundGoldBonus = self.nfastRoundGold - roundDuration
+
+    if fastRoundGoldBonus < 0 then
+        fastRoundGoldBonus = 0
+    end
+
+    print("_GiveRoundBounty:","Round duration:  "..roundDurationMessage,"Gold bonus: "..fastRoundGoldBonus,".")
+    goldBounty = goldBounty + fastRoundGoldBonus
+    --
 
     DoWithAllHeroes(function(hero)
         local oldGold = hero:GetGold()
         hero:ModifyGold(goldBounty, false, DOTA_ModifyGold_Unspecified)
-        hero.lumber = hero.lumber + lumberBounty
+        PlayerResource:ModifyLumber(hero:GetPlayerOwnerID(),lumberBounty)
         print(hero:GetUnitName(),"gold",oldGold," --> ",tostring(hero:GetGold()))
     end)
 end
 
 function Survival:EndRound()
+    print("Survival:EndRound",self.nRoundNum)
     self.nDeathCreeps = 0
-    self.nDeathHeroes = 0
+
+
+    Timers:RemoveTimer("lateWaveDebuffs")
+    DoWithAllHeroes(function(hero)
+        hero:RemoveModifierByName("modifier_"..self.nRoundNum.."_wave_debuff")
+        
+        local modifierSpellBlock = hero:FindModifierByName("modifier_item_sphere_target")
+        if modifierSpellBlock and modifierSpellBlock:GetAbility():GetAbilityName() == "item_lia_rune_of_protection" then
+            modifierSpellBlock:Destroy()
+        end
+    end)
     
     Timers:CreateTimer(1,function()
         CleanUnitsOnMap()
-
-        nPlayersReady = 0
-        for _,player in pairs(LiA.tPlayers) do
-            player.readyToWave = false
-        end
 
         DoWithAllHeroes(function(hero)
             if hero:IsAlive() then
@@ -201,14 +309,18 @@ function Survival:EndRound()
 
         if Survival.State == SURVIVAL_STATE_ROUND_MEGABOSS then
             print("TeleportHeroesWithoutBossArena")
+            SetRuneSpawnRegion("rectangle",ARENA_LEFT_BOTTOM_CORNER,ARENA_TOP_RIGHT_CORNER)
+            ChangeWorldBounds(WORLD_BOUNDS_MAX,WORLD_BOUNDS_MIN)
+            ClearBossArenaByItems()
             Survival:_TeleportHeroesWithoutBossArena()
         end
 
         EnableShop()
         
-        if self.nRoundNum % 3 == 0 and not self.IsDuelOccured and self.nHeroCount > 1 then
+        if self.nRoundNum % 3 == 0 and not self.IsDuelOccured and self:GetHeroCount(false) > 1 then
             Survival:StartDuels()
         else
+
             Survival:_GiveRoundBounty()
             Survival:PrepareNextRound()
         end
@@ -217,22 +329,30 @@ end
 
 function Survival:_TimerMessage()
     if self.nRoundNum % 5 == 0 then
-        local message
+        local title
         if self.nRoundNum == 20 then
-            message = "#lia_finalboss"
+            title = "#TimerFinal"--"#lia_finalboss"
         else
-            message = "#lia_megaboss"
+            title = "#TimerMegaboss"--"#lia_megaboss"
         end
-        timerPopup:Start(self.nPreRoundTime,message,0)
+        --timerPopup:Start(self.nPreRoundTime,message,0)
+        StartTimer(self.nPreRoundTime,title,0)
     else
-        timerPopup:Start(self.nPreRoundTime,"#lia_wave_num",self.nRoundNum)
+        --timerPopup:Start(self.nPreRoundTime,"#lia_wave_num",self.nRoundNum)
+        StartTimer(self.nPreRoundTime,"#TimerWave",self.nRoundNum)
     end
 end
 
 function Survival:PrepareNextRound()
     self.nRoundNum = self.nRoundNum + 1
+
+    self.flRoundStartTime = GameRules:GetGameTime() + self.nPreRoundTime
     
     print("Next round - ", self.nRoundNum)
+
+    nPlayersReady = 0
+    LiA.bForceRoundEnabled = true
+    CustomGameEventManager:Send_ServerToAllClients("round_force_enabled", {enabled = true})
 
     self.IsDuelOccured = false
     Survival.State = SURVIVAL_STATE_PRE_ROUND_TIME
@@ -246,32 +366,42 @@ function Survival:PrepareNextRound()
         }
     )
 
-    PrecacheUnitByNameAsync(tostring(self.nRoundNum).."_wave_creep", function(...) end)
-    PrecacheUnitByNameAsync(tostring(self.nRoundNum).."_wave_boss", function(...) end)
 
-    for k,v in pairs(self.tProrogueHide) do --прячем героев ливеров
-        self:HideHero(v)
+    self.hHealer:Enable()
+
+    local creepName = tostring(self.nRoundNum).."_wave_creep"
+    local bossName = tostring(self.nRoundNum).."_wave_boss"
+    if self.IsExtreme then 
+        creepName = creepName.."_extreme"
+        bossName = bossName.."_extreme"
     end
+    PrecacheUnitByNameAsync(creepName, function(...) end)
+    PrecacheUnitByNameAsync(bossName, function(...) end)
 
-    for k,v in pairs(self.tProrogueUnhide) do
-        self:UnhideHero(v)
+    for _,hero in pairs(self.tHeroes) do
+        if hero.prorogueHide then 
+            self:HideHero(hero)
+        elseif hero.prorogueUnhide then
+            self:UnhideHero(hero)
+        end
     end
 end
 
 --------------------------------------------------------------------------------------------------
 
 function Survival:_TeleportHeroesToBossArena()
+    local length = 70 * Survival:GetHeroCount(false)
     DoWithAllHeroes(function(hero)
         hero.abs = hero:GetAbsOrigin() 
         hero:Stop()
         hero:SetForwardVector(Vector(0, 1, 0))
-        FindClearSpaceForUnit(hero, ARENA_TELEPORT_COORD_BOT + Vector(RandomInt(-400,400),RandomInt(-50,50),0), false)
+        FindClearSpaceForUnit(hero, ARENA_TELEPORT_COORD_BOT + Vector(RandomInt(-length,length),RandomInt(-50,50),0), false)
 
         hero:Heal(9999,hero)
         hero:GiveMana(9999)
         hero:AddNewModifier(hero, nil, "modifier_stun_lua", {duration = 5})
     end) 
-    SetCameraToPosForPlayer(-1,ARENA_CENTER_COORD) 
+    SetCameraToPosForPlayer(-1,ARENA_CENTER_COORD+Vector(0,-100,0)) 
 end
 
 function Survival:_SpawnMegaboss()
@@ -281,6 +411,7 @@ function Survival:_SpawnMegaboss()
 
     local boss
     if self.nRoundNum == 20 then
+    	Survival.State = SURVIVAL_STATE_ROUND_FINALBOSS
         boss = CreateUnitByName("orn_megaboss", ARENA_TELEPORT_COORD_TOP, true, nil, nil, DOTA_TEAM_NEUTRALS)
         boss:AddNewModifier(boss, nil, "modifier_orn_lua", {duration = -1})
         self.hFinalBoss = boss
@@ -292,16 +423,21 @@ function Survival:_SpawnMegaboss()
 end
 
 function Survival:_SpawnWave()  
-    print("Spawn wave", self.nRoundNum, "for", self.nHeroCount, "heroes")
+    print("Spawn wave", self.nRoundNum, "for", self:GetHeroCount(false), "heroes")
 	--AIcreeps
     Survival:AICreepsDefault()
     Survival.State = SURVIVAL_STATE_ROUND_WAVE
     
-    self.nHeroCountCreepsSpawned = self.nHeroCount --чтобы уберечь от багов при изменении кол-ва героев во время волны(кто-то взял героя после старта волны например)
+    self.nHeroCountCreepsSpawned = self:GetHeroCount(false) --чтобы уберечь от багов при изменении кол-ва героев во время волны(кто-то взял героя после старта волны например)
     
     local unit1, unit2, boss1, boss2
     local creepName = tostring(self.nRoundNum).."_wave_creep"
     local bossName = tostring(self.nRoundNum).."_wave_boss"
+    if self.IsExtreme then 
+        creepName = creepName.."_extreme"
+        bossName = bossName.."_extreme"
+    end
+    
     local pathEffect = "particles/econ/events/nexon_hero_compendium_2014/blink_dagger_end_nexon_hero_cp_2014.vpcf"
     
     boss1 = CreateUnitByName(bossName, WAVE_SPAWN_COORD_LEFT + RandomVector(RandomInt(-500, 500)), true, nil, nil, DOTA_TEAM_NEUTRALS)
@@ -324,7 +460,7 @@ function Survival:_SpawnWave()
     local spawnCount = 0
     
     local all_time = 2.0
-    local tick = all_time/self.nWaveSpawnCount[self.nHeroCount]
+    local tick = all_time/self.nWaveSpawnCount[self.nHeroCountCreepsSpawned]
     --
     Timers:CreateTimer(tick,
         function()
@@ -355,22 +491,55 @@ function Survival:_SpawnWave()
             end
         end
     ) 
+
+    if self.nRoundNum >= 16 then 
+        Timers:CreateTimer("lateWaveDebuffs",
+            {
+                endTime = 1, 
+                callback = LateWaveDebuffs
+            }
+        )
+    end
+end
+
+function LateWaveDebuffs() 
+    local units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, Vector(0,0,0), nil, 9999, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL-DOTA_UNIT_TARGET_BUILDING, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+    for _,unit in pairs(units) do 
+        if Survival.nRoundNum < 18 then 
+            if unit:IsRealHero() then 
+                unit:AddNewModifier(unit, nil, "modifier_"..Survival.nRoundNum.."_wave_debuff", nil)
+            end
+        else
+            unit:AddNewModifier(unit, nil, "modifier_"..Survival.nRoundNum.."_wave_debuff", nil)
+        end
+    end
+    return 1
 end
 
 function Survival:StartRound()
-    if self.nHeroCount == 0 then 
+    if self:GetHeroCount(true) == 0 then 
         GameRules:SetCustomVictoryMessage("#lose_message")
         Survival:EndGame(DOTA_TEAM_BADGUYS)
         return   
     end
+
+    self.hHealer:Disable()
+
+    PlayerResource:ClearReadyToRound()
+    LiA.bForceRoundEnabled = false
+    CustomGameEventManager:Send_ServerToAllClients("round_force_enabled", {enabled = false})
     
     CustomGameEventManager:Send_ServerToAllClients( "round_start", {round_number = self.nRoundNum} )
-
+    
     Timers:CreateTimer(3,function()
             DisableShop()
+
+            self.flRoundStartTime = GameRules:GetGameTime()
             
             if self.nRoundNum % 5 == 0 then -- мегабоосс
                 CleanUnitsOnMap()
+                SetRuneSpawnRegion("circle",ARENA_CENTER_COORD,nil)
+                ChangeWorldBounds(WORLD_BOUNDS_BOSS_MAX,WORLD_BOUNDS_BOSS_MIN)
                 Survival:_TeleportHeroesToBossArena()
                 Survival:_SpawnMegaboss()
                 
@@ -395,51 +564,126 @@ end
 
 --------------------------------------------------------------------------------------------------
 
-function Survival:GetDataForSend()
-    local tPlayersId = {}
-    local tKillsCreeps = {}
-    local tKillsBosses = {}
-    local tDeaths = {}
-    local tRating = {}
-    -- tHeroes need to be sorted
-    --
-    for i = 1, #self.tHeroes do
-        local hero = self.tHeroes[i]
-        table.insert(tPlayersId,hero:GetPlayerID())
-        table.insert(tKillsCreeps,hero.creeps or 0)
-        table.insert(tKillsBosses,hero.bosses or 0)
-        table.insert(tDeaths,hero.deaths or 0)
-        table.insert(tRating,hero.rating or 0)
-    end
-    local data =
-        {
-            PlayersId = tPlayersId,
-            KillsCreeps = tKillsCreeps,
-            KillsBosses = tKillsBosses,
-            Deaths = tDeaths,
-            Rating = tRating,
-            --da = 1,
-            --teamId = localPlayerTeamId,
-            --hero_id = hero:GetClassname()
-        }
+function Survival:GetDataForSendUlu(only_upd, done, pid, need, finish, name)
+	--local tPlayersId = {}
+	--local tlumber = {}
+	--local tpercUlu = {}
+	local hero = PlayerResource:GetSelectedHeroEntity(pid)
+	--
+    local data
+	if hero then
+		data =
+			{
+				--PlayersId = tPlayersId,
+				Lumber = PlayerResource:GetLumber(pid) or 0,
+				PercUlu = hero.percUlu or 0,
+				UluPlayerId = pid,
+				UluDone = done,
+				UluNeed = need,
+				OnlyUpd = only_upd,
+				Finish = finish,
+				Name = name,
+			}
+	else
+		data =
+			{
+				--PlayersId = tPlayersId,
+				Lumber = 0,
+				PercUlu = 0,
+				UluPlayerId = pid,
+				UluDone = done,
+				UluNeed = need,
+				OnlyUpd = only_upd,
+				Finish = finish,
+				Name = name,
+			}
+	
+	end
+	
+	
+    --[[local playersCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+    for i = 1, playersCount do 
+        local playerID = PlayerResource:GetNthPlayerIDOnTeam(DOTA_TEAM_GOODGUYS, i)
+		local hero = PlayerResource:GetSelectedHeroEntity(playerID)
+		table.insert(tPlayersId,playerID)
+        if hero then
+            table.insert(tlumber,hero.lumber or 0)
+			table.insert(tpercUlu,hero.percUlu or 0)
+        else 
+            table.insert(tlumber,0)
+			table.insert(tpercUlu,0)
+        end
+		--hero.percUlu
+	end
+	]]
+
     return data
+end
+
+function HeroToPedestal(hero,place)
+    if not hero then
+        return 
+    end
+
+    local vecOrigin = Entities:FindByName(nil, tostring(place).."_place"):GetAbsOrigin()
+    local forward = { 
+        Vector(2,-1,0), 
+        Vector(5,-1,0), 
+        Vector(1,-1,0) 
+    }
+
+    if not hero:IsAlive() then
+        hero:RespawnHero(false, false, false)
+    end
+
+    hero:Purge(true, true, false, true, true)
+
+    hero:RemoveModifierByName("modifier_item_sphere_target")
+    
+    local fire_gloves = GetItemInInventory(hero,"item_lia_fire_gloves") or GetItemInInventory(hero,"item_lia_fire_gloves_2")
+    if fire_gloves and fire_gloves:GetToggleState() then 
+        fire_gloves:ToggleAbility()
+    end 
+
+    hero:SetAbsOrigin(vecOrigin)
+    hero:SetForwardVector(forward[place])
+    hero:Interrupt()
+    hero:StartGesture(ACT_DOTA_IDLE)
+    hero:StartGesture(ACT_DOTA_VICTORY)
+    --DebugDrawLine(self.tHeroes[2]:GetAbsOrigin(), self.tHeroes[2]:GetAbsOrigin()+self.tHeroes[2]:GetForwardVector()*100, 100, 100, 100, true, 100)
 end
 
 function Survival:EndGame(teamWin)
     local GameMode = GameRules:GetGameModeEntity()
     --local data = LiA:GetDataForSend()
-    local dataHide = 
-    {
-        visible = false,
-    }
-    --print("       data", data)
-    CustomGameEventManager:Send_ServerToAllClients( "upd_action_hide", dataHide )
-    GameMode:SetContextThink( "EndGameCon", EndGameCon , 0.5)
-    GameRules:SetGameWinner(teamWin)  
+    self.tHeroes[1]:AddNewModifier(self.tHeroes[1],nil,"modifier_test_lia",nil) 
+    Timers:CreateTimer(1,function()
+        if teamWin == DOTA_TEAM_GOODGUYS then
+            local vecFirstPlace = Entities:FindByName(nil, "1_place"):GetAbsOrigin()
+            local vecCamera = vecFirstPlace-Vector(-470,370,0)
+
+            ChangeWorldBounds(vecCamera,vecCamera)
+            SetCameraToPosForPlayer(-1,vecCamera)
+
+            self.tHeroes[1]:AddNewModifier(self.tHeroes[1],nil,"modifier_test_lia",nil)
+            
+            HeroToPedestal(PlayerResource:GetSelectedHeroEntity( PlayerResource:GetPlayerIdAtPlace(1) ), 1)
+            HeroToPedestal(PlayerResource:GetSelectedHeroEntity( PlayerResource:GetPlayerIdAtPlace(2) ), 2)
+            HeroToPedestal(PlayerResource:GetSelectedHeroEntity( PlayerResource:GetPlayerIdAtPlace(3) ), 3)
+        end
+        GameRules:SetGameWinner(teamWin)
+    end)
 end
 
-function EndGameCon()
-    local data = Survival:GetDataForSend()
-    CustomGameEventManager:Send_ServerToAllClients( "upd_action_end", data )
-    return nil --0.5
+function Survival:ExperienceDistribute(killedUnit)
+    local nHeroesAlive = Survival:GetHeroCount(true)
+    local xp = killedUnit:GetDeathXP()/nHeroesAlive * self.flExpFix[nHeroesAlive] + RandomFloat(0,1)
+    DoWithAllHeroes(function(hero)
+        if hero:IsAlive() then
+            hero:AddExperience(xp,DOTA_ModifyXP_Unspecified,false,true)
+            --print(hero:GetCurrentXP())
+        end
+    end)
+
 end
+

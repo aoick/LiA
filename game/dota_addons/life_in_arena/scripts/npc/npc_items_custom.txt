@@ -4,8 +4,8 @@
 	
 
 
-	//Start of file 1362
-	//End of file 1362
+	//Start of file 1366
+	//End of file 1366
 
 
 	//Start of file item_lia_alanith_spear.txt
@@ -19,8 +19,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"400"	
+		"ItemCost"						"180"	
 		"ItemShopTags"					"damage;lifesteal"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -28,7 +30,7 @@
 		"ItemResult"					"item_lia_alanith_spear"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_spear"
+			"01"						"item_lia_spear;item_lia_mask_of_death"
 		}
 	}
 	
@@ -73,13 +75,16 @@
 			"modifier_item_alanith_datadriven_lifesteal"
 			{
 				"Passive"			"0"
-				"IsHidden"			"1"
-				
+				"IsHidden"			"1"		
 				"OnDealDamage"
 				{
 					"Lifesteal"
 					{
-						"Target"			"ATTACKER"
+						"Target"			
+						{
+							"Center"	"ATTACKER"
+							"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 						"LifestealPercent"	"%lifesteal_percent"
 					}
 				}
@@ -101,62 +106,6 @@
 	}
 	
 	//End of file item_lia_alanith_spear.txt
-
-
-	//Start of file item_lia_alanith_spear_lua.txt
-	"item_recipe_lia_alanith_spear_lua"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"1364"						
-		"Model"							"models/props_gameplay/recipe.mdl"
-		"BaseClass"                     "item_datadriven"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"400"	
-		"ItemShopTags"					"damage;lifesteal"
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_lia_alanith_spear_lua"
-		"ItemRequirements"
-		{
-			"01"						"item_lia_spear"
-		}
-	}
-	
-	"item_lia_alanith_spear_lua"
-	{
-		"ID"							"1363"
-		"BaseClass" 					"item_lua"
-		"ScriptFile"					"items\AlanithSpearLua.lua"
-		"ItemCost"						"490"
-		"ItemKillable" 					"0" 
-		"ItemDroppable" 				"1"
-		"ItemSellable"                  "1"
-		"ItemPurchasable"		 		"1"
-		"ItemQuality"					"common"
-		"AbilityTextureName"			"lia_alanith_spear"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_ATTACK"
-		
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type" "FIELD_INTEGER"
-				"bonus_damage" "25"
-			}
-			"02"
-			{
-				"var_type" "FIELD_INTEGER"
-				"lifesteal_percent" "17"
-			}
-		}
-	}
-	
-	//End of file item_lia_alanith_spear_lua.txt
 
 
 	//Start of file item_lia_amulet.txt
@@ -204,7 +153,7 @@
 				  "Passive"			"1"
 				  "IsHidden"			"1"
 				  "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				  "AllowIllusionDuplicate"    "1"
 				  "Properties"
 				  {
 				    "MODIFIER_PROPERTY_HEALTH_BONUS"		"%bonus_health"
@@ -255,7 +204,7 @@
 					{
 						"ScriptFile"		"items/SpellShield.lua"
 						"Function"			"modifier_item_lia_amulet_of_spell_shield_on_created"
-				"Duration"			"%block_cooldown"
+						"Duration"			"%block_cooldown"
 					}
 				}
 				
@@ -265,7 +214,7 @@
 					{
 						"ScriptFile"		"items/SpellShield.lua"
 						"Function"			"modifier_item_lia_amulet_of_spell_shield_on_destroy"
-				"Duration"			"%block_cooldown"
+						"Duration"			"%block_cooldown"
 					}
 				}
 				
@@ -282,24 +231,7 @@
 					}
 				}
 			}
-			//A modifier that is applied to a unit when they receive the modifier_item_sphere_target modifier.
-			//So long as they still have that modifier, this one will remain and provide a public face on the modifier icon bar.
-			//This modifier deletes itself when modifier_item_sphere_target no longer exists on the unit.
-			"modifier_item_lia_amulet_of_spell_shield_icon"
-			{
-				"Passive"			"0"
-				"IsHidden"			"0"
-				
-				"ThinkInterval" 		".03"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"ScriptFile"			"items/SpellShield.lua"
-						"Function"				"modifier_item_lia_amulet_of_spell_shield_icon_on_interval_think"
-					}
-				}
-			}
+	
 		}
 	}
 	//End of file item_lia_amulet_of_spell_shield.txt
@@ -355,6 +287,7 @@
 					{
 						"Passive"   "1"
 						"IsHidden"  "1"
+						"AllowIllusionDuplicate"    "1"
 						"OnAttackStart"
 						{
 							"RemoveModifier"
@@ -380,6 +313,7 @@
 					"modifier_item_lia_ancient_glove_crit"
 					{
 						"IsHidden"  "1"
+						"AllowIllusionDuplicate"    "1"
 						"Properties"
 						{
 							"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
@@ -444,10 +378,19 @@
 		{
 			"ApplyModifier"
 			{
-				"Target"		"CASTER"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"ModifierName"	"modifier_item_lia_anti_magic_potion"
 				"Duration"		"%duration"
 			}
+			"RunScript"
+			{
+				"ScriptFile"	"items\AntimagicPotion.lua"
+				"Function"		"Purge"
+			}	
 			"SpendCharge"
 			{}	
 		}
@@ -469,6 +412,238 @@
 	//End of file item_lia_anti_magic_potion.txt
 
 
+	//Start of file item_lia_armor_of_the_red_mist.txt
+	"item_recipe_lia_armor_of_the_red_mist"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1503"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"450"	
+		"ItemShopTags"					"health;armor;hard_to_tag"
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_armor_of_the_red_mist"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_shield_of_death;item_lia_mithril_armor"
+		}
+	}
+	
+	
+	
+	"item_lia_armor_of_the_red_mist"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"ID"							"1504"  //Valve's version of this item uses the ID "135".
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT"
+		"Model"							"models/props_gameplay/red_box.vmdl" 
+		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
+		"AbilityTextureName"			"item_lia_armor_of_the_red_mist"
+		"ItemKillable" 					"0" 
+	
+		"precache"
+		{
+			"soundfile"			"soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+			"particle"			"particles/econ/items/axe/axe_helm_shoutmask/axe_beserkers_call_owner_shoutmask.vpcf"
+			"particle"			"particles/custom/items/armor_of_the_red_mist_effect.vpcf"
+		}
+	
+		"AbilityCooldown"				"14.0"
+	
+		"AbilityManaCost"				"120"	
+	
+		"AbilitySharedCooldown" "Taunt"
+	
+		"AbilityCastRange"				"400"
+	
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"2555"
+		"ItemShopTags"					"health;armor;hard_to_tag"
+		"ItemQuality"					"epic"
+		"ItemAliases"					"basher"
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"	"20"
+			}
+	
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health" "700"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_blocked"			"60"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_magic_resist_percentage"			"30"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage"				"500"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"active_armor"			"25"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"400"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"6.0"
+			}
+		}
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"	"Hero_Sven.WarCry.Signet"
+				"Target" 		"CASTER"
+			}
+	
+			"AttachEffect"
+			{
+				"EffectName"	"particles/econ/items/axe/axe_helm_shoutmask/axe_beserkers_call_owner_shoutmask.vpcf"
+				"EffectAttachType"	"start_at_customorigin"
+				"Target"	"CASTER"	
+				"ControlPoints"
+				{
+					"02"	"%radius %radius 0"
+				}
+			}
+	
+			"ActOnTargets"
+			{
+				"Target"
+				{
+					"Center"  	"CASTER"
+					"Radius" 	"%radius"
+					"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			//		"Flags"   "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+				}
+			
+				"Action"    
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"items/armor_of_the_red_mist.lua"
+						"Function"		"ApplyTaunt"
+					}
+					"Damage"
+					{
+						"Target"		"TARGET"
+						"Type"			"DAMAGE_TYPE_MAGICAL"
+						"Damage"		"%damage"
+					}
+				}
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_item_lia_armor_of_the_red_mist_armor"
+				"Target"
+				{
+					"Center"  	"CASTER"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_item_lia_armor_of_the_red_mist"
+			{
+				"Passive"			"1"
+				"IsHidden"			"1"
+				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
+				"Properties"
+				{
+			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
+			    	"MODIFIER_PROPERTY_HEALTH_BONUS"		 "%bonus_health"
+			    	"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
+					"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_blocked"
+				}
+				
+				
+			}
+	
+			"modifier_item_lia_armor_of_the_red_mist_taunt"
+			{
+				"IsPurgable"		"0"
+				"IsDebuff"			"1"
+	
+				"StatusEffectName" 		"particles/custom/items/armor_of_the_red_mist_effect.vpcf" 	   
+				"StatusEffectPriority"  "10"
+	
+				"ThinkInterval"  "0.1"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"items/armor_of_the_red_mist.lua"
+						"Function"		"Taunt"
+					}
+				}
+	
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"items/armor_of_the_red_mist.lua"
+						"Function"		"TauntEnd"
+					}
+				}
+	
+				"States"
+				{
+					"MODIFIER_STATE_MUTED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+	
+			"modifier_item_lia_armor_of_the_red_mist_armor"
+			{
+				"Passive"				"0"
+				"IsHidden"				"0"
+				"IsBuff"				"1"
+				"IsPurgable"			"1"
+	
+				"Duration"				"%duration"
+				"Attributes"			"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+	
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%active_armor"
+				}
+			}
+		}
+	}
+	//End of file item_lia_armor_of_the_red_mist.txt
+
+
 	//Start of file item_lia_axe.txt
 	"item_lia_axe"
 	{
@@ -482,7 +657,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"					"80"
+		"ItemCost"					"85"
 		"ItemShopTags"					"" //add this 
 		"ItemQuality"					"component"
 		"ItemAliases"					"axe"
@@ -500,7 +675,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"		"5"
+				"bonus_strength"		"6"
 			}
 		}
 		
@@ -511,7 +686,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
@@ -533,8 +708,9 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"250"	
+		"ItemCost"						"320"	
 		"ItemShopTags"					"damage;lifesteal"
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -542,15 +718,16 @@
 		"ItemResult"					"item_lia_banner_of_victory"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_alanith_spear;item_lia_helm"
+			"01"						"item_lia_helm;item_lia_mask_of_death"
 		}
 	}
 	
 	"item_lia_banner_of_victory"
 	{
-		"ID"							"1352"
-		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"915"
+		"ID"							"1353"
+		"BaseClass" 					"item_lua"
+		"ScriptFile"					"items\item_lia_banner_of_victory.lua"
+		"ItemCost"						"715"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -558,74 +735,20 @@
 		"ItemQuality"					"common"
 		"AbilityTextureName"			"item_lia_banner_of_victory"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_AURA"
-		"Modifiers"
-		{
-			"modifier_item_lia_banner_of_victory"
-			{
-				"Passive"          	"1"    
-			    "IsHidden"         	"1"
-				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				"Aura" 				"modifier_item_banner_of_victory_aura_datadriven"
-	            "Aura_Radius" 		"%aura_radius"
-	            "Aura_Teams" 		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	            "Aura_Types" 		"DOTA_UNIT_TARGET_ALL"
-			    "Properties"
-			    {
-			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-			    }  
-			}
-			"modifier_item_banner_of_victory_aura_datadriven"
-			{
-				"OnAttackLanded"
-				{
-					"RunScript"
-					{
-						"ScriptFile"			"items\BannerOfVictory.lua"
-						"Function"				"modifier_item_banner_of_victory_datadriven_on_attack_landed"
-					}
-				}
-				"Properties"
-			    {
-			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"%aura_armor"
-			    }
-			}
-			"modifier_item_banner_of_victory_datadriven_lifesteal"
-			{
-				"Passive"			"0"
-				"IsHidden"			"1"
-				
-				"OnDealDamage"
-				{
-					"Lifesteal"
-					{
-						"Target"
-						{
-							"Center"	"ATTACKER"
-							"Flags"		"DOTA_UNIT_TARGET_FLAG_MELEE_ONLY"
-						}
-						"LifestealPercent"	"%aura_lifesteal_percent"
-					}
-				}
-			}
-		}
+	
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_damage" "45"
+				"aura_radius" "800"
 			}
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"aura_radius" "800"
-			}
-			"03"
-			{
-				"var_type" "FIELD_INTEGER"
 				"aura_lifesteal_percent" "12"
 			}
-			"04"
+			"03"
 			{
 				"var_type" "FIELD_INTEGER"
 				"aura_armor" "5"
@@ -647,9 +770,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"180"	
+		"ItemCost"						"220"	
 		"ItemShopTags"					"str;damage;armor;hard_to_tag"
 		
+		"ItemKillable" 					"0" 
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemRecipe"					"1"
@@ -674,10 +798,11 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"580"
+		"ItemCost"						"585"
 		"ItemShopTags"					"str;damage;armor;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
+		"ItemKillable" 					"0" 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
@@ -690,7 +815,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"	"16"
+				"bonus_strength"	"18"
 			}
 			"03"
 			{
@@ -722,10 +847,10 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+				//	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
 				}
@@ -738,44 +863,14 @@
 						"PseudoRandom"		"DOTA_PSEUDO_RANDOM_ITEM_BASHER"
 						"OnSuccess"
 						{
-							"Damage"
+							"RunScript"
 							{
-								"Target"		"TARGET"
-								"Type"			"DAMAGE_TYPE_MAGICAL"
-								"Damage"		"%bash_damage"
-							}
-							
-							"ApplyModifier"
-							{
-								"Target"			"TARGET"
-								"ModifierName"		"modifier_item_lia_battle_axe_bash"
-							}
-							
-							"FireSound"
-							{
-								"EffectName"		"DOTA_Item.MKB.Minibash"
-								"Target"			"TARGET"
+								"ScriptFile"	"items\BattleAxe.lua"
+								"Function"		"Bash"
+								"modifierName"	"modifier_item_lia_battle_axe"
 							}
 						}
 					}
-				}
-			}
-			"modifier_item_lia_battle_axe_bash"
-			{
-				"Duration"              "%bash_stun"
-				"Passive"				"0"
-				"IsHidden"				"0"
-				"IsBuff"				"0"
-				"IsDebuff"				"1"
-				"IsPurgable"			"1"
-				
-				"EffectName"            "particles/generic_gameplay/generic_stunned.vpcf"
-				"EffectAttachType"      "follow_overhead"
-				"OverrideAnimation"     "ACT_DOTA_DISABLED"
-				
-				"States"
-				{
-					"MODIFIER_STATE_STUNNED" 		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -794,8 +889,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"350"	
+		"ItemCost"						"365"	
 		"ItemShopTags"					"damage;lifesteal;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -862,12 +959,15 @@
 			{
 				"Passive"			"0"
 				"IsHidden"			"1"
-				
 				"OnDealDamage"
 				{
 					"Lifesteal"
 					{
-						"Target"			"ATTACKER"
+						"Target"			
+						{
+							"Center"	"ATTACKER"
+							"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 						"LifestealPercent"	"%lifesteal_percent"
 					}
 				}
@@ -919,6 +1019,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"750"	
 		"ItemShopTags"					"str;damage;attack_speed;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -934,7 +1036,7 @@
 	{
 		"ID"							"1303"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"2155"
+		"ItemCost"						"2135"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -950,8 +1052,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-	
-				"OnCreated"
+			    "OnCreated"
 				{
 					"RunScript"
 					{
@@ -1005,7 +1106,7 @@
 			"03"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_attack_speed" "60"
+				"bonus_attack_speed" "40"
 			}
 			"04"
 			{
@@ -1153,7 +1254,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"		"%bonus_movement_speed"
@@ -1175,8 +1276,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"310"	
+		"ItemCost"						"400"	
 		"ItemShopTags"					"damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -1184,7 +1287,7 @@
 		"ItemResult"					"item_lia_boots_of_invisibility"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_necklace;item_lia_boots"
+			"01"						"item_lia_boots"
 		}
 	}
 	
@@ -1192,14 +1295,14 @@
 	{
 		"ID"							"1447"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"485"
+		"ItemCost"						"490"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
 		"ItemPurchasable"		 		"1"
 		"ItemQuality"					"common"
 		"AbilityTextureName"			"item_lia_boots_of_invisibility"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
 	
 		"AbilityCastPoint"				"0"
@@ -1217,7 +1320,11 @@
 		{
 			"FireEffect"
 			{
-				"Target"			"CASTER"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"EffectName"		"particles/units/heroes/hero_bounty_hunter/bounty_hunter_windwalk.vpcf"
 				"EffectAttachType"	"attach_origin"
 			}
@@ -1231,14 +1338,22 @@
 			"ApplyModifier"
 			{
 				"ModifierName" 	"modifier_invisible"
-				"Target"		"CASTER"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"Duration"		"%duration"
 			}
 	
 			"ApplyModifier"
 			{
 				"ModifierName" 	"modifier_windwalk"
-				"Target"		"CASTER"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"Duration"		"%duration"
 			}
 		}
@@ -1250,6 +1365,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"		"%bonus_movement_speed"
@@ -1391,7 +1507,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
@@ -1415,6 +1531,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"200"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -1464,7 +1582,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
@@ -1497,6 +1615,237 @@
 		}
 	}
 	//End of file item_lia_crown_of_death.txt
+
+
+	//Start of file item_lia_crusher.txt
+	"item_recipe_lia_crusher"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1484"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"650"	
+		"ItemShopTags"					"crit;damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_crusher"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_pantilus_blade;item_lia_lightning_spear"
+		}
+	}
+	
+	"item_lia_crusher"
+	{
+		"ID"							"1485"
+		"BaseClass" 					"item_datadriven"
+		"ItemCost"						"2050"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"rare"
+		
+		"AbilityTextureName"			"item_lia_crusher"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	
+	
+		"AbilityCooldown"				"4.0"
+	
+	
+		"precache"
+		{
+			"particle" 	"particles/items_fx/chain_lightning.vpcf"
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+		}
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" 				"FIELD_INTEGER"
+				"bonus_damage" 			"75"
+			}
+			"02"
+			{
+				"var_type" 				"FIELD_INTEGER"
+				"bonus_attack_speed" 	"45"
+			}
+			"03"
+			{
+				"var_type" 				"FIELD_INTEGER"
+				"bonus_agility" 		"40"
+			}
+			"04"
+			{
+				"var_type" 				"FIELD_INTEGER"
+				"lightning_chance" 		"22"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"crit_mult"				"190"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lightning_damage"		"400"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lightning_bounces"		"8"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bounce_range"			"700"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lightning_decay"		"0"
+			}
+			"10"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"time_between_bounces"	"0.2"
+			}
+			"11"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"lightning_cooldown"	"4"
+			}
+		}
+	
+	
+		"Modifiers"
+		{
+			"modifier_item_lia_crusher"
+			{
+				"Passive"          "1"    
+			    "IsHidden"         "1"
+			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	
+			    "Properties"
+			    {
+			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+			    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
+			    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
+			    }  
+	
+			    "OnAttackStart"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName" "modifier_item_lia_crusher_crit"
+						"Target"
+						{
+							"Center"  	"CASTER"
+							"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
+					}
+	
+					"Random"
+					{
+						"Chance" "%lightning_chance"
+						"PseudoRandom" "DOTA_PSEUDO_RANDOM_ITEM_MAELSTROM"
+						"OnSuccess"
+						{
+							"RunScript"
+							{
+								"ScriptFile" "items/Crusher.lua"
+								"Function"	 "ApplyAccuracy"
+							}  
+							"ApplyModifier"
+							{
+								"ModifierName" "modifier_item_lia_crusher_crit"
+								"Target"
+								{
+									"Center"  	"CASTER"
+									"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+								}   
+							}  
+						}
+					}
+				}
+			}
+	
+			"modifier_item_lia_crusher_accuracy"
+			{   
+			    "IsHidden"         	"1"
+			    "IsPurgable"		"0"
+	
+			    "States"
+			    {
+			    	"MODIFIER_STATE_CANNOT_MISS"		"MODIFIER_STATE_VALUE_ENABLED"
+			    }
+	
+			    "OnAttackLanded"
+			    {
+			    	"RunScript"
+					{
+						"ScriptFile"	"items/Crusher.lua"
+						"Function"		"ChainLightning"
+					} 
+	
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_item_lia_crusher_accuracy"
+						"Target"
+						{
+							"Center"  	"CASTER"
+							"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
+					}
+			    }
+	
+			}
+	
+			"modifier_item_lia_crusher_crit"
+			{
+				"IsHidden"  "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
+				}
+	
+				"OnAttackLanded"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"  "modifier_item_lia_crusher_crit"
+						"Target"
+						{
+							"Center"  	"CASTER"
+							"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}   
+					}
+	
+					// Basic blood particle effect
+					"FireEffect"
+					{
+						"EffectName" "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
+						"EffectAttachType"  "follow_origin"
+						"Target"    "TARGET"
+					}
+				}
+			}
+	
+		}
+	}
+	//End of file item_lia_crusher.txt
 
 
 	//Start of file item_lia_demonic_figure.txt
@@ -1572,6 +1921,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"700"	
 		"ItemShopTags"					"armor;regen_health;health_pool;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -1587,7 +1938,7 @@
 	{
 		"ID"							"1321"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"2540"
+		"ItemCost"						"2315"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -1610,6 +1961,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" 	"%bonus_armor"
@@ -1634,17 +1986,68 @@
 			"03"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_health_regen" "30"
+				"bonus_health_regen" "25"
 			}
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"evasion_percent" "30"
+				"evasion_percent" "20"
 			}
 		}
 	}
 	
 	//End of file item_lia_divine_armor.txt
+
+
+	//Start of file item_lia_dust_of_appearance.txt
+	"item_lia_dust_of_appearance"
+	{
+	    "BaseClass"                     "item_dust"
+	    "ID"                            "1551"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "AbilityTextureName"            "item_dust"
+	    "AbilityCooldown"               "14"
+	    "AbilitySharedCooldown"         "dust"
+	    "AbilityManaCost"               "0"
+	        
+	    "Model"                         "models/props_gameplay/dust.vmdl"
+	    "Effect"                        "particles/generic_gameplay/dropped_dust.vpcf"
+	    
+	    "ItemShareability"              "ITEM_FULLY_SHAREABLE"      
+	    "ItemShopTags"                  "invis"
+	    "ItemQuality"                   "common"
+	    "ItemPermanent"                 "0"
+	    "ItemStackable"                 "1"
+	    "ItemKillable"                  "0"
+	    "ItemSellable"                  "1"
+	    "ItemDroppable"                 "1"
+	    "ItemInitialCharges"            "3"
+	    "ItemAlertable"                 "1" 
+	
+	    // Shops
+	    "ItemCost"                      "45"
+	
+	
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "duration"              "8"
+	        }
+	        "02"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "radius"                "1000"
+	        }
+	        "03"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "movespeed"             "0"
+	        }
+	    }
+	}
+	//End of file item_lia_dust_of_appearance.txt
 
 
 	//Start of file item_lia_dwarf_armor.txt
@@ -1660,6 +2063,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"200"	
 		"ItemShopTags"					"armor;health_pool"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -1667,7 +2072,7 @@
 		"ItemResult"					"item_lia_dwarf_armor"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_helm;item_lia_ring_of_protection;item_lia_amulet"
+			"01"						"item_lia_helm;item_lia_amulet"
 		}
 	}
 	
@@ -1675,7 +2080,7 @@
 	{
 		"ID"							"1317"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"595"
+		"ItemCost"						"515"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -1690,6 +2095,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
@@ -1726,8 +2132,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"225"	
+		"ItemCost"						"275"	
 		"ItemShopTags"					"health;armor;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -1766,7 +2174,8 @@
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
+		"BaseClass"						"item_lua"
+		"ScriptFile"					"items\item_lia_enchanted_shield.lua"
 		"ID"							"1411"  //Valve's version of this item uses the ID "135".
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
@@ -1775,13 +2184,15 @@
 		
 		"UpgradesItems"					"item_lia_enchanted_shield;item_lia_enchanted_shield_2"
 		"UpgradeRecipe"					"item_recipe_lia_enchanted_shield"
+	
+		"ItemKillable" 					"0" 
 		
 		"MaxUpgradeLevel"				"2"
 		"ItemBaseLevel"					"1"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"940"
+		"ItemCost"						"910"
 		"ItemShopTags"					"health;armor;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
@@ -1792,13 +2203,13 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_armor"	"13 16"
+				"bonus_armor"			"13 16"
 			}
 	
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health" "325 525"
+				"bonus_health" 			"325 525"
 			}
 	
 			"03"
@@ -1809,80 +2220,8 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage_blocked"			"50 70"
+				"damage_block"			"50 70"
 			}
-		}
-		
-		"Modifiers"
-		{
-			"modifier_item_lia_enchanted_shield"
-			{
-				"Passive"			"1"
-				"IsHidden"			"1"
-				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
-				"Properties"
-				{
-			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-			    	"MODIFIER_PROPERTY_HEALTH_BONUS"		 "%bonus_health"
-				}
-				
-				 "OnCreated"
-					{
-						"Random"
-						{
-							"Chance" "%block_chance"
-							"OnSuccess"
-							{
-								"ApplyModifier"
-								{
-									"Target" "CASTER"
-									"ModifierName" "block_modifier"
-								}
-							}
-						}
-					}
-				"OnAttacked"
-					{
-						"Random"
-						{
-							"Chance" "%block_chance"
-							"OnSuccess"
-							{
-								"ApplyModifier"
-								{
-									"Target" "CASTER"
-									"ModifierName" "block_modifier"
-								}
-							}
-							"OnFailure"
-							{
-								"RemoveModifier"
-								{
-									"Target" "CASTER"
-									"ModifierName" "block_modifier"
-								}
-							}
-						}
-					}
-			}
-			"block_modifier"
-				{
-					"IsBuff" "1"
-					"IsHidden" "1"
-					"Properties"
-					{
-						"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_blocked"
-					}
-					"OnAttacked"
-					{
-						"RemoveModifier"
-						{
-							"Target" "CASTER"
-							"ModifierName" "block_modifier"
-						}
-					}
-				}
 		}
 	}
 	
@@ -1891,12 +2230,15 @@
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
+		"BaseClass"						"item_lua"
+		"ScriptFile"					"items\item_lia_enchanted_shield_2.lua"
 		"ID"							"1412"  //Valve's version of this item uses the ID "135".
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_lia_enchanted_shield"
+		"AbilityTextureName"			"item_lia_enchanted_shield_2"
+	
+		"ItemKillable" 					"0" 
 	
 		"UpgradesItems"					"item_lia_enchanted_shield;item_lia_enchanted_shield_2"
 		"UpgradeRecipe"					"item_recipe_lia_enchanted_shield"
@@ -1906,7 +2248,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1165"
+		"ItemCost"						"1185"
 		"ItemShopTags"					"health;armor;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
@@ -1917,13 +2259,13 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_armor"	"16"
+				"bonus_armor"			"16"
 			}
 	
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health" "525"
+				"bonus_health" 			"525"
 			}
 	
 			"03"
@@ -1934,83 +2276,103 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage_blocked"			"70"
+				"damage_block"			"70"
 			}
-		}
-		
-		"Modifiers"
-		{
-			"modifier_item_lia_enchanted_shield_2"
-			{
-				"Passive"			"1"
-				"IsHidden"			"1"
-				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
-				"Properties"
-				{
-			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
-			    	"MODIFIER_PROPERTY_HEALTH_BONUS"		 "%bonus_health"
-				}
-				
-				 "OnCreated"
-					{
-						"Random"
-						{
-							"Chance" "%block_chance"
-							"OnSuccess"
-							{
-								"ApplyModifier"
-								{
-									"Target" "CASTER"
-									"ModifierName" "block_modifier_2"
-								}
-							}
-						}
-					}
-				"OnAttacked"
-					{
-						"Random"
-						{
-							"Chance" "%block_chance"
-							"OnSuccess"
-							{
-								"ApplyModifier"
-								{
-									"Target" "CASTER"
-									"ModifierName" "block_modifier_2"
-								}
-							}
-							"OnFailure"
-							{
-								"RemoveModifier"
-								{
-									"Target" "CASTER"
-									"ModifierName" "block_modifier_2"
-								}
-							}
-						}
-					}
-			}
-			"block_modifier_2"
-				{
-					"IsBuff" "1"
-					"IsHidden" "1"
-					"Properties"
-					{
-						"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_blocked"
-					}
-					"OnAttacked"
-					{
-						"RemoveModifier"
-						{
-							"Target" "CASTER"
-							"ModifierName" "block_modifier_2"
-						}
-					}
-				}
 		}
 	}
 	//End of file item_lia_enchanted_shield.txt
+
+
+	//Start of file item_lia_ferus_shield.txt
+	"item_recipe_lia_ferus_shield"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1365"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"750"	
+		"ItemShopTags"					"damage;armor;lifesteal"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_ferus_shield"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_shield_of_endurance;item_lia_banner_of_victory"
+		}
+	}
+	
+	"item_lia_ferus_shield"
+	{
+		"ID"							"1366"
+		"BaseClass" 					"item_lua"
+		"ScriptFile"					"items\item_lia_ferus_shield.lua"
+		"ItemCost"						"2090"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"common"
+		"AbilityTextureName"			"item_lia_ferus_shield"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AoERadius"						"350"
+		"AbilityCooldown"				"25"
+		"AbilityManacost"				"250"
+	
+		"precache"
+		{
+			"particle"  "particles/econ/items/axe/axe_helm_shoutmask/axe_beserkers_call_owner_shoutmask.vpcf"
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+		}
+	
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_health" "550"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"aura_radius" "800"
+			}
+			"03"
+			{
+				"var_type" "FIELD_INTEGER"
+				"aura_lifesteal_percent" "15"
+			}
+			"04"
+			{
+				"var_type" "FIELD_INTEGER"
+				"aura_regen" "15"
+			}
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"aura_armor" "13"
+			}
+			"06"
+			{
+				"var_type" "FIELD_INTEGER"
+				"panic_duration" "4"
+			}
+			"07"
+			{
+				"var_type" "FIELD_INTEGER"
+				"panic_radius" "350"
+			}
+		}
+	}
+	//End of file item_lia_ferus_shield.txt
 
 
 	//Start of file item_lia_fire_gloves.txt
@@ -2026,6 +2388,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"350"	
 		"ItemShopTags"					"mana;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -2066,7 +2430,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
 		"ID"							"1435"  //Valve's version of this item uses the ID "135".
-			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
+			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_TOGGLE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -2080,7 +2444,7 @@
 		"MaxUpgradeLevel"				"2"
 		"ItemBaseLevel"					"1"
 		
-	
+		"ItemKillable" 					"0" 
 	
 		"AbilityCastRange"				"220"
 	
@@ -2094,7 +2458,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"695"
+		"ItemCost"						"690"
 		"ItemShopTags"					"mana;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
@@ -2139,7 +2503,11 @@
 				{
 					"ApplyModifier"
 					{
-						"Target"			"CASTER"
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 						"ModifierName"		"modifier_immolation"
 					}
 					"FireSound"
@@ -2153,7 +2521,11 @@
 				{
 					"RemoveModifier"
 					{
-						"Target"			"CASTER"
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 						"ModifierName"		"modifier_immolation"
 					}
 				}	
@@ -2164,7 +2536,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 			    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -2216,7 +2588,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_lia_fire_gloves"
+		"AbilityTextureName"			"item_lia_fire_gloves_2"
 		
 		"UpgradesItems"					"item_lia_fire_gloves;item_lia_fire_gloves_2"
 		"UpgradeRecipe"					"item_recipe_lia_fire_gloves"
@@ -2224,7 +2596,7 @@
 		"MaxUpgradeLevel"				"2"
 		"ItemBaseLevel"					"2"
 		
-	
+		"ItemKillable" 					"0" 
 	
 		"AbilityCastRange"				"220"
 	
@@ -2238,7 +2610,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1045"
+		"ItemCost"						"1040"
 		"ItemShopTags"					"mana;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
@@ -2283,7 +2655,11 @@
 				{
 					"ApplyModifier"
 					{
-						"Target"			"CASTER"
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 						"ModifierName"		"modifier_immolation"
 					}
 					"FireSound"
@@ -2297,7 +2673,11 @@
 				{
 					"RemoveModifier"
 					{
-						"Target"			"CASTER"
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 						"ModifierName"		"modifier_immolation"
 					}
 				}	
@@ -2308,7 +2688,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 			    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -2360,8 +2740,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"750"	
+		"ItemCost"						"730"	
 		"ItemShopTags"					"damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -2377,7 +2759,7 @@
 	{
 		"ID"							"1456"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1090"
+		"ItemCost"						"1070"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -2400,6 +2782,7 @@
 		{
 			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
 			"particle"		"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf"
+			"particle"  "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
 		}
 	
 	
@@ -2415,7 +2798,7 @@
 				"EndRadius" "%start_radius"
 				"FixedDistance" "%range"
 				"TargetTeams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"TargetTypes" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO | DOTA_UNITY_TARGET_MECHANICAL"
+				"TargetTypes" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_MECHANICAL"
 				"TargetFlags" "DOTA_UNIT_TARGET_FLAG_NONE"
 				"HasFrontalCone" "1"
 				"ProvidesVision" "0"
@@ -2443,6 +2826,7 @@
 				"Passive"               "1"
 				"IsHidden"				"1"
 				"Attributes"			"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" 	    "%bonus_damage"
@@ -2452,7 +2836,7 @@
 				"Orb"
 				{
 					"Priority"			"DOTA_ORB_PRIORITY_ITEM"
-					"ProjectileName"    "particles\items_fx\desolator_projectile.vpcf"
+					"ProjectileName"    "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
 				}
 				"OnOrbFire"
 				{
@@ -2531,8 +2915,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"180"	
+		"ItemCost"						"200"	
 		"ItemShopTags"					"damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -2548,7 +2934,7 @@
 	{
 		"ID"							"1415"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"390"
+		"ItemCost"						"395"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -2568,52 +2954,52 @@
 			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
 			    }  
 				"OnAttackStart"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName" "modifier_item_lia_fire_sword_crit"
+						"Target" "CASTER"
+					}
+					"Random"
+					{
+						"Chance" "%crit_chance"
+						"OnSuccess"
 						{
-							"RemoveModifier"
+							"ApplyModifier"
 							{
 								"ModifierName" "modifier_item_lia_fire_sword_crit"
-								"Target" "CASTER"
-							}
-							"Random"
-							{
-								"Chance" "%crit_chance"
-								"OnSuccess"
-								{
-									"ApplyModifier"
-									{
-										"ModifierName" "modifier_item_lia_fire_sword_crit"
-										"Target"    "CASTER"    
-									}        
-								}
-							}
+								"Target"    "CASTER"    
+							}        
 						}
+					}
+				}
 			}
 			
 			"modifier_item_lia_fire_sword_crit"
+			{
+				"IsHidden"  "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
+				}
+	
+				"OnAttackLanded"
+				{
+					"RemoveModifier"
 					{
-						"IsHidden"  "1"
-						"Properties"
-						{
-							"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
-						}
-	
-						"OnAttackLanded"
-						{
-							"RemoveModifier"
-							{
-								"ModifierName"  "modifier_item_lia_fire_sword_crit"
-								"Target"    "CASTER"    
-							}
-	
-							// Basic blood particle effect
-							"FireEffect"
-							{
-							"EffectName" "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
-								"EffectAttachType"  "follow_origin"
-								"Target"    "TARGET"
-							}
-						}
+						"ModifierName"  "modifier_item_lia_fire_sword_crit"
+						"Target"    "CASTER"    
 					}
+	
+					// Basic blood particle effect
+					"FireEffect"
+					{
+					"EffectName" "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
+						"EffectAttachType"  "follow_origin"
+						"Target"    "TARGET"
+					}
+				}
+			}
 		}
 		"AbilitySpecial"
 		{
@@ -2649,8 +3035,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"900"	
+		"ItemCost"						"700"	
 		"ItemShopTags"					"str;agi;attack;armor;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -2676,10 +3064,11 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"2000"
+		"ItemCost"						"1805"
 		"ItemShopTags"					"str;agi;attack;armor;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
+		"ItemKillable" 					"0" 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
@@ -2687,41 +3076,46 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_agility"			"15"
+				"bonus_damage"			"30"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"	"25"
+				"bonus_agility"			"25"
 			}
 			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_strength"	"25"
+			}
+			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_armor"	"6"
 			}
 	
-			"04"
+			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed" "60"
+				"bonus_attack_speed" "50"
 			}
 	
-			"05"
+			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bash_chance"			"18"
 			}
-			"06"
+			"07"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bash_damage"			"100"
+				"bash_damage"			"175"
 			}
-			"07"
+			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
 				"bash_stun"				"1.5"
 			}
-			"08"
+			"09"
 			{
 				"var_type"					"FIELD_INTEGER"
 				"crit_mult"					"175"
@@ -2735,7 +3129,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
@@ -2753,71 +3147,19 @@
 						"PseudoRandom"		"DOTA_PSEUDO_RANDOM_ITEM_BASHER"
 						"OnSuccess"
 						{
-							"Damage"
-							{
-								"Target"		"TARGET"
-								"Type"			"DAMAGE_TYPE_MAGICAL"
-								"Damage"		"%bash_damage"
-							}
 							
-							"ApplyModifier"
+							"RunScript"
 							{
-								"Target"			"TARGET"
-								"ModifierName"		"modifier_item_lia_ghost_blade_bash"
+								"ScriptFile"	"items\BattleAxe.lua"
+								"Function"		"Bash"
+								"modifierName"	"modifier_item_lia_ghost_blade"
 							}
-							
-							"ApplyModifier"
-							{
-								"Target"			"CASTER"
-								"ModifierName"		"modifier_item_lia_ghost_blade_crit"
-							}
-	
-							"FireSound"
-							{
-								"EffectName"		"DOTA_Item.MKB.Minibash"
-								"Target"			"TARGET"
-							}
+			
 						}
 					}
 				}
 			}
-			"modifier_item_lia_ghost_blade_bash"
-			{
-				"Duration"              "%bash_stun"
-				"Passive"				"0"
-				"IsHidden"				"0"
-				"IsBuff"				"0"
-				"IsDebuff"				"1"
-				"IsPurgable"			"1"
-				
-				"EffectName"            "particles/generic_gameplay/generic_stunned.vpcf"
-				"EffectAttachType"      "follow_overhead"
-				"OverrideAnimation"     "ACT_DOTA_DISABLED"
-				
-				"States"
-				{
-					"MODIFIER_STATE_STUNNED" 		"MODIFIER_STATE_VALUE_ENABLED"
-				}
 	
-			}
-	
-			"modifier_item_lia_ghost_blade_crit"
-			{
-			    "IsHidden"  "1"
-			    "Properties"
-			    {
-			        "MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
-			    }
-			  
-			  "OnAttackLanded"
-			    {
-			        "RemoveModifier"
-			        {
-			            "ModifierName"  "modifier_item_lia_ghost_blade_crit"
-			            "Target"   		"CASTER"    
-			        }
-			    }
-			}
 		}
 	}
 	//End of file item_lia_ghost_blade.txt
@@ -2857,7 +3199,7 @@
 						"Passive"			"1"
 						"IsHidden"			"1"
 						"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-						
+						"AllowIllusionDuplicate"    "1"
 						"Properties"
 						{
 							"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -2874,7 +3216,7 @@
 		{
 	
 			"ID"							"1103"
-			"ItemCost"						"220"
+			"ItemCost"						"200"
 			"ItemKillable" "0" 
 			"ItemDroppable" "1"
 			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -2894,7 +3236,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"		"15"
+				"bonus_strength"		"12"
 			}
 		}
 		
@@ -2905,7 +3247,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
@@ -2929,6 +3271,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"800"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -2953,7 +3297,7 @@
 		"AbilityTextureName"			"item_lia_glove_of_pain"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -2970,15 +3314,7 @@
 			"particle"			"particles/items2_fx/mjollnir_shield.vpcf"
 			"particle"			"particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf"
 		}
-			"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "modifier_item_glove_of_pain_aura_emitter"
-			}
-		}
+	
 		"OnSpellStart"
 		{
 			"ApplyModifier"
@@ -2996,6 +3332,13 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+	
+				"Aura" 					"modifier_item_glove_of_pain_aura"
+				"Aura_Radius" 			"%aura_radius"
+				"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				"Aura_Flags" 			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+				"Aura_ApplyToCaster" 	"1"
 				
 				"Properties"
 				{
@@ -3003,23 +3346,12 @@
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
 				}
 			}
-			"modifier_item_lia_glove_of_pain_aura_emitter"
-			{
-				"Passive"				"1"
-				"IsHidden"				"0"
-				
-				"Aura" 					"modifier_item_glove_of_pain_aura"
-				"Aura_Radius" 			"%aura_radius"
-				"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-				"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				"Aura_Flags" 			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-				"Aura_ApplyToCaster" 	"1"
-			}
+	
 			"modifier_item_glove_of_pain_aura"
 			{
 				"Passive"			"1"
-				"IsHidden"			"1"
-				
+				"IsHidden"			"0"
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT_UNIQUE"						"8.0"  //This is hardcoded due to an obscure engine bug.
@@ -3106,7 +3438,7 @@
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"			"250"
+				"damage"			"175"
 			}
 			"07"
 			{
@@ -3134,8 +3466,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"650"	
-		"ItemShopTags"					"int;str;damage;health_pool;hard_to_tag"
+		"ItemCost"						"600"	
+		"ItemShopTags"					"str;damage;health_pool;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -3143,7 +3477,7 @@
 		"ItemResult"					"item_lia_hammer"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_spear;item_lia_amulet;item_lia_gloves_of_strength;item_lia_staff"
+			"01"						"item_lia_spear;item_lia_amulet;item_lia_gloves_of_strength"
 		}
 	}
 	
@@ -3161,10 +3495,11 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1280"
-		"ItemShopTags"					"int;str;damage;health_pool;hard_to_tag"
+		"ItemCost"						"1030"
+		"ItemShopTags"					"str;damage;health_pool;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
+		"ItemKillable" 					"0" 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
@@ -3182,24 +3517,19 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_intelligence"	"18"
+				"bonus_health"	"250"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health"	"200"
+				"minibash_chance"			"30"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bash_chance"			"40"
+				"bash_damage"			"250"
 			}
 			"06"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bash_damage"			"300"
-			}
-			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
 				"bash_stun"				"0.01"
@@ -3213,12 +3543,11 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
-					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
 					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health"
 				}
 				
@@ -3226,21 +3555,15 @@
 				{
 					"Random"
 					{
-						"Chance"			"%bash_chance"
+						"Chance"			"%minibash_chance"
 						"PseudoRandom"		"DOTA_PSEUDO_RANDOM_ITEM_MKB"
 						"OnSuccess"
 						{
-							"Damage"
-							{
-								"Target"		"TARGET"
-								"Type"			"DAMAGE_TYPE_MAGICAL"
-								"Damage"		"%bash_damage"
-							}
 							
-							"ApplyModifier"
+							"RunScript"
 							{
-								"Target"			"TARGET"
-								"ModifierName"		"modifier_item_lia_hammer_bash"
+								"ScriptFile"	"items\Hammer.lua"
+								"Function"		"Bash"
 							}
 							
 							"FireSound"
@@ -3252,27 +3575,191 @@
 					}
 				}
 			}
-			"modifier_item_lia_hammer_bash"
-			{
-				"Duration"              "%bash_stun"
-				"Passive"				"0"
-				"IsHidden"				"0"
-				"IsBuff"				"0"
-				"IsDebuff"				"1"
-				"IsPurgable"			"1"
-				
-				"EffectName"            "particles/generic_gameplay/generic_stunned.vpcf"
-				"EffectAttachType"      "follow_overhead"
-				"OverrideAnimation"     "ACT_DOTA_DISABLED"
-				
-				"States"
-				{
-					"MODIFIER_STATE_STUNNED" 		"MODIFIER_STATE_VALUE_ENABLED"
-				}
-			}
 		}
 	}
 	//End of file item_lia_hammer.txt
+
+
+	//Start of file item_lia_hammer_of_titans.txt
+	"item_recipe_lia_hammer_of_titans"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1501"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"650"	
+		"ItemShopTags"					"str;damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_hammer_of_titans"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_huge_axe;item_lia_hammer"
+		}
+	}
+	
+	"item_lia_hammer_of_titans"
+	{
+		"ID"							"1502"
+		"BaseClass" 					"item_datadriven"
+		"ItemCost"						"2195"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"common"
+		"AbilityTextureName"			"item_lia_hammer_of_titans"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	
+		"precache"
+		{
+			"particle"  "particles/custom/items/hammer_of_titans_cleave.vpcf"
+			"particle"  "particles/custom/items/hammer_of_titans_debuff.vpcf"
+		}
+	
+		"Modifiers"
+		{
+			"modifier_item_lia_hammer_of_titans"
+			{
+				"Passive"          "1"    
+			    "IsHidden"         "1"
+			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
+	
+				
+			    "Properties"
+			    {
+			    	"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
+			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+			    	"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health"
+			    }
+	
+			    "OnAttackLanded"
+				{
+					"Random"
+					{
+						"Chance"			"%minibash_chance"
+						"PseudoRandom"		"DOTA_PSEUDO_RANDOM_ITEM_MKB"
+						"OnSuccess"
+						{
+							
+							"RunScript"
+							{
+								"ScriptFile"	"items\hammer_of_titans.lua"
+								"Function"		"OnSuccess"
+								"attack_damage"	"%attack_damage"
+							}
+	
+							"ApplyModifier"
+							{
+								"ModifierName"	"modifier_item_lia_hammer_of_titans_slow"
+								"Target" 		"TARGET"
+							}
+	
+				//			"ApplyModifier"
+				//	        {
+				//	          "Target"
+				//		      {
+				//		        "Center"        "TARGET"
+				//		        "Radius"        "%cleave_radius"
+				//		        "Teams"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+				//		        "Types"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				//		      }
+				//	          "ModifierName"  "modifier_item_lia_hammer_of_titans_slow"
+				//	        }
+	
+						}
+					}
+				}
+			    
+			}
+			"modifier_item_lia_hammer_of_titans_slow"
+			{
+				"IsDebuff" "1"
+				"IsPurgable"	"1"
+	
+				"Duration"	"%slow_duration"
+	
+				"EffectName"	"particles/custom/items/hammer_of_titans_debuff.vpcf"
+				"EffectAttachType"	"follow_origin"
+	
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%attack_speed_slow"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%movement_speed_slow" 
+				}
+			}
+	
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_strength" "60"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_damage" "100"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health"	"400"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"minibash_chance"			"30"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bash_damage"			"250"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"bash_stun"				"0.01"
+			}
+			"07"
+			{
+				"var_type" "FIELD_INTEGER"
+				"cleave_percent" "50"
+			}
+			"08"
+			{
+				"var_type" "FIELD_INTEGER"
+				"cleave_radius" "200"
+			}	
+			"09"
+			{
+				"var_type" "FIELD_INTEGER"
+				"attack_speed_slow" "-30"
+			}
+			"10"
+			{
+				"var_type" "FIELD_INTEGER"
+				"movement_speed_slow" "-15"
+			}	
+			"11"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"slow_duration"			"3"
+			}
+		}
+	}
+	
+	//End of file item_lia_hammer_of_titans.txt
 
 
 	//Start of file item_lia_healing_ward.txt
@@ -3304,7 +3791,8 @@
 		"ItemAliases"					  	"healing ward"
 	    "ItemStackable"				   		"1"
 		"ItemPermanent"				       	"0"
-		"ItemInitialCharges"	            "2"
+		"ItemKillable" 					"0" 
+		"ItemInitialCharges"	            "1"
 		"ItemRequiresCharges"               "1"
 	
 		// Special	
@@ -3413,6 +3901,7 @@
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"AbilitySharedCooldown" "Heal"
 	
+		"Model"							"models/props_gameplay/halloween_candy.vmdl"
 	
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"lia_health_stone_potion"
@@ -3493,6 +3982,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"450"	
 		"ItemShopTags"					"str;damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -3508,7 +3999,7 @@
 	{
 		"ID"							"1307"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"895"
+		"ItemCost"						"870"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -3523,6 +4014,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_strength"
@@ -3536,7 +4028,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_attack_speed" "40"
+				"bonus_attack_speed" "30"
 			}
 			"02"
 			{
@@ -3565,8 +4057,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"350"	
+		"ItemCost"						"265"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -3574,7 +4068,7 @@
 		"ItemResult"					"item_lia_hell_mask"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_mask"
+			"01"						"item_lia_mask;item_lia_mantle"
 		}
 	}
 	
@@ -3611,9 +4105,11 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"		"%bonus_mana_regen_percentage"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
 			    }  
 			}
 		}
@@ -3623,6 +4119,11 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"bonus_mana_regen_percentage" "60"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_intelligence" "8"
 			}
 			"02"
 			{
@@ -3640,7 +4141,7 @@
 		{
 	
 			"ID"							"1108"
-			"ItemCost"						"175"
+			"ItemCost"						"195"
 			"ItemKillable" "0" 
 			"ItemDroppable" "1"
 			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -3670,7 +4171,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
@@ -3694,6 +4195,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"300"	
 		"ItemShopTags"					"str;damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -3709,7 +4212,7 @@
 	{
 		"ID"							"1301"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"510"
+		"ItemCost"						"515"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -3725,7 +4228,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"OnCreated"
 				{
 					"RunScript"
@@ -3792,6 +4295,166 @@
 	//End of file item_lia_huge_axe.txt
 
 
+	//Start of file item_lia_hyper_boots.txt
+	"item_recipe_lia_hyper_boots"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1788"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"400"	
+		"ItemShopTags"					"movement_speed"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_hyper_boots"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_boots"
+		}
+	}
+	
+	"item_lia_hyper_boots"
+	{
+		"ID"							"1789"
+		"BaseClass" 					"item_datadriven"
+		"ItemCost"						"490"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"common"
+		"AbilityTextureName"			"item_lia_hyper_boots"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"CastFilterRejectCaster" "1"
+		
+		"AbilityCastPoint"				"0"
+		"AbilityCooldown"				"18.0"
+	
+		"AbilityCastRange"				"500"
+	
+		"AbilityManaCost"				"50"
+	
+		"precache"
+		{
+		  	"soundfile"	"soundevents/game_sounds_heroes/game_sounds_bounty_hunter.vsndevts"
+		  	"particle"	"particles/status_fx/status_effect_forcestaff.vpcf" 
+		}
+		
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"	"DOTA_Item.ForceStaff.Activate"
+				"Target" 		"CASTER"
+			}
+	
+	
+			"RunScript"
+			{
+				"ScriptFile"	"items/HyperBoots.lua"
+				"Function"		"LifeBreak"
+				"ModifierName"			"modifier_item_hyper_boots_active"
+			    "ModifierName_Debuff"	"modifier_stunned"
+			}
+			"ApplyMotionController"
+			{
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
+			    "ScriptFile"    "items/HyperBoots.lua"
+			    "HorizontalControlFunction" "JumpHorizonal"
+			 //   "VerticalControlFunction" 	"JumpVertical"
+			}
+		}
+		
+		"Modifiers"
+		{
+			"modifier_item_hyper_boots"
+			{
+				"Passive"          "1"    
+			    "IsHidden"         "1"
+			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
+			    "Properties"
+			    {
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"		"%bonus_movement_speed"
+			    }  
+			}
+			"modifier_item_hyper_boots_active"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+				"Duration"			"1"
+	
+				"StatusEffectName" 		"particles/status_fx/status_effect_forcestaff.vpcf" 	   
+				"StatusEffectPriority"  "10"
+	
+				"States"
+				{
+					"MODIFIER_STATE_DISARMED"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_MAGIC_IMMUNE"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}	
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_movement_speed" "60"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"max_distance"			"750"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"250"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"stun_duration"		"1"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"100"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"charge_speed"		"2500"
+			}
+			"07"
+			{
+				"var_type" "FIELD_INTEGER"
+				"cast_range" "500"
+			}
+	
+		}
+	
+	
+	}
+	//End of file item_lia_hyper_boots.txt
+
+
 	//Start of file item_lia_ice_sword.txt
 	"item_recipe_lia_ice_sword"
 	{
@@ -3803,8 +4466,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"400"	
+		"ItemCost"						"500"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -3820,7 +4485,7 @@
 	{
 		"ID"							"1468"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1330"
+		"ItemCost"						"1315"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -3833,20 +4498,13 @@
 		
 		"AbilityCooldown"				"14.0"
 		"AbilityManaCost"				"275"
+	
+		"AoERadius"  "500"
 		
 		"precache"
 		{
 			"particle"	"particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf"
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_ancient_apparition.vsndevts"
-		}
-		"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "ice_sword_aura_Modifier"
-			}
 		}
 	
 		"OnSpellStart"
@@ -3856,6 +4514,7 @@
 				"EffectName"		"Hero_Ancient_Apparition.ColdFeetTick"
 				"Target" 			"CASTER"
 			}
+			
 			"ActOnTargets"
 			{
 				"Target"
@@ -3891,13 +4550,20 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	
+			    "Aura" 				"modifier_ice_sword_aura_effect"
+	    		"Aura_Radius" 		"900"
+	    		"Aura_Teams" 		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	    		"Aura_Types" 		"DOTA_UNIT_TARGET_ALL"
+				"Aura_Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE" 
+	
 			    "Properties"
 			    {
 					"MODIFIER_PROPERTY_MANA_BONUS"			"%bonus_mana"
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 			    }  
 				
-				  "Orb"
+				"Orb"
 				{
 					"Priority"  "DOTA_ORB_PRIORITY_ITEM"
 					"ProjectileName" "particles\items2_fx\skadi_projectile.vpcf"
@@ -3913,59 +4579,36 @@
 					}   
 				} 
 			}
+	
 			"modifier_ice_sword_slow" 
 			{
 				"IsDebuff" "1"
 				"Duration"  "3"
+	
+				"EffectName"    "particles/generic_gameplay/generic_slowed_cold.vpcf"
+				"EffectAttachType" "attach_hitloc"
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"  "%move_speed_slow"
 					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%attack_speed_slow"
 				}
-				"EffectName"    "particles/generic_gameplay/generic_slowed_cold.vpcf"
-				"EffectAttachType" "attach_hitloc"
-				"Target" "TARGET"
-	
 			}
-			"ice_sword_aura_armor"
+	
+			"modifier_ice_sword_aura_effect"
 	   		{
-	    	
-		    	"IsBuff" "1"
-		    	"IsPurgable" "0"
-		    	"OnCreated"
-		    	{	
+		    	"IsBuff" 			"1"
+		    	"IsPurgable" 		"0"
 	
-		    		"RunScript"
-		    		{
-		    			"ScriptFile"	"items/StormwindHorn.lua"
-		    			"Function"		"CalcRegeneration"
-		    		}
-	
-		    	}
-		    	"OnDestroy"
-		    	{
-					"RunScript"
-	    			{
-				        "ScriptFile"    "items/StormwindHorn.lua"
-				        "Function"      "AuraNone"	
-					}
-		    	}
+		  		"Attributes"		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 	
 		    	"Properties"
 		    	{
 		     		"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE" "%bonus_movement_speed_percent"
+		     		"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
 		    	}
 		    }
-			 "ice_sword_aura_Modifier"
-	   		{
-	    		"Passive" "1"
-	    		"IsHidden" "1"
-	    		"Aura" "ice_sword_aura_armor"
-	    		"Aura_Radius" "900"
-	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
 	
-	   		}
 			"modifier_ice_sword_stun"
 			{
 				"IsDebuff"	"1"
@@ -3997,9 +4640,9 @@
 		   	}
 			"04"
 		   	{
-			    "var_type" "FIELD_INTEGER"
-			    "regen_percent" "120"
-		   	}
+				"var_type" "FIELD_INTEGER"
+				"bonus_attack_speed" "25"
+			}
 			"05"
 		   	{
 			    "var_type" "FIELD_INTEGER"
@@ -4053,6 +4696,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"1050"	
 		"ItemShopTags"					"armor;regen_health;health_pool"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4068,7 +4713,7 @@
 	{
 		"ID"							"1325"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"2245"
+		"ItemCost"						"2240"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4107,6 +4752,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" 	"%bonus_armor"
@@ -4118,7 +4764,11 @@
 			    	"ApplyModifier"
 			    	{
 			    		"ModifierName"	"modifier_knight_cuirass_damage_return_lua"
-			    		"Target"		"CASTER"
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 			    	}
 			    }
 			    "OnDestroy"
@@ -4126,14 +4776,15 @@
 			    	"RemoveModifier"
 			    	{
 			    		"ModifierName"	"modifier_knight_cuirass_damage_return_lua"
-			    		"Target"		"CASTER"
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
 			    	}
 			    }
 			  
 			}   
-		}
-		"Modifiers"
-		{
 			"modifier_item_lia_knight_cuirass_ability" 
 			{
 				//"IsHidden"				"1"
@@ -4146,6 +4797,7 @@
 	   			"EffectAttachType" 		"follow_origin"
 			}
 		}
+	
 		"AbilitySpecial"
 		{
 			"01"
@@ -4190,8 +4842,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"265"	
+		"ItemCost"						"300"	
 		"ItemShopTags"					"armor;health_pool;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4207,7 +4861,7 @@
 	{
 		"ID"							"1323"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"550"
+		"ItemCost"						"565"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4230,6 +4884,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
@@ -4289,6 +4944,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"900"	
 		"ItemShopTags"					"crit;damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4301,11 +4958,10 @@
 	}
 	
 	"item_lia_lightning_bow"
-	
 	{
 		"ID"							"1357"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"2980"
+		"ItemCost"						"2960"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4382,7 +5038,11 @@
 		{
 			"ApplyModifier"
 			{
-				"Target"			"CASTER"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"ModifierName"		"item_lighting_bow_heaven_wrath_modifier"
 				"Duration"			"%heaven_wrath_duration"
 			}
@@ -4395,6 +5055,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" 		"%bonus_agility"
@@ -4414,8 +5075,12 @@
 						{
 							"ApplyModifier"
 							{
+								"Target"
+								{
+									"Center"	"CASTER"
+									"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+								}
 								"ModifierName" 	"modifier_item_lia_lightning_bow_crit"
-								"Target"    	"CASTER"
 								"Duration"		"%heaven_wrath_duration"    
 							}        
 						}
@@ -4436,7 +5101,11 @@
 					"RemoveModifier"
 					{
 						"ModifierName"  "modifier_item_lia_lightning_bow_crit"
-						"Target"    "CASTER"    
+						"Target"
+						{
+							"Center"	"CASTER"
+							"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}  
 					}
 	
 					// Basic blood particle effect
@@ -4486,8 +5155,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"250"	
+		"ItemCost"						"230"	
 		"ItemShopTags"					"crit;damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4588,6 +5259,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
@@ -4655,8 +5327,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"505"	
+		"ItemCost"						"500"	
 		"ItemShopTags"					"agi;str;int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4674,7 +5348,7 @@
 	{
 		"ID"							"1451"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1700"
+		"ItemCost"						"1690"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4692,12 +5366,12 @@
 		{
 			"soundfile"			"soundevents/game_sounds_heroes/game_sounds_luna.vsndevts"
 			"particle"			"particles/units/heroes/hero_luna/luna_eclipse_impact.vpcf"
-			"particle"			"particles/units/heroes/hero_luna/luna_eclipse.vpcf"
+			"particle"			"particles/luna_eclipse_cast_moonlight_glow_ti_5.vpcf"
 		}
 		
 		"OnSpellStart"
 		{
-				"FireSound"
+			"FireSound"
 			{
 				"EffectName"	"Hero_Luna.Eclipse.Cast"
 				"Target" 		"TARGET"
@@ -4705,7 +5379,7 @@
 	
 			"FireEffect"
 			{
-				"EffectName"        "particles/units/heroes/hero_luna/luna_eclipse.vpcf"
+				"EffectName"        "particles/luna_eclipse_small.vpcf"
 				"EffectAttachType"  "follow_origin"
 				"Target"            "TARGET"
 	
@@ -4716,9 +5390,14 @@
 					"TARGET"	"attach_origin"
 				}
 			}
+			
 			"ApplyModifier"
 			{
-				"Target"		"TARGET"
+				"Target"
+				{
+					"Center"	"TARGET"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
 				"ModifierName"	"modifier_item_lunar_necklace"	
 			}
 		}
@@ -4742,6 +5421,10 @@
 			{
 				"Duration"		"%duration"
 				"IsBuff"		"1"
+				"IsPurgable"	"1"
+	
+				"EffectName"        "particles/luna_eclipse_cast_moonlight_glow_ti_5.vpcf"
+				"EffectAttachType"  "follow_origin"
 	
 				"Properties"
 			    {
@@ -4751,9 +5434,10 @@
 				{
 					"RunScript"
 					{
-						"ScriptFile"	"items\LunarNecklace.lua"
-						"Function"		"OnCreatedModifier"
-						"stat_percent"	"%stat_percent"
+						"ScriptFile"		"items\LunarNecklace.lua"
+						"Function"			"OnCreatedModifier"
+						"stat_percent"		"%stat_percent"
+						"stat_bonus_max" 	"%stat_bonus_max"
 					}
 				}   
 			}
@@ -4778,7 +5462,7 @@
 			"04"
 			{
 				"var_type" "FIELD_INTEGER"
-				"duration" "11"
+				"duration" "6"
 			}
 			"05"
 			{
@@ -4789,6 +5473,11 @@
 			{
 				"var_type" "FIELD_INTEGER"
 				"bonus_magic_resist_percentage_active" "20"
+			}
+			"07"
+			{
+				"var_type" "FIELD_INTEGER"
+				"stat_bonus_max" "75"
 			}
 		}
 	}
@@ -4806,8 +5495,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"800"	
+		"ItemCost"						"650"	
 		"ItemShopTags"					"damage;attack_speed;agi"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4815,7 +5506,7 @@
 		"ItemResult"					"item_lia_magic_bow"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_runed_gloves;item_lia_spear;item_lia_necklace"
+			"01"						"item_lia_runed_gloves;item_lia_spear;item_lia_thugs_dagger"
 		}
 	}
 	
@@ -4823,7 +5514,7 @@
 	{
 		"ID"							"1327"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1200"
+		"ItemCost"						"1180"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4838,6 +5529,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%bonus_attack_speed"
@@ -4851,7 +5543,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_attack_speed" "100"
+				"bonus_attack_speed" "70"
 			}
 			"02"
 			{
@@ -4880,8 +5572,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"425"	
+		"ItemCost"						"280"	
 		"ItemShopTags"					"armor"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4897,7 +5591,7 @@
 	{
 		"ID"							"1315"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"600"
+		"ItemCost"						"475"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4912,6 +5606,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
@@ -4929,7 +5624,7 @@
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"evasion_percent" "25"
+				"evasion_percent" "15"
 			}
 		}
 	}
@@ -4948,8 +5643,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"550"	
+		"ItemCost"						"450"	
 		"ItemShopTags"					"str;agi;int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -4957,7 +5654,7 @@
 		"ItemResult"					"item_lia_magic_necklace"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_staff;item_lia_necklace;item_lia_gloves_of_strength"
+			"01"						"item_lia_staff;item_lia_thugs_dagger;item_lia_gloves_of_strength"
 		}
 	}
 	
@@ -4965,7 +5662,7 @@
 	{
 		"ID"							"1408"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1055"
+		"ItemCost"						"1050"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -4980,6 +5677,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"
@@ -5014,6 +5712,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"300"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -5044,6 +5744,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intelligence"
@@ -5146,6 +5847,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"400"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -5170,15 +5873,6 @@
 		"AbilityTextureName"			"item_lia_mana_staff"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		
-		"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "modifier_item_mana_staff_aura_emitter"
-			}
-		}
 		
 		"Modifiers"
 		{
@@ -5187,6 +5881,13 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+	
+				"Aura" 					"modifier_item_mana_staff_aura"
+				"Aura_Radius" 			"%aura_radius"
+				"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				"Aura_Flags" 			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+				"Aura_ApplyToCaster" 	"1"
 				
 				"Properties"
 				{
@@ -5197,20 +5898,15 @@
 			"modifier_item_lia_mana_staff_aura_emitter"
 			{
 				"Passive"				"1"
-				"IsHidden"				"0"
+				"IsHidden"				"1"
 				
-				"Aura" 					"modifier_item_mana_staff_aura"
-				"Aura_Radius" 			"%aura_radius"
-				"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-				"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-				"Aura_Flags" 			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-				"Aura_ApplyToCaster" 	"1"
+	
 			}
 			"modifier_item_mana_staff_aura"
 			{
 				"Passive"			"1"
-				"IsHidden"			"1"
-				
+				"IsHidden"			"0"
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT_UNIQUE"						"4.0"  //This is hardcoded due to an obscure engine bug.
@@ -5278,7 +5974,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MANA_BONUS"			"%bonus_mana"
@@ -5301,6 +5997,7 @@
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"AbilitySharedCooldown" "ReplenishMana"
 	
+		"Model"							"models/props_gameplay/halloween_candy.vmdl"
 	
 		
 		"BaseClass"						"item_datadriven"
@@ -5345,7 +6042,7 @@
 				"ScriptFile"		"items.lua"
 				"Function"			"ReplenishMana"
 				"Target"			"UNIT"
-				"mana_amount"		"%manà_amount"
+				"mana_amount"		"%mana_amount"
 			}
 	
 			
@@ -5363,13 +6060,59 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"manà_amount"				"250"
+				"mana_amount"				"250"
 			}
 		}
 			
 	
 	}
 	//End of file item_lia_mana_stone_potion.txt
+
+
+	//Start of file item_lia_mantle.txt
+	"item_lia_mantle"
+		{
+	
+			"ID"							"1489"
+			"ItemCost"						"85"
+			"ItemKillable" "0" 
+			"ItemDroppable" "1"
+			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+			"ItemSellable"                  "1"
+			"ItemPurchasable"		 "1"
+			"ItemQuality"					"component"
+	
+			
+			"AbilityTextureName"			"item_lia_mantle"
+			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+			"BaseClass" "item_datadriven"
+			// Special	
+			//-------------------------------------------------------------------------------------------------------------
+			"AbilitySpecial"
+			{
+				"01"
+				{
+					"var_type"				"FIELD_INTEGER"
+					"bonus_intelligence"	"6"
+				}
+			}
+			
+			"Modifiers"
+			{
+				"modifier_item_lia_mantle"
+				{
+					"Passive"			"1"
+					"IsHidden"			"1"
+					"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+					"AllowIllusionDuplicate"    "1"
+					"Properties"
+					{
+						"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					}
+				}
+			}
+		}
+	//End of file item_lia_mantle.txt
 
 
 	//Start of file item_lia_mask.txt
@@ -5407,7 +6150,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"		"%bonus_mana_regen_percentage"
@@ -5416,6 +6159,71 @@
 		}
 		}
 	//End of file item_lia_mask.txt
+
+
+	//Start of file item_lia_mask_of_death.txt
+	"item_lia_mask_of_death"
+	{
+		"ID"							"1488"
+		"BaseClass" 					"item_datadriven"
+		"ItemCost"						"200"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"common"
+		"AbilityTextureName"			"item_lia_mask_of_death"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_ATTACK"
+		"Modifiers"
+		{
+			"modifier_item_mask_of_death"
+			{
+				"Passive"          "1"    
+			    "IsHidden"         "1"
+				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Orb"
+				{
+					"Priority"		"DOTA_ORB_PRIORITY_ITEM"
+				}
+	
+				"OnOrbImpact"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"items\mask_of_death.lua"
+						"Function"				"modifier_item_mask_of_death_on_orb_impact"
+					}
+				}
+			}
+			"modifier_item_mask_of_death_lifesteal"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"		
+				"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			
+						{
+							"Center"	"ATTACKER"
+							"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+						}
+						"LifestealPercent"	"%lifesteal_percent"
+					}
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"lifesteal_percent" "10"
+			}
+		}
+	}
+	
+	//End of file item_lia_mask_of_death.txt
 
 
 	//Start of file item_lia_mithril_armor.txt
@@ -5429,8 +6237,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"250"	
+		"ItemCost"						"330"	
 		"ItemShopTags"					"health;armor;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -5454,6 +6264,7 @@
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"item_lia_mithril_armor"
+		"ItemKillable" 					"0" 
 		
 		"precache"
 		{
@@ -5465,6 +6276,8 @@
 		"AbilityCooldown"				"14.0"
 	
 		"AbilityManaCost"				"80"	
+	
+		"AbilitySharedCooldown" "Taunt"
 	
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -5495,7 +6308,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"500"
+				"radius"				"400"
 			}
 			"05"
 			{
@@ -5535,11 +6348,10 @@
 			
 				"Action"    
 				{
-					"ApplyModifier"
+					"RunScript"
 					{
-						"ModifierName"	"modifier_beserkers_call_enemy_datadriven"
-						"Target" 		"TARGET"
-						"Duration"		"%duration"
+						"ScriptFile"	"items/mithril_armor.lua"
+						"Function"		"ApplyTaunt"
 					}
 				}
 			}
@@ -5551,7 +6363,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
@@ -5562,7 +6374,7 @@
 				
 			}
 	
-			"modifier_beserkers_call_enemy_datadriven"
+			"modifier_item_lia_mithril_armor_taunt"
 			{
 				"IsPurgable"		"0"
 				"IsDebuff"			"1"
@@ -5587,6 +6399,11 @@
 						"ScriptFile"	"items/mithril_armor.lua"
 						"Function"		"TauntEnd"
 					}
+				}
+	
+				"States"
+				{
+					"MODIFIER_STATE_MUTED"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -5636,7 +6453,7 @@
 				  "Passive"			"1"
 				  "IsHidden"			"1"
 				  "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				  "AllowIllusionDuplicate"    "1"
 				  "Properties"
 				  {
 				   "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_agility"
@@ -5678,7 +6495,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"		"20"
+				"bonus_damage"		"15"
 			}
 			"02"
 			{
@@ -5687,6 +6504,10 @@
 			}
 		}
 		
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
+		}
 	
 		"Modifiers"
 		{
@@ -5703,7 +6524,7 @@
 				"Orb"
 				{
 					"Priority"			"DOTA_ORB_PRIORITY_ITEM"
-					"ProjectileName"    "particles\items_fx\desolator_projectile.vpcf"
+					"ProjectileName"    "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
 				}
 				"OnOrbFire"
 				{
@@ -5748,8 +6569,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"500"	
+		"ItemCost"						"400"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -5765,7 +6588,7 @@
 	{
 		"ID"							"1466"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"870"
+		"ItemCost"						"770"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -5773,16 +6596,7 @@
 		"ItemQuality"					"common"
 		"AbilityTextureName"			"item_lia_orb_of_frost"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		
-		"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "orb_of_frost_aura_Modifier"
-			}
-		}
+	
 	
 		"Modifiers"
 		{
@@ -5791,6 +6605,12 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	
+			    "Aura" "orb_of_frost_aura_armor"
+	    		"Aura_Radius" "900"
+	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+	
 			    "Properties"
 			    {
 					"MODIFIER_PROPERTY_MANA_BONUS"			"%bonus_mana"
@@ -5824,55 +6644,26 @@
 				}
 				"EffectName"    "particles/generic_gameplay/generic_slowed_cold.vpcf"
 				"EffectAttachType" "attach_hitloc"
-				"Target" "TARGET"
-	
 			}
 			"orb_of_frost_aura_armor"
 	   		{
 	    	
 		    	"IsBuff" "1"
 		    	"IsPurgable" "0"
-		    	"OnCreated"
-		    	{	
-	
-		    		"RunScript"
-		    		{
-		    			"ScriptFile"	"items/StormwindHorn.lua"
-		    			"Function"		"CalcRegeneration"
-		    		}
-	
-		    	}
-		    	"OnDestroy"
-		    	{
-					"RunScript"
-	    			{
-				        "ScriptFile"    "items/StormwindHorn.lua"
-				        "Function"      "AuraNone"	
-					}
-		    	}
 	
 		    	"Properties"
 		    	{
 		     		"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE" "%bonus_movement_speed_percent"
+		     		"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
 		    	}
 		    }
-			 "orb_of_frost_aura_Modifier"
-	   		{
-	    		"Passive" "1"
-	    		"IsHidden" "1"
-	    		"Aura" "orb_of_frost_aura_armor"
-	    		"Aura_Radius" "900"
-	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
-	
-	   		}
 		}
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_mana" "500"
+				"bonus_mana" "400"
 			}
 			"02"
 			{
@@ -5886,9 +6677,9 @@
 		   	}
 			"04"
 		   	{
-			    "var_type" "FIELD_INTEGER"
-			    "regen_percent" "80"
-		   	}
+				"var_type" "FIELD_INTEGER"
+				"bonus_attack_speed" "20"
+			}
 			"05"
 		   	{
 			    "var_type" "FIELD_INTEGER"
@@ -5925,8 +6716,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"265"	
+		"ItemCost"						"280"	
 		"ItemShopTags"					"agi;damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -5957,6 +6750,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_agility"
@@ -5970,7 +6764,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_attack_speed" "50"
+				"bonus_attack_speed" "35"
 			}
 			"02"
 			{
@@ -6003,6 +6797,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"600"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -6018,7 +6814,7 @@
 	{
 		"ID"							"1422"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1380"
+		"ItemCost"						"1390"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -6054,6 +6850,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
@@ -6324,6 +7121,11 @@
 				"ModifierName"	"modifier_potion_of_invulnerability"
 				"Duration"		"%duration"
 			}
+			"RunScript"
+			{
+				"ScriptFile"	"items\PotionOfInvulnerability.lua"
+				"Function"		"Purge"
+			}	
 			"SpendCharge"
 			{}	
 		}
@@ -6345,6 +7147,195 @@
 	//End of file item_lia_potion_of_invulnerability.txt
 
 
+	//Start of file item_lia_pure_light.txt
+	"item_recipe_lia_pure_light"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1486"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"705"	
+		"ItemShopTags"					"regen"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_pure_light"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_mana_staff;item_lia_ring_of_regeneration"
+		}
+	}
+	
+	"item_lia_pure_light"
+	{
+		"ID"							"1487"
+		"BaseClass" 					"item_datadriven"
+		"ItemCost"						"1500"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"rare"
+		"AbilityTextureName"			"item_lia_pure_light"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	
+		"AbilityCooldown"				"30"
+		"AbilityManaCost"				"350"
+	 	"AbilityCastRange"         		"600"
+	
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_puck/puck_dreamcoil.vpcf"
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts"
+			"particle"  "particles/templar_assassin_trap_rings_butterfly.vpcf"
+		}
+		
+		"OnUnequip" 
+		{
+			"RunScript"
+			{
+				"ScriptFile" "items\AuraFix.lua"
+				"Function"  "OnUnequip"
+				"ModifierName" "modifier_item_pure_light_aura_emitter"
+			}
+		}
+	
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"    "dummy_unit_pure_light"
+				"Target"     "POINT"
+				"Duration"    "%totem_duration"
+				"UnitCount"    "1"
+			}
+			"CreateThinker"
+			{
+				"ModifierName"	"modifier_item_lia_pure_light_radius_check_thinker"
+				"Target" 		"POINT"
+			}
+		}
+		
+		"Modifiers"
+		{
+			"modifier_item_lia_pure_light"
+			{
+				"Passive"			"1"
+				"IsHidden"			"1"
+				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MANA_BONUS"			"%bonus_mana"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+				}
+			}
+			"modifier_item_lia_pure_light_aura_emitter"
+			{
+				"Passive"				"1"
+				"IsHidden"				"1"
+				
+				"Aura" 					"modifier_item_pure_light_aura"
+				"Aura_Radius" 			"%aura_radius"
+				"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				"Aura_ApplyToCaster" 	"1"
+			}
+			"modifier_item_pure_light_aura"
+			{
+				"Passive"			"1"
+				"IsHidden"			"0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT_UNIQUE"	"%aura_mana_regen"  
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"		"%aura_health_regen"
+				}
+			}
+			"modifier_item_lia_pure_light_radius_check_thinker"
+		    {
+		      "Aura"         	"modifier_item_lia_pure_light_radius_check"
+		      "Aura_Radius"     "%totem_radius"
+		      "Aura_Teams"      "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		      "Aura_Types"      "DOTA_UNIT_TARGET_HERO"
+		      "Aura_Flags"      "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+		      "Duration"        "%totem_duration"
+	
+		      "OnCreated"
+		      {
+		        "AttachEffect"
+		        {
+		          "EffectName"    "particles/templar_assassin_trap_rings_butterfly.vpcf"
+		          "EffectAttachType"  "follow_origin"
+		          "Target"      "TARGET"
+		        }
+		      }
+		    }
+		    "modifier_item_lia_pure_light_radius_check"
+	    	{
+			  "IsDebuff"    "0"
+			  "IsHidden"    "1"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana"			"350"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_intelligence" "25"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"aura_mana_regen"		"15"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"aura_health_regen"		"15"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"aura_radius"			"1000"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"totem_damage_reduction"		"60"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"totem_duration"		"6"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"totem_targets"		"3"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"totem_radius"			"600"
+			}
+			
+		}
+	}
+	//End of file item_lia_pure_light.txt
+
+
 	//Start of file item_lia_rage_sword_agi.txt
 	"item_recipe_lia_blade_of_rage_agi"
 	
@@ -6359,6 +7350,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"600"	
 		"ItemShopTags"					"agi;damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -6366,7 +7359,7 @@
 		"ItemResult"					"item_lia_blade_of_rage_agi"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_pantilus_blade"
+			"01"						"item_lia_steel_sword;item_lia_runed_gloves;item_lia_thugs_dagger"
 		}
 	}
 	
@@ -6374,7 +7367,7 @@
 	{
 		"ID"							"1329"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1120"
+		"ItemCost"						"1065"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -6384,6 +7377,12 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityCooldown"				"16"
 		"AbilityManacost"				"90"
+	
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_morphling/morphling_morph_agi.vpcf"
+		}
+	
 		"OnSpellStart"
 		{
 			"ApplyModifier"
@@ -6399,6 +7398,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		    "%bonus_agility"
@@ -6411,6 +7411,10 @@
 				"Duration"		"%duration"
 				"Attributes" 	"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 				"IsBuff"		"1"
+	
+				"EffectName"	"particles/units/heroes/hero_morphling/morphling_morph_agi.vpcf"
+				"EffectAttachType"	"follow_origin"
+	
 				"OnCreated"
 				{
 					"RunScript"
@@ -6435,7 +7439,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_attack_speed" "80"
+				"bonus_attack_speed" "55"
 			}
 			"02"
 			{
@@ -6463,6 +7467,137 @@
 	//End of file item_lia_rage_sword_agi.txt
 
 
+	//Start of file item_lia_rage_sword_int.txt
+	"item_recipe_lia_blade_of_rage_int"
+	
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1530"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"600"	
+		"ItemShopTags"					"int;damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_blade_of_rage_int"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_steel_sword;item_lia_runed_gloves;item_lia_staff"
+		}
+	}
+	
+	"item_lia_blade_of_rage_int"
+	{
+		"ID"							"1531"
+		"BaseClass" 					"item_datadriven"
+		"ItemCost"						"1065"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemQuality"					"rare"
+		"AbilityTextureName"			"item_lia_blade_of_rage_int"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityCooldown"				"16"
+		"AbilityManacost"				"90"
+	
+		"precache"
+		{
+			"particle"  "particles/morphling_morph_int.vpcf"
+		}
+	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"		"CASTER"
+				"ModifierName"	"modifier_item_blade_of_rage_int"	
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_item_lia_blade_of_rage_int"
+			{
+				"Passive"          "1"    
+			    "IsHidden"         "1"
+			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
+			    "Properties"
+			    {
+			    	"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		    "%bonus_intellect"
+			    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%bonus_attack_speed"
+			    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" 		"%bonus_damage"
+			    }  
+			}
+			"modifier_item_blade_of_rage_int"
+			{
+				"Duration"		"%duration"
+				"Attributes" 	"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+				"IsBuff"		"1"
+	
+				"EffectName"	"particles/morphling_morph_int.vpcf"
+				"EffectAttachType"	"follow_origin"
+				
+				"OnCreated"
+				{	
+					"RunScript"
+					{
+						"ScriptFile"	"items\BladeOfRageInt.lua"
+						"Function"		"OnCreatedModifier"
+						"int_percent"	"%int_percent"
+					}
+				}  
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"items\BladeOfRageInt.lua"
+						"Function"		"OnDestroyModifier"
+					}
+				}  
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_attack_speed" "55"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_damage" "50"
+			}
+			"03"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_intellect" "25"
+			}
+			"04"
+			{
+				"var_type" "FIELD_INTEGER"
+				"duration" "5"
+			}
+			"05"
+			{
+				"var_type" "FIELD_INTEGER"
+				"int_percent" "75"
+			}
+		}
+	}
+	
+	//End of file item_lia_rage_sword_int.txt
+
+
 	//Start of file item_lia_rage_sword_str.txt
 	"item_recipe_lia_blade_of_rage_str"
 	
@@ -6477,6 +7612,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"600"	
 		"ItemShopTags"					"str;damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -6492,7 +7629,7 @@
 	{
 		"ID"							"1331"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1105"
+		"ItemCost"						"1065"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -6502,6 +7639,12 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityCooldown"				"16"
 		"AbilityManacost"				"90"
+	
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_morphling/morphling_morph_str.vpcf"
+		}
+	
 		"OnSpellStart"
 		{
 			"ApplyModifier"
@@ -6517,6 +7660,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		    "%bonus_strength"
@@ -6529,6 +7673,10 @@
 				"Duration"		"%duration"
 				"Attributes" 	"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 				"IsBuff"		"1"
+	
+				"EffectName"	"particles/units/heroes/hero_morphling/morphling_morph_str.vpcf"
+				"EffectAttachType"	"follow_origin"
+				
 				"OnCreated"
 				{	
 					"RunScript"
@@ -6553,7 +7701,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_attack_speed" "80"
+				"bonus_attack_speed" "55"
 			}
 			"02"
 			{
@@ -6586,7 +7734,7 @@
 		{
 	
 			"ID"							"1107"
-			"ItemCost"						"100"
+			"ItemCost"						"80"
 			"ItemKillable" "0" 
 			"ItemDroppable" "1"
 			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -6616,7 +7764,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+				"AllowIllusionDuplicate"    "1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
@@ -6707,7 +7855,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
@@ -6729,8 +7877,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"105"	
+		"ItemCost"						"100"	
 		"ItemShopTags"					"damage;attack_speed"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -6746,7 +7896,7 @@
 	{
 		"ID"							"1305"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"225"
+		"ItemCost"						"220"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -6761,6 +7911,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
@@ -6786,15 +7937,14 @@
 	//End of file item_lia_runed_gloves.txt
 
 
-	//Start of file item_lia_rune_of_healing.txt
-	    "item_lia_rune_of_healing"
+	//Start of file item_lia_rune_gold.txt
+	    "item_lia_rune_gold"
 	{
-		"ID"                            "1601"
+		"ID"                            "1608"
 		"BaseClass"                     "item_datadriven"
-		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-	
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		
-		"Model"							"models/props_gameplay/rune_regeneration01.vmdl"
+		"Model"							"models/props_gameplay/gold_coin001.vmdl"
 		
 		"ItemCost"                      "0" 
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
@@ -6808,7 +7958,157 @@
 		"ItemInitialCharges"            "1"
 		"ItemStackable"					"0"
 		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
 	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge" 
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneGold"
+			}
+	
+			//"FireSound"
+			//{
+			//	"EffectName"	"Rune.Bounty"
+			//	"Target" 		"CASTER"
+			//}	
+		}
+	
+	
+	
+	}
+	//End of file item_lia_rune_gold.txt
+
+
+	//Start of file item_lia_rune_lumber.txt
+	    "item_lia_rune_lumber"
+	{
+		"ID"                            "1609"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		
+		"Model"							"models/props_gameplay/branch.vmdl"
+		
+		"ItemCost"                      "0" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge" 
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneLumber"
+			}
+	
+			"FireSound"
+			{
+				"EffectName"	"Rune.Bounty"
+				"Target" 		"CASTER"
+			}
+		}
+	
+	
+	
+	}
+	//End of file item_lia_rune_lumber.txt
+
+
+	//Start of file item_lia_rune_of_agility.txt
+	    "item_lia_rune_of_agility"
+	{
+		"ID"                            "1606"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		
+		"Model"							"models/props_gameplay/rune_illusion01.vmdl"
+		"Effect"						"particles/rune_lifeinarena_green.vpcf"
+	
+		"precache"
+		{
+			"particle"  "particles/rune_lifeinarena_green.vpcf"
+		}
+		
+		"ItemCost"                      "99999" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneOfAgility"
+			}
+			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Illusion"
+				"Target" 		"CASTER"
+			}
+		}
+	
+	
+	
+	}
+	//End of file item_lia_rune_of_agility.txt
+
+
+	//Start of file item_lia_rune_of_healing.txt
+	    "item_lia_rune_of_healing"
+	{
+		"ID"                            "1601"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+	
+		
+		"Model"							"models/props_gameplay/rune_regeneration01.vmdl"
+		"Effect"						"particles/generic_gameplay/rune_regeneration.vpcf"
+		
+		"ItemCost"                      "0" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+		
 		"precache"
 		{
 			"particle"  "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodbath_heal.vpcf"
@@ -6826,6 +8126,7 @@
 					"Radius" 	"%radius"
 					"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 				}
 			
 				"Action"    
@@ -6843,7 +8144,11 @@
 					}
 				}
 			}
-			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Regen"
+				"Target" 		"CASTER"
+			}
 		}
 		"AbilitySpecial"
 		{
@@ -6862,14 +8167,20 @@
 	//End of file item_lia_rune_of_healing.txt
 
 
-	//Start of file item_lia_rune_of_mana.txt
-	    "item_lia_rune_of_mana"
+	//Start of file item_lia_rune_of_intellect.txt
+	    "item_lia_rune_of_intellect"
 	{
-		"ID"                            "1602"
+		"ID"                            "1607"
 		"BaseClass"                     "item_datadriven"
-		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		
-		"Model"							"models/props_gameplay/rune_doubledamage01.vmdl"
+		"Model"							"models/props_gameplay/rune_illusion01.vmdl"
+		"Effect"						"particles/rune_lifeinarena_blue.vpcf"
+	
+		"precache"
+		{
+			"particle"  "particles/rune_lifeinarena_blue.vpcf"
+		}
 		
 		"ItemCost"                      "0" 
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
@@ -6883,7 +8194,160 @@
 		"ItemInitialCharges"            "1"
 		"ItemStackable"					"0"
 		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
 	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneOfIntellect"
+			}
+			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Illusion"
+				"Target" 		"CASTER"
+			}
+		}
+	
+	
+	
+	}
+	//End of file item_lia_rune_of_intellect.txt
+
+
+	//Start of file item_lia_rune_of_lifesteal.txt
+	    "item_lia_rune_of_lifesteal"
+	{
+		"ID"                            "1610"
+		"BaseClass"                     "item_lua"
+		"ScriptFIle"					"items\runes.lua"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		
+		"Model"							"models/props_gameplay/rune_haste01.vmdl"
+		"Effect"						"particles/generic_gameplay/rune_haste.vpcf"
+	
+		"precache"
+		{
+			"particle" "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodrage_ground_eztzhok.vpcf"
+		}
+		
+		"ItemCost"                      "99999" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"15"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"50"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lifesteal_percent"		"100"
+			}
+		}
+	}
+	//End of file item_lia_rune_of_lifesteal.txt
+
+
+	//Start of file item_lia_rune_of_luck.txt
+	    "item_lia_rune_of_luck"
+	{
+		"ID"                            "1611"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		
+		"Model"							"models/props_gameplay/rune_goldxp.vmdl"
+		"Effect"						"particles/generic_gameplay/rune_bounty.vpcf"
+	
+		
+		"ItemCost"                      "99999" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneOfLuck"
+			}
+			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Bounty"
+				"Target" 		"CASTER"
+			}
+		}
+	
+	
+	
+	}
+	//End of file item_lia_rune_of_luck.txt
+
+
+	//Start of file item_lia_rune_of_mana.txt
+	    "item_lia_rune_of_mana"
+	{
+		"ID"                            "1602"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		
+		"Model"							"models/props_gameplay/rune_regeneration01.vmdl"
+		"Effect"						"particles/rune_mana.vpcf"
+		"ItemCost"                      "0" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+		
+		"precache"
+		{
+			"particle"  "particles/rune_mana.vpcf"
+		}
 	
 		"OnSpellStart"
 		{
@@ -6897,6 +8361,7 @@
 					"Radius" 	"%radius"
 					"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 				}
 			
 				"Action"    
@@ -6916,6 +8381,11 @@
 				}
 			}
 			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Regen"
+				"Target" 		"CASTER"
+			}
 		}
 		"AbilitySpecial"
 		{
@@ -6934,15 +8404,66 @@
 	//End of file item_lia_rune_of_mana.txt
 
 
+	//Start of file item_lia_rune_of_protection.txt
+	"item_lia_rune_of_protection"
+	{
+		"ID"                            "1612"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityTextureName"			"rune_arcane"
+		
+		"Model"							"models/props_gameplay/rune_arcane.vmdl"
+		"Effect"						"particles/generic_gameplay/rune_arcane.vpcf"
+	
+		
+		"ItemCost"                      "99999" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneOfProtection"
+			}
+		}
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"1400"
+			}
+	
+		}
+	}
+	//End of file item_lia_rune_of_protection.txt
+
+
 	//Start of file item_lia_rune_of_restoration.txt
 	    "item_lia_rune_of_restoration"
 	{
 		"ID"                            "1603"
 		"BaseClass"                     "item_datadriven"
-		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		
-		"Model"							"models/props_gameplay/rune_invisibility01.vmdl"
-		
+		"Model"							"models/props_gameplay/rune_regeneration01.vmdl"
+		"Effect"						"particles/rune_restoretion.vpcf"
 		"ItemCost"                      "0" 
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemShopTags"					"consumable"
@@ -6955,10 +8476,12 @@
 		"ItemInitialCharges"            "1"
 		"ItemStackable"					"0"
 		"ItemCastOnPickup" 				"1"	
-	
+		"ItemPurchasable"				"0"
+		
 		"precache"
 		{
 			"particle"  "particles/units/heroes/hero_keeper_of_the_light/keeper_of_the_light_chakra_magic.vpcf"
+			"particle"	"particles/rune_restoretion.vpcf"
 			"soundfile" "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts"
 		}
 	
@@ -6974,6 +8497,7 @@
 					"Radius" 	"%radius"
 					"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 				}
 			
 				"Action"    
@@ -6997,7 +8521,12 @@
 					}
 				}
 			}
-			
+		
+			"FireSound"
+			{
+				"EffectName"	"Rune.Regen"
+				"Target" 		"CASTER"
+			}
 		}
 		"AbilitySpecial"
 		{
@@ -7021,8 +8550,159 @@
 	//End of file item_lia_rune_of_restoration.txt
 
 
+	//Start of file item_lia_rune_of_speed.txt
+	    "item_lia_rune_of_speed"
+	{
+		"ID"                            "1604"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityTextureName"			"item_lia_rune_of_speed"
+		"Model"							"models/props_gameplay/rune_doubledamage01.vmdl"
+		"Effect"						"particles/generic_gameplay/rune_doubledamage.vpcf"
+	
+		"precache"
+		{
+			"particle"  "particles/rune_mana.vpcf"
+			"particle"  "particles/units/heroes/hero_dark_seer/dark_seer_surge.vpcf"
+		}
+	
+		"ItemCost"                      "0" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+		
+		"AbilitySpecial"
+		{
+	
+			"1"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"2000"
+			}
+			"2"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"15"
+			}
+			"3"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed_bonus"			"200"
+			}
+		}
+	
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_rune_of_speed"
+	
+				"Target"
+				{
+					"Center" 	"CASTER"
+					"Radius" 	"%radius"
+					"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
+			}
+			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Haste"
+				"Target" 		"CASTER"
+			}
+		}
+	
+		"Modifiers"
+		{
+			"modifier_rune_of_speed"
+			{
+				"IsBuff"		"1"
+				"IsPurgable"	"1"
+				"Duration"		"%duration"
+				"TextureName"	"rune_doubledamage"
+	
+				"EffectName"		"particles/units/heroes/hero_dark_seer/dark_seer_surge.vpcf"
+				"EffectAttachType"	"follow_hitloc"
+	
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"	"%speed_bonus"
+				}
+			}
+		}
+	
+	}
+	//End of file item_lia_rune_of_speed.txt
+
+
+	//Start of file item_lia_rune_of_strength.txt
+	    "item_lia_rune_of_strength"
+	{
+		"ID"                            "1605"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		
+		"Model"							"models/props_gameplay/rune_illusion01.vmdl"
+		"Effect"						"particles/rune_lifeinarena_red.vpcf"
+	
+		"precache"
+		{
+			"particle"  "particles/rune_lifeinarena_red.vpcf"
+		}
+			
+		"ItemCost"                      "0" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "0"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "0"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"0"
+		"ItemCastOnPickup" 				"1"	
+		"ItemPurchasable"				"0"
+	
+	
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"RunScript"
+			{
+				"ScriptFile" 	"items\runes.lua"
+				"Function"		"RuneOfStrength"
+			}
+			
+			"FireSound"
+			{
+				"EffectName"	"Rune.Illusion"
+				"Target" 		"CASTER"
+			}
+		}
+	
+	
+	
+	}
+	//End of file item_lia_rune_of_strength.txt
+
+
 	//Start of file item_lia_scepter_of_power.txt
-	"item_recipe_lia_scepter_of_power"
+	"item_recipe_lia_staff_of_power"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
@@ -7034,18 +8714,20 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"200"	
 		"ItemShopTags"					"armor"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemRecipe"					"1"
-		"ItemResult"					"item_lia_scepter_of_power"
+		"ItemResult"					"item_lia_staff_of_power"
 		"ItemRequirements"
 		{
 			"01"						"item_lia_mask;item_lia_amulet_of_spell_shield;item_lia_runed_bracers"
 		}
 	}
 	
-	"item_lia_scepter_of_power"
+	"item_lia_staff_of_power"
 	{
 	
 			"ID"							"1462"
@@ -7059,7 +8741,7 @@
 	
 		"AbilityCooldown"				"15.0"
 			
-			"AbilityTextureName"			"item_lia_scepter_of_power"
+			"AbilityTextureName"			"item_lia_staff_of_power"
 			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 			"BaseClass" "item_datadriven"
 		"AbilitySpecial"
@@ -7088,7 +8770,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
@@ -7125,24 +8807,6 @@
 					{
 						"ScriptFile"			"items/ScepterOfPower.lua"
 						"Function"				"modifier_item_lia_amulet_of_spell_shield_on_interval_think"
-					}
-				}
-			}
-			//A modifier that is applied to a unit when they receive the modifier_item_sphere_target modifier.
-			//So long as they still have that modifier, this one will remain and provide a public face on the modifier icon bar.
-			//This modifier deletes itself when modifier_item_sphere_target no longer exists on the unit.
-			"modifier_item_lia_scepter_of_power_icon"
-			{
-				"Passive"			"0"
-				"IsHidden"			"0"
-				
-				"ThinkInterval" 		".03"
-				"OnIntervalThink"
-				{
-					"RunScript"
-					{
-						"ScriptFile"			"items/ScepterOfPower.lua"
-						"Function"				"modifier_item_lia_amulet_of_spell_shield_icon_on_interval_think"
 					}
 				}
 			}
@@ -7209,6 +8873,7 @@
 					"Radius" 	"%radius"
 					"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 					"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 				}
 			
 				"Action"    
@@ -7292,6 +8957,7 @@
 	                "Radius" "%radius"
 	                "Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY" 
 	                "Types" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+	                "Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 				}
 	
 				"Action"
@@ -7339,6 +9005,212 @@
 	//End of file item_lia_scroll_of_secret_knowledge.txt
 
 
+	//Start of file item_lia_seal_of_power.txt
+	"item_recipe_lia_seal_of_power_shop"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1480"						
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"                     "item_datadriven"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"550"	
+		"ItemShopTags"					"damage;armor"
+	
+		"ItemKillable" 					"0" 
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_lia_seal_of_power_shop"
+		"ItemRequirements"
+		{
+			"01"						"item_lia_spear;item_lia_helm"
+		}
+	}
+	
+	"item_lia_seal_of_power_shop"
+	{
+		"ID"							"1481"
+		"BaseClass" 					"item_datadriven"
+		"ScriptFile"					"items\SealOfPower.lua"
+		"ItemCost"						"860"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"1"
+		"ItemCastOnPickup" 				"1"	
+		"ItemQuality"					"rare"
+		"AbilityTextureName"			"item_lia_seal_of_power_shop"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
+	
+	
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"     "FIELD_INTEGER"
+				"bonus_damage" "50"
+			}
+			"02"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"bonus_armor" "15"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_needed_for_one_armor"	"20"				
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"armor_needed_for_one_damage"	"0.5"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_limit"	"200"				
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"armor_limit"	"30"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"stats_lose_percent"	"25"
+			}
+		}
+	
+		"OnEquip"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"items\SealOfPower.lua"
+				"Function"		"OnEquip"
+			}
+		}
+	}
+	
+	"item_lia_seal_of_power_armor"
+	{
+		"ID"							"1482"
+		"BaseClass" 					"item_lua"
+		"ScriptFile"					"items\SealOfPower.lua"
+		"ItemCost"						"875"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"0"
+		"ItemQuality"					"rare"
+		"AbilityTextureName"			"item_lia_seal_of_power_armor"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
+	
+	
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"     "FIELD_INTEGER"
+				"bonus_damage" "50"
+			}
+			"02"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"bonus_armor" "15"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_needed_for_one_armor"	"20"				
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"armor_needed_for_one_damage"	"0.5"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_limit"	"200"				
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"armor_limit"	"30"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"stats_lose_percent"	"25"
+			}
+		}
+	}
+	
+	"item_lia_seal_of_power_damage"
+	{
+		"ID"							"1483"
+		"BaseClass" 					"item_lua"
+		"ScriptFile"					"items\SealOfPower.lua"
+		"ItemCost"						"875"
+		"ItemKillable" 					"0" 
+		"ItemDroppable" 				"1"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 		"0"
+		"ItemQuality"					"rare"
+		"AbilityTextureName"			"item_lia_seal_of_power_damage"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
+	
+	
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"     "FIELD_INTEGER"
+				"bonus_damage" "50"
+			}
+			"02"
+			{
+				"var_type"  "FIELD_INTEGER"
+				"bonus_armor" "15"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_needed_for_one_armor"	"20"				
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"armor_needed_for_one_damage"	"0.5"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_limit"	"200"				
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"armor_limit"	"30"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"stats_lose_percent"	"25"
+			}
+		}
+	}
+	//End of file item_lia_seal_of_power.txt
+
+
 	//Start of file item_lia_shield_of_death.txt
 	"item_recipe_lia_shield_of_death"
 	{
@@ -7350,8 +9222,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"440"	
+		"ItemCost"						"400"	
 		"ItemShopTags"					"hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -7367,7 +9241,7 @@
 	{
 		"ID"							"1428"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1100"
+		"ItemCost"						"1060"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -7382,8 +9256,10 @@
 		
 	
 		"AbilityCastPoint"				"0.0"
-		"AbilityCooldown"				"12.0"
-		"AbilityManaCost"				"180"
+		"AbilityCooldown"				"14.0"
+		"AbilityManaCost"				"120"
+	
+		"AbilityCastRange"				"300"
 		
 		"precache"
 		{
@@ -7398,32 +9274,18 @@
 				"EffectName"	"Hero_Invoker.EMP.Discharge"
 				"Target"		"CASTER"
 			}
-				"AttachEffect"
+			"AttachEffect"
 			{
 				"EffectName"	"particles/units/heroes/hero_queenofpain/queen_scream_of_pain_owner.vpcf"
 				"EffectAttachType"	"attach_origin"
 				"Target"		"CASTER"
 			}
-			"ApplyModifier"
-			{
-				"ModifierName"	"modifier_item_shield_of_death_damage"
-				"Target"
-				{
-					"Center"	"CASTER"
-					"Radius"	"%radius"
-					"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				}
-			}
 		
-			"ApplyModifier"
+			"RunScript"
 			{
-				"ModifierName"	"modifier_item_shield_of_death_armor"
-				"Target"
-				{
-					"Center"  	"CASTER"
-					"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-				}
-			}		
+				"ScriptFile"	"items/shield_of_death.lua"
+				"Function"		"ApplyArmor"
+			}	
 	
 			"Damage"
 			{
@@ -7445,39 +9307,14 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
 					"MODIFIER_PROPERTY_HEALTH_BONUS"		"%bonus_health"
 				}
 			}
-			
-					"modifier_item_shield_of_death_damage"
-			{
-				"Passive"			"0"
-				"IsHidden"			"0"
-				"IsDebuff"			"1"
-		
-		
-			}
-			
-			"modifier_item_shield_of_death_armor"
-			{
-				"Passive"				"0"
-				"IsHidden"				"0"
-				"IsBuff"				"1"
-				"IsDebuff"				"0"
-				"IsPurgable"			"1"
-				"TextureName"			"item_lia_shield_of_death"
-				"Duration"				"%duration"
-				"Attributes"			"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 	
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%active_armor"
-				}
-			}
 		}
 		"AbilitySpecial"
 		{
@@ -7499,12 +9336,12 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"			"200"
+				"radius"			"300"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"active_armor"			"25"
+				"active_armor"			"20"
 			}
 			"06"
 			{
@@ -7529,6 +9366,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"350"	
 		"ItemShopTags"					"armor;regen_health;health_pool"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -7544,7 +9383,7 @@
 	{
 		"ID"							"1319"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"645"
+		"ItemCost"						"625"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -7559,6 +9398,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+	
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" 	"%bonus_armor"
@@ -7572,17 +9412,17 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_armor" "7"
+				"bonus_armor" "5"
 			}
 			"02"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_health" "400"
+				"bonus_health" "250"
 			}
 			"03"
 			{
 				"var_type" "FIELD_INTEGER"
-				"bonus_health_regen" "15"
+				"bonus_health_regen" "10"
 			}
 		}
 	}
@@ -7603,13 +9443,14 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"					"90"
+		"ItemCost"					"110"
 		"ItemShopTags"					"damage"
 		"ItemAliases"					"spear"
 		"ItemDroppable"                                 "1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemSellable"                                  "1"
 		"ItemPurchasable"		                "1"
+		"ItemKillable" 					"0" 
 		"ItemQuality"					"component"
 	
 		// Special	
@@ -7630,7 +9471,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
@@ -7654,6 +9495,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"1000"	
 		"ItemShopTags"					"int;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -7845,7 +9688,7 @@
 				    "Passive"          "1"    
 				    "IsHidden"         "1"
 				   	"Attributes" 	   "MODIFIER_ATTRIBUTE_MULTIPLE"
-		
+	
 				    "Properties"
 				    {
 						"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"		"%bonus_mana_regen_percentage"
@@ -7908,7 +9751,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
@@ -7932,6 +9775,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"330"	
 		"ItemShopTags"					"int;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -7996,7 +9841,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"700"
+		"ItemCost"						"680"
 		"ItemShopTags"					"mana;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
@@ -8019,7 +9864,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_armor_aura"			"5 8"
+				"bonus_armor_aura"			"7 10"
 			}
 			"04"
 			{
@@ -8029,7 +9874,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"healing"				"300 500"
+				"healing"				"500 700"
 			}
 			"06"
 			{
@@ -8048,15 +9893,7 @@
 			"particle"			"particles/units/heroes/hero_dazzle/dazzle_shadow_wave.vpcf"
 			"particle"			"particles/units/heroes/hero_dazzle/dazzle_shadow_wave_impact_damage.vpcf"
 		}
-		"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "modifier_item_staff_of_help_aura"
-			}
-		}
+	
 		"OnSpellStart"
 		{
 			"FireSound"
@@ -8077,22 +9914,18 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
+				"Aura" "modifier_item_staff_of_help_armor"
+	    		"Aura_Radius" "%radius_aura"
+	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+	
 				"Properties"
 				{
 			    	"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intelligence"
 					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"		"%bonus_mana_regen_percentage"
 				}
 			}
-	   		"modifier_item_staff_of_help_aura"
-	   		{
-	    		"Passive" "1"
-	    		"IsHidden" "0"
-	    		"Aura" "modifier_item_staff_of_help_armor"
-	    		"Aura_Radius" "%radius_aura"
-	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
-	   		}
 	 
 	   		"modifier_item_staff_of_help_armor"
 	   		{
@@ -8119,7 +9952,7 @@
 		"AbilityUnitTargetFlags"	  	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_lia_staff_of_help"
+		"AbilityTextureName"			"item_lia_staff_of_help_2"
 		
 		"UpgradesItems"					"item_lia_staff_of_help;item_lia_staff_of_help_2"
 		"UpgradeRecipe"					"item_recipe_lia_staff_of_help"
@@ -8139,7 +9972,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1030"
+		"ItemCost"						"1010"
 		"ItemShopTags"					"mana;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"basher"
@@ -8162,7 +9995,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_armor_aura"			"8"
+				"bonus_armor_aura"			"10"
 			}
 			"04"
 			{
@@ -8172,7 +10005,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"healing"				"500"
+				"healing"				"700"
 			}
 			"06"
 			{
@@ -8191,15 +10024,7 @@
 			"particle"	"particles/custom/dazzle_shadow_wave.vpcf"
 			"particle"	"particles/custom/dazzle_shadow_wave_copy.vpcf"
 		}
-		"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "modifier_item_staff_of_help_aura_2"
-			}
-		}
+	
 		"OnSpellStart"
 		{
 			"FireSound"
@@ -8220,7 +10045,12 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
+	    		"Aura" "modifier_item_staff_of_help_armor_2"
+	    		"Aura_Radius" "%radius_aura"
+	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+	
 				"Properties"
 				{
 			    	"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intelligence"
@@ -8229,16 +10059,6 @@
 				
 	
 			}
-	   		"modifier_item_staff_of_help_aura_2"
-	   		{
-	    		"Passive" "1"
-	    		"IsHidden" "0"
-	    		"Aura" "modifier_item_staff_of_help_armor_2"
-	    		"Aura_Radius" "%radius_aura"
-	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
-	
-	   		}
 	 
 	   		"modifier_item_staff_of_help_armor_2"
 	   		{
@@ -8269,6 +10089,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"600"	
 		"ItemShopTags"					"int;mana;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -8317,6 +10139,7 @@
 				"Passive"          "1"    
 			    "IsHidden"         "1"
 			    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+			    "AllowIllusionDuplicate"    "1"
 			    "Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_intelligence"
@@ -8380,6 +10203,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"700"	
 		"ItemShopTags"					"int"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -8446,6 +10271,8 @@
 	        	"Aura_Radius" 		"%aura_radius"
 	        	"Aura_Teams"  		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 	        	"Aura_Types"  		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	
+	        	
 	        	"Properties"
 			    {
 			    	"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" 		"%bonus_intelligence"
@@ -8606,7 +10433,7 @@
 		{
 	
 			"ID"							"1106"
-			"ItemCost"						"60"
+			"ItemCost"						"45"
 			"ItemKillable" "0" 
 			"ItemDroppable" "1"
 			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -8635,7 +10462,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
@@ -8680,9 +10507,9 @@
 		   	}
 			"02"
 		   	{
-			    "var_type" "FIELD_INTEGER"
-			    "regen_percent" "50"
-		   	}
+				"var_type" "FIELD_INTEGER"
+				"bonus_attack_speed" "15"
+			}
 			"03"
 		   	{
 			    "var_type" "FIELD_INTEGER"
@@ -8696,16 +10523,6 @@
 	  	}
 	
 		
-			"OnUnequip" 
-		{
-			"RunScript"
-			{
-				"ScriptFile" "items\AuraFix.lua"
-				"Function"  "OnUnequip"
-				"ModifierName" "horn_aura_Modifier"
-			}
-		}
-		
 	  	"Modifiers"
 	  	{
 	   		"modifier_item_lia_stormwind_horn"
@@ -8716,45 +10533,22 @@
 	    		"Aura_Radius" "900"
 	    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 	    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
-	
+				"Aura_Flags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ALLIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE" 
 	   		}
 	 
 	   		"horn_aura_armor"
 	   		{
-	    	
+	  	  		"Attributes"		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"  	
 		    	"IsBuff" "1"
 		    	"IsPurgable" "0"
-		    	"OnCreated"
-		    	{
-		    		"RunScript"
-		    		{
-		    			"ScriptFile"	"items/StormwindHorn.lua"
-		    			"Function"		"CalcRegeneration"
-		    		}
-		    	}
-		    	"OnDestroy"
-		    	{
-					"RunScript"
-	    			{
-				        "ScriptFile"    "items/StormwindHorn.lua"
-				        "Function"      "AuraNone"	
-					}
-		    	}
 	
 		    	"Properties"
 		    	{
 		     		"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE" "%bonus_movement_speed_percent"
+		     		"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
 		    	}
 		    }
-		    "horn_regeneration"
-	   		{
-	   			"IsHidden"	"0"
-	   			"Properties"
-		    	{
-		     		"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%regen"
-		    	}
 	
-	   		}
 	   	}
 	
 	}
@@ -8774,6 +10568,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"550"	
 		"ItemShopTags"					"damage;hard_to_tag"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -8812,7 +10608,7 @@
 	{
 		"ID"							"1459"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"785"
+		"ItemCost"						"750"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
@@ -8849,6 +10645,7 @@
 				"Passive"               "1"
 				"IsHidden"				"1"
 				"Attributes"			"MODIFIER_ATTRIBUTE_MULTIPLE"
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" 	    "%bonus_damage"
@@ -8906,7 +10703,7 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"	"20.0"
+				"duration"	"16.0"
 			}
 		}
 	}
@@ -8915,13 +10712,13 @@
 	{
 		"ID"							"1460"
 		"BaseClass" 					"item_datadriven"
-		"ItemCost"						"1335"
+		"ItemCost"						"1300"
 		"ItemKillable" 					"0" 
 		"ItemDroppable" 				"1"
 		"ItemSellable"                  "1"
 		"ItemPurchasable"		 		"1"
 		"ItemQuality"					"rare"
-		"AbilityTextureName"			"item_lia_sword_of_solidarity"
+		"AbilityTextureName"			"item_lia_sword_of_solidarity_2"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"				   
 	    "AbilityCooldown"        		"28"
 	
@@ -9009,11 +10806,63 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"	"20.0"
+				"duration"	"16.0"
 			}
 		}
 	}
 	//End of file item_lia_sword_of_solidarity.txt
+
+
+	//Start of file item_lia_thugs_dagger.txt
+	"item_lia_thugs_dagger"
+		{    
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	        "BaseClass"						"item_datadriven"
+	        "ID"							"1490"
+			"AbilityBehavior"				        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+			"Model"							"models/props_gameplay/red_box.vmdl" 
+			"AbilityTextureName"		    "item_lia_thugs_dagger"
+			
+			// Item Info
+		        //-------------------------------------------------------------------------------------------------------------
+			"ItemCost"					"200"
+			"ItemQuality"					"component"
+	                
+	                
+			"ItemKillable"                                  "0" 
+			"ItemDroppable"                                 "1"
+			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+			"ItemSellable"                                  "1"
+			"ItemPurchasable"		                "1"
+			
+			// Special	
+		        //-------------------------------------------------------------------------------------------------------------
+			"AbilitySpecial"
+			{
+				"01"
+				{
+					"var_type" "FIELD_INTEGER"
+					"bonus_agility" "12"
+				}
+			}
+			
+			"Modifiers"
+		        {
+			        "modifier_item_lia_thugs_dagger"
+			        {
+					  "Passive"			"1"
+					  "IsHidden"			"1"
+					  "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	
+					  "Properties"
+					  {
+					   "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_agility"
+					  }
+			        }
+		        }
+		}
+	//End of file item_lia_thugs_dagger.txt
 
 
 	//Start of file item_lia_totem_of_persistence.txt
@@ -9027,8 +10876,10 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"250"	
+		"ItemCost"						"330"	
 		"ItemShopTags"					"armor"
+	
+		"ItemKillable" 					"0" 
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
@@ -9036,27 +10887,29 @@
 		"ItemResult"					"item_lia_totem_of_persistence"
 		"ItemRequirements"
 		{
-			"01"						"item_lia_dwarf_armor;item_lia_scepter_of_power"
+			"01"						"item_lia_dwarf_armor;item_lia_staff_of_power"
 		}
 	}
 	
 	"item_lia_totem_of_persistence"
 	{
 	
-			"ID"							"1464"
-			"ItemCost"						"1635"
-			"ItemKillable" "0" 
-			"ItemDroppable" "1"
-			"ItemShareability"				"ITEM_FULLY_SHAREABLE"
-			"ItemSellable"                  "1"
-			"ItemPurchasable"		 "1"
-			"ItemQuality"					"rare"
+		"BaseClass" "item_datadriven"
+		"ID"							"1464"
+		"ItemCost"						"1635"
+		"ItemKillable" "0" 
+		"ItemDroppable" "1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemSellable"                  "1"
+		"ItemPurchasable"		 "1"
+		"ItemQuality"					"rare"
 	
 		"AbilityCooldown"				"22.0"
-			
-			"AbilityTextureName"			"item_lia_totem_of_persistence"
-			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-			"BaseClass" "item_datadriven"
+		
+		"AbilityTextureName"			"item_lia_totem_of_persistence"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		
+	
 		"AbilitySpecial"
 		{
 			"01"
@@ -9091,7 +10944,16 @@
 			"ApplyModifier"
 			{
 				"ModifierName"	"modifier_item_totem_of_persistence_active"
-				"Target" "CASTER"
+				"Target"		
+				{
+					"Center"	"CASTER"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
+			}
+			"RunScript"
+			{
+				"ScriptFile"	"items\TotemOfPersistence.lua"
+				"Function"		"Purge"
 			}	
 		}
 		
@@ -9102,7 +10964,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 				"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-				
+	
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
@@ -9110,47 +10972,18 @@
 				    "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
 			    	"MODIFIER_PROPERTY_HEALTH_BONUS"		 "%bonus_health"
 			    }
-				"ThinkInterval" 		".03"
-				"OnIntervalThink"
-				{
-					"ApplyModifier"
-					{
-						"Target" "CASTER"
-						"ModifierName" "modifier_item_totem_of_persistence_spell_block"
-					}
-				}
-				"OnDestroy"
-				{
-					"RemoveModifier"
-					{
-						"Target" "CASTER"
-						"ModifierName" "modifier_item_totem_of_persistence_spell_block"
-					}
-				}
 			}
+	
 			"modifier_item_totem_of_persistence_active"
 			{
 				"Duration"              	"%duration"
-				"Passive"					"0"
-				"IsHidden"					"0"
+				"Attributes"				"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 				"EffectName"            	"particles/items_fx/black_king_bar_avatar.vpcf"
-				"EffectAttachType"      	"PATTACH_ABSORIGIN"
+				"EffectAttachType"      	"follow_origin"
 				
 				"States"
 				{
 					"MODIFIER_STATE_MAGIC_IMMUNE" 			"MODIFIER_STATE_VALUE_ENABLED"
-				}
-			}
-			"modifier_item_totem_of_persistence_spell_block"
-			{
-				"IsHidden"			"1"
-				"OnCreated"
-				{			
-					"RunScript"
-					{
-						"ScriptFile"		"items/TotemOfPersistence.lua"
-						"Function"			"modifier_item_lia_totem_of_persistence_block"
-					}
 				}
 			}
 		}
@@ -9203,4 +11036,51 @@
 		}
 	}
 	//End of file item_lia_troll_defender.txt
+
+
+	//Start of file item_lia_troll_healer.txt
+	    "item_lia_troll_healer"
+	{
+		"ID"                            "1593"
+		"BaseClass"                     "item_datadriven"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "item_lia_troll_healer"
+		
+		"ItemStockInitial" "1" 
+		"ItemStockMax" "1"
+		"ItemStockTime" "20"
+	
+		"ItemCost"                      "100" 
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemPermanent"					"0"
+		"AbilityCooldown"               "20"
+		"ItemKillable"                  "0"
+		"ItemSellable"                  "1"
+		"ItemDroppable"                 "1"
+		"ItemInitialCharges"            "1"
+		"ItemStackable"					"1"
+		
+		"OnSpellStart"
+		{
+			"SpendCharge"
+			{}
+			"RunScript"
+			{
+				"ScriptFile"	"items\TrollHealer.lua"
+				"Function"		"SpawnTroll"
+			}
+			
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"45"
+			}
+		}
+	}
+	//End of file item_lia_troll_healer.txt
 }

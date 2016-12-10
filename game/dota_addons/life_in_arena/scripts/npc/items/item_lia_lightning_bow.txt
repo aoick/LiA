@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"900"	
 	"ItemShopTags"					"crit;damage;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -22,11 +24,10 @@
 }
 
 "item_lia_lightning_bow"
-
 {
 	"ID"							"1357"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"2980"
+	"ItemCost"						"2960"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -103,7 +104,11 @@
 	{
 		"ApplyModifier"
 		{
-			"Target"			"CASTER"
+			"Target"
+			{
+				"Center"	"CASTER"
+				"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
 			"ModifierName"		"item_lighting_bow_heaven_wrath_modifier"
 			"Duration"			"%heaven_wrath_duration"
 		}
@@ -116,6 +121,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_STATS_AGILITY_BONUS" 		"%bonus_agility"
@@ -135,8 +141,12 @@
 					{
 						"ApplyModifier"
 						{
+							"Target"
+							{
+								"Center"	"CASTER"
+								"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+							}
 							"ModifierName" 	"modifier_item_lia_lightning_bow_crit"
-							"Target"    	"CASTER"
 							"Duration"		"%heaven_wrath_duration"    
 						}        
 					}
@@ -157,7 +167,11 @@
 				"RemoveModifier"
 				{
 					"ModifierName"  "modifier_item_lia_lightning_bow_crit"
-					"Target"    "CASTER"    
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}  
 				}
 
 				// Basic blood particle effect

@@ -8,10 +8,11 @@
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastAnimation"   "ACT_DOTA_ATTACK"
 
 	"AbilityCastRange"				"800"
 	//"AbilityCastPoint"				"0.2"
-	"AbilityCooldown"				"10.0 11.0 12.0"
+	"AbilityCooldown"				"12.0"
 	"AbilityManaCost"				"110 150 190"
 
 	"MaxLevel"               "3"
@@ -29,7 +30,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"lightning_damage"		"50 150 300"
+			"lightning_damage"		"75 150 300"
 		}
 		"02"
 		{
@@ -44,12 +45,12 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"lightning_decay"		"15 10 5"
+			"lightning_decay"		"10"
 		}
 		"05"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"heal"		"150 300 450"
+			"heal_per_target"		"45"
 		}
 		"06"
 		{
@@ -60,11 +61,7 @@
 
 	"OnSpellStart"
 	{
-		"Heal"
-		{
-			"HealAmount"	"%heal"
-			"Target"		"CASTER"
-		}
+
 		"RunScript"
 		{
 			"ScriptFile"	"heroes/VowenFromBlood/StealBlood.lua"
@@ -74,7 +71,7 @@
 
 }
 
-"vowen_from_blood_steal_blood_scepter"
+"vowen_from_blood_steal_blood_staff"
 {
 
 	"BaseClass" 					"ability_datadriven"
@@ -84,10 +81,11 @@
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastAnimation"   "ACT_DOTA_ATTACK"
 
 	"AbilityCastRange"				"800"
 	//"AbilityCastPoint"				"0.2"
-	"AbilityCooldown"				"10.0 11.0 12.0"
+	"AbilityCooldown"				"12.0"
 	"AbilityManaCost"				"200 250 300"
 
 	"MaxLevel"               "3"
@@ -105,7 +103,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"lightning_damage"		"100 300 600"
+			"lightning_damage"		"150 300 600"
 		}
 		"02"
 		{
@@ -120,12 +118,12 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"lightning_decay"		"0 0 0"
+			"lightning_decay"		"10"
 		}
 		"05"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"heal"		"150 300 450"
+			"heal_per_target"		"45"
 		}
 		"06"
 		{
@@ -136,11 +134,7 @@
 
 	"OnSpellStart"
 	{
-		"Heal"
-		{
-			"HealAmount"	"%heal"
-			"Target"		"CASTER"
-		}
+
 		"RunScript"
 		{
 			"ScriptFile"	"heroes/VowenFromBlood/StealBlood.lua"
@@ -213,15 +207,18 @@
 	{
 		"ApplyModifier"
 		{
-		"ModifierName" "modifier_vowen_from_blood_spiritual_flame"
-		"Target"	"TARGET"
-		"Duration"	"%duration"
+			"ModifierName" "modifier_vowen_from_blood_spiritual_flame"
+			"Target"	"TARGET"
+			"Duration"	"%duration"
 		}	
 	}
 	"Modifiers"
 	{
 		"modifier_vowen_from_blood_spiritual_flame"
 		{
+			"IsBuff"		"1"
+			"IsPurgable"	"1"
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE" "%bonus_damage_percentage"
@@ -233,7 +230,7 @@
 	}
 }
 
-"vowen_from_blood_spiritual_flame_scepter"
+"vowen_from_blood_spiritual_flame_staff"
 {
 	// General
 	//-------------------------------------------------------------------------------------------------------------
@@ -294,15 +291,18 @@
 	{
 		"ApplyModifier"
 		{
-		"ModifierName" "modifier_vowen_from_blood_spiritual_flame"
-		"Target"	"TARGET"
-		"Duration"	"%duration"
+			"ModifierName" "modifier_vowen_from_blood_spiritual_flame"
+			"Target"	"TARGET"
+			"Duration"	"%duration"
 		}	
 	}
 	"Modifiers"
 	{
 		"modifier_vowen_from_blood_spiritual_flame"
 		{
+			"IsBuff"		"1"
+			"IsPurgable"	"1"
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE" "%bonus_damage_percentage"
@@ -449,7 +449,7 @@
 	{
 		"soundfile"		"soundevents/game_sounds_heroes/game_sounds_silencer.vsndevts"
 		"particle"		"particles/units/heroes/hero_shadow_demon/shadow_demon_soul_catcher_debuff.vpcf"
-		"particle"		"particles/units/heroes/hero_shadow_demon/shadow_demon_soul_catcher.vpcf"		
+		"particle"		"particles/obsidian_destroyer_sanity_eclipse_area_w.vpcf"		
 				
 	}
 	
@@ -499,12 +499,15 @@
 	{
 		"FireEffect"
 		{	
-			"EffectName"	"particles/items2_fx/veil_of_discord.vpcf"
+			"EffectName"	"particles/obsidian_destroyer_sanity_eclipse_area_w.vpcf"
 			"EffectAttachType"	"start_at_customorigin"
 			"TargetPoint"	"POINT"	
 			"ControlPoints"
 			{
-				"01"	"%radius 0 0"
+				"00" "POINT"
+				"01" "%radius 0 0"
+				"02" "%radius 0 0"
+				"03" "%radius 0 0"				
 			}
 		}
 

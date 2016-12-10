@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"750"	
+	"ItemCost"						"730"	
 	"ItemShopTags"					"damage;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1456"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1090"
+	"ItemCost"						"1070"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -48,6 +50,7 @@
 	{
 		"soundfile"		"soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
 		"particle"		"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf"
+		"particle"  "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
 	}
 
 
@@ -63,7 +66,7 @@
 			"EndRadius" "%start_radius"
 			"FixedDistance" "%range"
 			"TargetTeams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
-			"TargetTypes" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO | DOTA_UNITY_TARGET_MECHANICAL"
+			"TargetTypes" "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_MECHANICAL"
 			"TargetFlags" "DOTA_UNIT_TARGET_FLAG_NONE"
 			"HasFrontalCone" "1"
 			"ProvidesVision" "0"
@@ -91,6 +94,7 @@
 			"Passive"               "1"
 			"IsHidden"				"1"
 			"Attributes"			"MODIFIER_ATTRIBUTE_MULTIPLE"
+			"AllowIllusionDuplicate"    "1"
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" 	    "%bonus_damage"
@@ -100,7 +104,7 @@
 			"Orb"
 			{
 				"Priority"			"DOTA_ORB_PRIORITY_ITEM"
-				"ProjectileName"    "particles\items_fx\desolator_projectile.vpcf"
+				"ProjectileName"    "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf"
 			}
 			"OnOrbFire"
 			{

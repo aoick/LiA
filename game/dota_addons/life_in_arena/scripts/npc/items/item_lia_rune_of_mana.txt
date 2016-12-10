@@ -2,10 +2,10 @@
 {
 	"ID"                            "1602"
 	"BaseClass"                     "item_datadriven"
-	"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 	
-	"Model"							"models/props_gameplay/rune_doubledamage01.vmdl"
-	
+	"Model"							"models/props_gameplay/rune_regeneration01.vmdl"
+	"Effect"						"particles/rune_mana.vpcf"
 	"ItemCost"                      "0" 
 	"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 	"ItemShopTags"					"consumable"
@@ -18,7 +18,12 @@
 	"ItemInitialCharges"            "1"
 	"ItemStackable"					"0"
 	"ItemCastOnPickup" 				"1"	
-
+	"ItemPurchasable"				"0"
+	
+	"precache"
+	{
+		"particle"  "particles/rune_mana.vpcf"
+	}
 
 	"OnSpellStart"
 	{
@@ -32,6 +37,7 @@
 				"Radius" 	"%radius"
 				"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 				"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+				"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 			}
 		
 			"Action"    
@@ -51,6 +57,11 @@
 			}
 		}
 		
+		"FireSound"
+		{
+			"EffectName"	"Rune.Regen"
+			"Target" 		"CASTER"
+		}
 	}
 	"AbilitySpecial"
 	{

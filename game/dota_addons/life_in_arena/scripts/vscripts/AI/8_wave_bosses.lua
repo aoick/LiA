@@ -2,18 +2,26 @@ require('survival/AIcreeps')
 
 function Spawn(entityKeyValues)
 	--print("Spawn")
+    thisEntity:SetHullRadius(30) 
+	if thisEntity:GetPlayerOwnerID() ~= -1 then
+		return
+	end
+	
 	ABILITY_8_wave_storm_bolt = thisEntity:FindAbilityByName("8_wave_storm_bolt")
-
 	thisEntity:SetContextThink( "8_wave_think", Think8Wave , 0.1)
 end
 
 function Think8Wave()
-	if not thisEntity:IsAlive() then
+	if not thisEntity:IsAlive() or thisEntity:IsIllusion() then
 		return nil 
 	end
 
 	if GameRules:IsGamePaused() then
 		return 1
+	end
+
+	if thisEntity:IsStunned() then 
+		return 2 
 	end
 
 	AICreepsAttackOneUnit({unit = thisEntity})
@@ -34,5 +42,5 @@ function Think8Wave()
 			Survival.AICreepCasts = Survival.AICreepCasts + 1
 		end
 	end
-	return 1
+	return 2
 end

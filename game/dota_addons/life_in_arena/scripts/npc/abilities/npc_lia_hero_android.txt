@@ -3,7 +3,7 @@
 	// General
 	//-------------------------------------------------------------------------------------------------------------
 	"BaseClass"				"ability_datadriven"
-	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 	"AbilityTextureName"			"android_war_stomp"
 
 
@@ -221,7 +221,7 @@
 	"AbilityTextureName"	"golem_explosion"
 	"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT"
 	"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-	"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+	"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
 	"MaxLevel"				"3"
 
@@ -281,7 +281,7 @@
 				"Center"	"CASTER"
 				"Radius"	"%small_radius"
 				"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 			}
 			"Damage"	"%AbilityDamage * %big_radius_dmg"
 			"Type"	"DAMAGE_TYPE_MAGICAL"
@@ -294,26 +294,26 @@
 				"Center"	"CASTER"
 				"Radius"	"%big_radius"
 				"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 			}
 			"Damage"	"%AbilityDamage * %big_radius_dmg"
 			"Type"	"DAMAGE_TYPE_MAGICAL"
 		}
 		
-		"RunScript"
-		{
-			"ScriptFile"	"heroes/Android/PocketFactory.lua"
-			"Function"		"CauseDamageDecor"
-			"attack_damage" "%AbilityDamage"
-			"Target"
-			{
-				"Center"	"CASTER"
-				"Radius"	"150"
-				"Teams"		"DOTA_UNIT_TARGET_TEAM_BOTH"
-				"Types"		"DOTA_UNIT_TARGET_BUILDING"
-				//"Flags" 	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-			}
-		}
+//		"RunScript"
+//		{
+//			"ScriptFile"	"heroes/Android/PocketFactory.lua"
+//			"Function"		"CauseDamageDecor"
+//			"attack_damage" "%AbilityDamage"
+//			"Target"
+//			{
+//				"Center"	"CASTER"
+//				"Radius"	"150"
+//				"Teams"		"DOTA_UNIT_TARGET_TEAM_BOTH"
+//				"Types"		"DOTA_UNIT_TARGET_BUILDING"
+//				//"Flags" 	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+//			}
+//		}
 	
 	}
 
@@ -339,7 +339,7 @@
 				"Center"	"CASTER"
 				"Radius"	"%small_radius"
 				"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 			}
 			"Damage"	"%AbilityDamage * %big_radius_dmg"
 			"Type"	"DAMAGE_TYPE_MAGICAL"
@@ -352,26 +352,26 @@
 				"Center"	"CASTER"
 				"Radius"	"%big_radius"
 				"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+				"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 			}
 			"Damage"	"%AbilityDamage * %big_radius_dmg"
 			"Type"	"DAMAGE_TYPE_MAGICAL"
 		}
 		
-		"RunScript"
-		{
-			"ScriptFile"	"heroes/Android/PocketFactory.lua"
-			"Function"		"CauseDamageDecor"
-			"attack_damage" "%AbilityDamage"
-			"Target"
-			{
-				"Center"	"CASTER"
-				"Radius"	"150"
-				"Teams"		"DOTA_UNIT_TARGET_TEAM_BOTH"
-				"Types"		"DOTA_UNIT_TARGET_BUILDING"
-				//"Flags" 	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-			}
-		}
+//		"RunScript"
+//		{
+//			"ScriptFile"	"heroes/Android/PocketFactory.lua"
+//			"Function"		"CauseDamageDecor"
+//			"attack_damage" "%AbilityDamage"
+///			"Target"
+	//		{
+//				"Center"	"CASTER"
+//				"Radius"	"150"
+//				"Teams"		"DOTA_UNIT_TARGET_TEAM_BOTH"
+//				"Types"		"DOTA_UNIT_TARGET_BUILDING"
+//				//"Flags" 	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+//			}
+//		}
 		
 		"Damage"
 		{
@@ -399,7 +399,8 @@
 {
 	// General
 	//-------------------------------------------------------------------------------------------------------------
-	"BaseClass"						"ability_datadriven"
+	"BaseClass"						"ability_lua"
+	"ScriptFile"					"heroes\Android\android_armor.lua"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityTextureName"			"android_armor"
 	
@@ -413,21 +414,12 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"damage_blocked"			"20 40 80"
+			"damage_block"			"20 40 80"
 		}
-	}
-
-	"Modifiers"
-	{
-		"modifier_item_lia_mithril_armor"
+		"02"
 		{
-			"Passive"			"1"
-			"IsHidden"			"1"
-
-			"Properties"
-			{
-				"MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK" "%damage_blocked"
-			}			
+			"var_type"				"FIELD_INTEGER"
+			"min_damage"			"15"
 		}
 	}
 }
@@ -536,7 +528,11 @@
 		"RemoveModifier"
 		{
 			"ModifierName"	"modifier_cluster_rockets"
-			"Target" 		"CASTER"
+			"Target" 		
+			{
+				"Center"	"CASTER"
+				"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+			}
 		}
 	}
 
@@ -611,12 +607,12 @@
 			"ThinkInterval"  "%projectile_interval"
 			"OnIntervalThink"
 			{
-				"FireEffect"
-				{
-					"EffectName"        "Hero_Gyrocopter.Rocket_Barrage.Launch"
-					"EffectAttachType"  "follow_origin"
-					"Target"            "CASTER"
-				}
+				//"FireEffect" //тут должен быть звук или партикл?
+				//{
+				//	"EffectName"        "Hero_Gyrocopter.Rocket_Barrage.Launch"
+				//	"EffectAttachType"  "follow_origin"
+				//	"Target"            "CASTER"
+				//}
 
 				"RunScript"
 				{

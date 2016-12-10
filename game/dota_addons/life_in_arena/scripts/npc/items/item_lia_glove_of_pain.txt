@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"800"	
 	"ItemShopTags"					"int"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -34,7 +36,7 @@
 	"AbilityTextureName"			"item_lia_glove_of_pain"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_MECHANICAL"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
 	"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO"
 	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -51,15 +53,7 @@
 		"particle"			"particles/items2_fx/mjollnir_shield.vpcf"
 		"particle"			"particles/units/heroes/hero_zuus/zuus_arc_lightning.vpcf"
 	}
-		"OnUnequip" 
-	{
-		"RunScript"
-		{
-			"ScriptFile" "items\AuraFix.lua"
-			"Function"  "OnUnequip"
-			"ModifierName" "modifier_item_glove_of_pain_aura_emitter"
-		}
-	}
+
 	"OnSpellStart"
 	{
 		"ApplyModifier"
@@ -77,6 +71,13 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+
+			"Aura" 					"modifier_item_glove_of_pain_aura"
+			"Aura_Radius" 			"%aura_radius"
+			"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+			"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			"Aura_Flags" 			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+			"Aura_ApplyToCaster" 	"1"
 			
 			"Properties"
 			{
@@ -84,23 +85,12 @@
 				"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
 			}
 		}
-		"modifier_item_lia_glove_of_pain_aura_emitter"
-		{
-			"Passive"				"1"
-			"IsHidden"				"0"
-			
-			"Aura" 					"modifier_item_glove_of_pain_aura"
-			"Aura_Radius" 			"%aura_radius"
-			"Aura_Teams" 			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-			"Aura_Types" 			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-			"Aura_Flags" 			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-			"Aura_ApplyToCaster" 	"1"
-		}
+
 		"modifier_item_glove_of_pain_aura"
 		{
 			"Passive"			"1"
-			"IsHidden"			"1"
-			
+			"IsHidden"			"0"
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT_UNIQUE"						"8.0"  //This is hardcoded due to an obscure engine bug.
@@ -187,7 +177,7 @@
 		"06"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"damage"			"250"
+			"damage"			"175"
 		}
 		"07"
 		{

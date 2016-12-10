@@ -1,4 +1,4 @@
-"npc_lia_hero_ghoul"
+"npc_dota_hero_life_stealer"
 {
 	"override_hero"				"npc_dota_hero_life_stealer"
 
@@ -7,17 +7,21 @@
 	"Ability3" "ghoul_mortal_strike" 
 	"Ability4" "ghoul_persistence" 					
 	"Ability5" "attribute_bonuses" 					
-	"Ability6" "" 	
-	"Ability7" "" 					
-	"Ability8" "" 					
+	"Ability6" "ulu_hero_armor" 	
+	"Ability7" "ulu_hero_attack" 					
+	"Ability8" "ulu_hero_attack_speed" 		
+	"Ability9" "ulu_hero_hp_points" 
+	"Ability10" "ulu_hero_mana_points" 
+	"Ability11" "ulu_hero_hp_regen" 		
+	"Ability12" "ulu_hero_mana_regen" 
 
 	"ArmorPhysical" "3" 		
 	"MagicalResistance" "25"	
 
 	"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
-	"AttackDamageMin" "12" 
-	"AttackDamageMax" "26" 
-	"AttackRate" "1.85" 
+	"AttackDamageMin" "2" 
+	"AttackDamageMax" "14" 
+	"AttackRate" "1.95" 
 	"AttackAnimationPoint" "0.39" 
 	"AttackAcquisitionRange" "800" 
 	"AttackRange" "100" 
@@ -47,6 +51,8 @@
 	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
 	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
 	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_HERO"
+	"AttackType"    "hero"
+	"ArmorType"     "hero" 
 
 	"VisionDaytimeRange" "900" 
 	"VisionNighttimeRange" "800" 

@@ -1,4 +1,4 @@
-"npc_lia_hero_android"
+"npc_dota_hero_shredder"
 {
 	"override_hero"				"npc_dota_hero_shredder"
 
@@ -7,9 +7,13 @@
 	"Ability3" "android_armor" 
 	"Ability4" "android_cluster_rockets" 					
 	"Ability5" "attribute_bonuses" 					
-	"Ability6" "" 	
-	"Ability7" "" 					
-	"Ability8" "" 					
+	"Ability6" "ulu_hero_armor" 	
+	"Ability7" "ulu_hero_attack" 					
+	"Ability8" "ulu_hero_attack_speed" 		
+	"Ability9" "ulu_hero_hp_points" 
+	"Ability10" "ulu_hero_mana_points" 
+	"Ability11" "ulu_hero_hp_regen" 		
+	"Ability12" "ulu_hero_mana_regen" 
 
 	"ArmorPhysical" "4" 		
 	"MagicalResistance" "25"	
@@ -20,15 +24,15 @@
 	}
 
 	"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
-	"AttackDamageMin" "11" 
-	"AttackDamageMax" "33" 
-	"AttackRate" "1.85" 
+	"AttackDamageMin" "2" 
+	"AttackDamageMax" "24" 
+	"AttackRate" "1.95" 
 	"AttackAnimationPoint" "0.3" 
 	"AttackAcquisitionRange" "800" 
 	"AttackRange" "250" 
 
 	"ProjectileModel"   "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
-	"ProjectileSpeed"   "1800"
+	"ProjectileSpeed"   "900"
 
 	"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
 	"AttributeBaseStrength"		"19"										
@@ -55,6 +59,8 @@
 	"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
 	"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
 	"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_HERO"
+	"AttackType"    "hero"
+	"ArmorType"     "hero" 
 
 	"VisionDaytimeRange" "900" 
 	"VisionNighttimeRange" "800" 

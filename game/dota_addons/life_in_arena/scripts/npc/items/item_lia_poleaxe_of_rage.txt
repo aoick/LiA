@@ -12,6 +12,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"600"	
 	"ItemShopTags"					"int"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -27,7 +29,7 @@
 {
 	"ID"							"1422"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1380"
+	"ItemCost"						"1390"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -63,6 +65,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"

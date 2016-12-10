@@ -8,13 +8,13 @@
 	{		
 		"#DOTA_Item_Build_Starting_Items"
 		{
-			"item"      "item_lia_amulet"
+			"item"      "item_lia_ring_of_protection"
 			"item"      "item_lia_healing_ward"
 		}
 		
 		"#DOTA_Item_Build_Early_Game"
 		{	
-			"item"      "item_lia_enchanted_shield"
+			"item"      "item_lia_mithril_armor"
 			"item"      "item_lia_shield_of_endurance"
 			"item"      "item_lia_healing_ward"
 		}

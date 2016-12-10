@@ -1,9 +1,14 @@
 "addon"
 {
 	"addonname"										"Life In Arena"
+	"addon_game_name"								"Life In Arena"
 
 	"LiaRoundNumber"								"Round #{d:round_number}"
 	"LiaRoundName"									"{s:round_name}"
+
+	"LiaRound"										"Round"
+	
+	"addon_game_name"								"Life in Arena"
 
 	"round_name_1"									"Kobolds"
 	"round_name_2"									"Centaurs"
@@ -38,8 +43,14 @@
 	"ScoreCol_KillsBosses"							"Bosses"
 	"ScoreCol_KillsCreeps"							"Creeps"
 	"ScoreCol_Level"								"Level"
+	"ScoreCol_Upd"								"Upgrades %"
 	"ScoreCol_Deaths"								"Deaths"
 	"ScoreCol_Rating"								"Score"
+	
+	"end_screen_victory"		"YOU WIN !"
+	"end_screen_lose"		"YOU LOSE !"
+	
+	"end_screen_legend_items"	"Items"
 	
 	"welcome"		"Welcome to Life in Arena!"
 	"target"		"Objective:"
@@ -50,6 +61,7 @@
 	"SovInfo2" 		"   * Type \"+\" in chat if you want a wave to start earlier;"
 	"SovInfo3" 		"   * Use decorations as a cover (e.g, destroy barrel to make an aisle and hide in it);"
 	"SovInfo4" 		"   * Try to help each other to survive."
+	"SovInfo5"		"   * Use runes properly to stay alive as long as possible."
 	
 	"DueInfo" 		"Duels:"
 	"DueInfo1"		"   * Don't take them seriously. Life in Arena is a team game and duels are just a small bonus in it;"
@@ -64,5 +76,106 @@
 	
 	"UluInfo"		"Upgrades (not implemented yet):" 
 	"UluInfo1"		"   * Coming soon."
+	
+	"LiaUluNoName"									"Need more lumber, "
+	"LiaUluUpd"									"Upgrade completed!"
+	"LiaUluPrice"									"Cost of upgrade "
+	"LiaUluPrice2"					" lumber"
+	"LiaUluInLum"					"Amount of lumber "
+	"LiaUluInProc"					"Percentage of upgrades "
+	"LiaUluFinish"			"Fully completed"
+	
+	"LiaAllScore"			"Team rating: "
+	
+	"LiaScoreBoardHint"			"Do not forget about the ability to view game stats"
+	
+	"LiaTime"			"Game time: "
+	
+	"LiaKillBoss"			" gets <font color=\"#228B22\">3 lumber</font> for killing a boss!"
+	
+	"error_no_usable_corpses" "No corpses"
+
+	"upgrade"	"Upgrades"
+	"accept"	"Accept"
+	"decline"	"Cancel"
+	"trade"		"Trade"
+
+	"Glyph_Tooltip_Title"	"Start the round"
+	"Glyph_tooltip_description"	"You can vote for the round starting without waiting. If all players vote, the new round will start immediatelt. <br>Each vote reduces the waiting time by {d:seconds} seconds.<br><br>{d:readyPlayers} out of {d:numPlayers} players voted."
+	"Glyph_tooltip_description_1_player"	"You can start the next round without waiting."
+
+	"npc_dota_hero_slardar"	"Naga Royal Guard"
+	"npc_dota_hero_huskar"	"Berserker"
+	"npc_dota_hero_brewmaster"	"Brewmaster"
+	"npc_dota_hero_chaos_knight"	"General"
+	"npc_dota_hero_tiny"	"Golem"
+	"npc_dota_hero_elder_titan"	"Tauren"	
+	"npc_dota_hero_phantom_assassin"	"Valkyrie"
+	"npc_dota_hero_axe"	"Orc Chieftain"
+	"npc_dota_hero_broodmother"	"Spider Queen"
+	"npc_dota_hero_pudge"	"Butcher"
+	"npc_dota_hero_nevermore"	"Vowen from Blood"
+	"npc_dota_hero_pugna"	"Skeleton Mage"
+	"npc_dota_hero_night_stalker"	"Scourge Warrior"
+	"npc_dota_hero_skeleton_king"	"Thief King"
+	"npc_dota_hero_omniknight"	"Warrior of Light"
+	"npc_dota_hero_tusk"	"Highlander"		
+	"npc_dota_hero_naga_siren"	"Naga Siren"
+	"npc_dota_hero_antimage"	"Pirate"
+	"npc_dota_hero_bloodseeker"	"Shaman"
+	"npc_dota_hero_chen"	"Holy Knight"
+	"npc_dota_hero_lion"	"Warlock"
+	"npc_dota_hero_slark"	"Murloc"
+	"npc_dota_hero_luna"	"Huntress"
+	"npc_dota_hero_bane"	"Voidwalker"
+	"npc_dota_hero_life_stealer"	"Ghoul"
+	"npc_dota_hero_warlock"	"Earth Lord"
+	"npc_dota_hero_shredder"	"Android"
+	"npc_dota_hero_shadow_shaman"	"Witch Doctor"
+	"npc_dota_hero_lich"	"Frost Lord"
+	"npc_dota_hero_medusa"	"Serpent Queen"
+	"npc_dota_hero_spirit_breaker"	"Time Lord"
+	"npc_dota_hero_beastmaster"	"Beastmaster"
+	"npc_dota_hero_lycan"	"Vampire"
+	"npc_dota_hero_leshrac"	"Keeper of the Grove"
+	"npc_dota_hero_drow_ranger"	"Dark Ranger"
+	"npc_dota_hero_abaddon"	"Dark Knight"
+	"npc_dota_hero_mirana"	"Ancient Priestess"
+	"npc_dota_hero_dragon_knight"	"Knight"
+	"npc_dota_hero_disruptor"	"Lightning Lord"
+	"npc_dota_hero_silencer"	"Wanderer"
+	"npc_dota_hero_nyx_assassin"	"Fallen Champion"
+	"npc_dota_hero_invoker"	"Firelord"
+	"npc_dota_hero_arc_warden"	"Illusionist"
+	"npc_dota_hero_undying"	"Necromancer"
+	"npc_dota_hero_terrorblade"	"Shadow Master"
+	"npc_dota_hero_troll_warlord"	"Troll Throatcutter"
+	"npc_dota_hero_keeper_of_the_light"	"Archmage"
+
+	"lia_tip1"	"Report bugs at our Steam Workshop page."
+	"lia_tip2"	"You can transfer gold and lumber to other players. This can help your team."
+	"lia_tip3"	"Spherical Staff upgrades two abilities of each mage."
+	"lia_tip4"	"You can reduce the waiting time before each round by clicking the button in the right bottom corner of a screen."
+	"lia_tip5"	"There are a few explosive barrels on the map. If you destory one, enemies around it will die, but you will not gain reward for them."
+	"lia_tip6"	"Lumber is used to upgrade heroes' stats. You can gain it after each round, for killing bosses or winning duels."
+	"lia_tip7"	"Do not forget about upgrades. They can smooth out disadvantages and improve advantages of your hero."
+	"lia_tip8"	"The map has a lot of plases to hide from monsters, but be careful — some of them can be easily destroyed."
+	"lia_tip9"	"Runes spawn every 60 seconds. They can help you in a hard minute."
+	"lia_tip10"	"Try to divide forces equally between the spawn points."
+	"lia_tip11"	"Teamplay is a key to success. Keep it in mind."
+	"lia_tip12"	"You can combine forces when you feel that you can't make it separately."
+	"lia_tip13"	"Каждая волна имеет свои достоинства и недостатки. Выучив их, Вы сможете без проблем противостоять монстрам."
+	"lia_tip999"	"gaiz pliz doneit fo laif in arena impruvment"
+
+	"TradeHeader"	"Resource transfer"
+
+	"TradeLegeng_PlayerName"	"Player"
+	"TradeLegeng_SharedHero"	"Hero"
+	"TradeLegeng_SharedUnits"	"Units"
+	"TradeLegeng_DisableHelp"	"Disable Help"
+	"TradeLegeng_Gold"			"Gold"
+	"TradeLegeng_Lumber"		"Lumber"
+
+	"TradeTooltip"	"To transfer resoutces to an ally set the necessary amount of gold or lumber by clicking at a chosen value. <br>Right click will reduce the amount of transfered resources.<br>Holding Shift will increase this number by a 10 times bigger value."
 }
 

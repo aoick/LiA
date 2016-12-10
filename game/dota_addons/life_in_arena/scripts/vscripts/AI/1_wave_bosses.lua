@@ -2,13 +2,18 @@ require('survival/AIcreeps')
 
 function Spawn(entityKeyValues)
 	--print("Spawn")
+    thisEntity:SetHullRadius(30) 
+	if thisEntity:GetPlayerOwnerID() ~= -1 then
+		return
+	end
+	
 	ABILITY_1_wave_stomp = thisEntity:FindAbilityByName("1_wave_stomp")
-
 	thisEntity:SetContextThink( "1_wave_think", Think1Wave , 0.1)
+
 end
 
 function Think1Wave()
-	if not thisEntity:IsAlive() then
+	if not thisEntity:IsAlive() or thisEntity:IsIllusion() then
 		return nil 
 	end
 
@@ -18,6 +23,10 @@ function Think1Wave()
 
 	AICreepsAttackOneUnit({unit = thisEntity})
 	--print(Survival.AICreepCasts)
+
+	if thisEntity:IsStunned() then 
+		return 2 
+	end
 		
 	if ABILITY_1_wave_stomp:IsFullyCastable() and Survival.AICreepCasts < Survival.AIMaxCreepCasts then
 		local targets = FindUnitsInRadius(thisEntity:GetTeam(), 
@@ -35,5 +44,5 @@ function Think1Wave()
 			Survival.AICreepCasts = Survival.AICreepCasts + 1
 		end
 	end
-	return 1
+	return 2
 end

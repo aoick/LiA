@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"350"	
+	"ItemCost"						"365"	
 	"ItemShopTags"					"damage;lifesteal;hard_to_tag"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -76,12 +78,15 @@
 		{
 			"Passive"			"0"
 			"IsHidden"			"1"
-			
 			"OnDealDamage"
 			{
 				"Lifesteal"
 				{
-					"Target"			"ATTACKER"
+					"Target"			
+					{
+						"Center"	"ATTACKER"
+						"Flags"     "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
 					"LifestealPercent"	"%lifesteal_percent"
 				}
 			}

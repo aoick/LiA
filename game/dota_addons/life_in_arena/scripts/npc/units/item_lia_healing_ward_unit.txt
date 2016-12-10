@@ -1,6 +1,6 @@
 "item_lia_healing_ward_unit"
 {
-	"BaseClass"					"npc_dota_building"	
+	"BaseClass"					"npc_dota_ward_base"	
 	"Model"						"models/heroes/juggernaut/jugg_healing_ward.mdl"
 	"SoundSet"					"Creep_Good_Range"	
 	"Level"						"1"
@@ -49,7 +49,7 @@
 
 	// Bounds
 	//----------------------------------------------------------------
-	"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
+	//"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
 
 	// Movement
 	//----------------------------------------------------------------
@@ -68,10 +68,12 @@
 	// Team
 	//----------------------------------------------------------------
 	"TeamName"					"DOTA_TEAM_GOODGUYS"			// Team name.
-	"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
-	"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+	"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_HERO"
+	"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_HERO"
 	"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
-	
+	"AttackType"    "normal"
+	"ArmorType"     "unarmored"	
+
 	// Vision
 	//----------------------------------------------------------------
 	"VisionDaytimeRange"		"600"		// Range of vision during day light.

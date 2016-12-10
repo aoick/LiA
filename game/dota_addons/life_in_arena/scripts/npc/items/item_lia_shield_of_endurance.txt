@@ -10,6 +10,8 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"350"	
 	"ItemShopTags"					"armor;regen_health;health_pool"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1319"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"645"
+	"ItemCost"						"625"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -40,6 +42,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
+
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" 	"%bonus_armor"
@@ -53,17 +56,17 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_armor" "7"
+			"bonus_armor" "5"
 		}
 		"02"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_health" "400"
+			"bonus_health" "250"
 		}
 		"03"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_health_regen" "15"
+			"bonus_health_regen" "10"
 		}
 	}
 }

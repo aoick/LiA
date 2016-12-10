@@ -26,7 +26,8 @@
 	"ItemAliases"					  	"healing ward"
     "ItemStackable"				   		"1"
 	"ItemPermanent"				       	"0"
-	"ItemInitialCharges"	            "2"
+	"ItemKillable" 					"0" 
+	"ItemInitialCharges"	            "1"
 	"ItemRequiresCharges"               "1"
 
 	// Special	

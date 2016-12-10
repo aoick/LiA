@@ -26,6 +26,7 @@
 
 	<Panel class="PlayerRow">
 		<Panel id="PlayerRowContainer">
+			
 			<Panel id="Hero" class="ScoreCol_Hero ScoreboardPanel">
 				<Image id="HeroIcon" heroimagestyle="landscape" scaling="stretch-to-fit-preserve-aspect" />
 				<Image hittest="false" id="DisconnectionIndicator" src="file://{images}/custom_game/icon_disconnect.png" />
@@ -37,7 +38,7 @@
 				</Panel>
 				<Button id="MuteButton" onactivate="ToggleMute();" />
 			</Panel>
-			<Panel id="TeamScoreContainer" class="ScoreCol_TeamScore ScoreboardPanel" />
+			
 			<Panel id="KillsBossesContainer" class="ScoreCol_KillsBosses ScoreboardPanel">
 				<Label id="KillsBosses" text="0" />
 			</Panel>
@@ -47,6 +48,10 @@
 			<Panel id="LevelContainer" class="ScoreCol_Level ScoreboardPanel">
 				<Label id="Level" text="0" />
 			</Panel>
+			<Panel id="UpdContainer" class="ScoreCol_Upd ScoreboardPanel">
+				<Label id="Upd" text="0" />
+			</Panel>
+			
 			<Panel id="DeathsContainer" class="ScoreCol_Deaths ScoreboardPanel">
 				<Label id="Deaths" text="0" />
 			</Panel>

@@ -82,6 +82,7 @@
 		"spell_immunity_modifier"
 		{
 			"Passive"	"1"
+			"IsHidden"	"1"
 			"States"
 			{
 				"MODIFIER_STATE_MAGIC_IMMUNE" 			"MODIFIER_STATE_VALUE_ENABLED"
@@ -338,7 +339,7 @@
 		"02"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"cleave_damage"	"50"
+			"cleave_percent"	"50"
 		}
 	}
 
@@ -352,18 +353,89 @@
 			"OnAttackLanded"
 			{
 				"CleaveAttack"
-				{
-					"CleavePercent"		"%cleave_damage"
+          		{
+					"CleavePercent"		"%cleave_percent"
 					"CleaveRadius"		"%cleave_radius"
-				}
+          		}
 			}
 		}
 	}
 }
 
-"10_megaboss_return"
+"fire_golem_10_wave_megaboss_immolation"
 {
-	"BaseClass"				"ability_datadriven"
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"warlock_golem_permanent_immolation"
+	"MaxLevel" 						"1"
+
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+
+	"AbilityCastRange"				"220"
+
+	"precache"
+	{
+		"particle"	"particles/items2_fx/radiance.vpcf"
+	}
+	
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"radius"		"220"
+		}
+		"02"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"dps"			"10"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_inferno_immolation"
+   		{
+    		"Passive" 			"1"
+    		"IsHidden" 			"1"
+
+    		"States"
+			{
+				"MODIFIER_STATE_DOMINATED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+
+    		"Aura" 				"modifier_inferno_immolation_burn"
+    		"Aura_Radius" 		"%radius"
+    		"Aura_Teams" 		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+    		"Aura_Types" 		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+            "EffectName"		"particles/items2_fx/radiance.vpcf"
+			"EffectAttachType" 	"attach_hitloc"
+   		}
+		
+		"modifier_inferno_immolation_burn"
+   		{
+   			"IsHidden"			"1"
+   			"ThinkInterval"		"1"
+   			"OnIntervalThink"    	
+   			{
+   				"Damage"
+				{		
+					"Type" 		"DAMAGE_TYPE_MAGICAL"
+					"Damage" 	"%dps"
+					"Target"	"TARGET"
+				}
+			}
+	    }
+	}
+}
+
+"megaboss_10_return"
+{
+	"BaseClass"						"ability_lua"
+	"ScriptFile"					"abilities\megaboss_10_return.lua"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 	"AbilityTextureName"			"nyx_assassin_spiked_carapace"
@@ -373,79 +445,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"damage_return" "10"
-		}
-	}
-
-	"Modifiers"
-	{
-		"empty_modifier_return"
-		{
-			"Passive"          "1"    
-		    "IsHidden"         "1"
-		}
-		"megaboss_return_aura"
-		{
-			"Passive"          "1"    
-		    "IsHidden"         "1"
-			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-
-        	"Aura"        "megaboss_return"
-        	"Aura_Radius" "500"
-        	"Aura_Teams"  "DOTA_UNIT_TARGET_TEAM_ENEMY"
-        	"Aura_Types"  "DOTA_UNIT_TARGET_ALL"
-        	"Aura_Flags"  "DOTA_UNIT_TARGET_FLAG_MELEE_ONLY"
-        	"Aura_ApplyToCaster" "0"  
-		}
-		"megaboss_return"
-		{
-			"IsHidden"          "1"
-			"IsPurgable"		"0"
-			"Attributes" 		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
-			"OnAttackLanded"
-			{
-				"RunScript"
-				{
-					"ScriptFile"		"units/DamageReturn.lua"
-					"Function"			"MegabossReturn"
-					"damage_return" 	"%damage_return"
-					"attack_damage" 	"%attack_damage"
-				}
-				"RemoveModifier"
-		    	{
-		    		"Target" 			"ATTACKER"
-		    		"ModifierName"		"megaboss_return"
-		    	}
-			}
-		} 
-	}
-}
-
-"11_wave_invis"
-{
-	"BaseClass"             		"ability_datadriven"
-	"AbilityTextureName"			"beastmaster_call_of_the_wild_boar"
-
-	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	
-	"AbilitySpecial"
-	{
-		"01"
-		{
-			"var_type"		"FIELD_INTEGER"
-			"resist"		"25"
-		}
-	}
-
-	"Modifiers"
-	{
-		"6_wave_resist"
-		{
-			"Passive"	"1"
-			"Properties"
-			{
-				"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"%resist"
-			}
+			"damage_return" "15" //10
 		}
 	}
 }
@@ -505,7 +505,7 @@
 
 						"ApplyModifier"
 						{
-							"ModifierName"	"12_modifier_bash_stun"
+							"ModifierName"	"modifier_stunned"
 							"Target"
 							{
 								"Center"	"TARGET"
@@ -673,7 +673,7 @@
 "17_wave_evasion"
 {
 	"BaseClass"             		"ability_datadriven"
-	"AbilityTextureName"			"nyx_assassin_vendetta"
+	"AbilityTextureName"			"enraged_wildkin_toughness_aura"
 
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	
@@ -707,7 +707,7 @@
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 
-	"AbilityDamage"					"200"
+	"AbilityDamage"					"100"
 
 	"precache"
 	{
@@ -721,7 +721,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"stun_hero_duration"	"1.0"
+			"stun_hero_duration"	"0.5"
 		}
 	}
 
@@ -742,7 +742,7 @@
 
 						"ApplyModifier"
 						{
-							"ModifierName"	"18_modifier_bash_stun"
+							"ModifierName"	"modifier_stunned"
 							"Target"
 							{
 								"Center"	"TARGET"
@@ -779,7 +779,7 @@
 "orn_all_bonuses"
 {
 	"BaseClass"             		"ability_datadriven"
-	"AbilityTextureName"			"juggernaut_omni_slash"
+	"AbilityTextureName"			"orn_evasion"
 
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILTY_BEHAVIOR_HIDDEN"
 	
@@ -817,12 +817,12 @@
 		}
 	}
 }
-"orn_cleave"
+"orn_cleave_manabreak_lifesteal"
 {
 	"BaseClass"				"ability_datadriven"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-	"AbilityTextureName"			"juggernaut_blade_fury"
+	"AbilityTextureName"			"juggernaut_omni_slash"
 
 	"AbilitySpecial"
 	{
@@ -836,6 +836,21 @@
 		{
 			"var_type"				"FIELD_INTEGER"
 			"cleave_damage"	"100"
+		}
+		"03"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"damage_per_burn"		"1.0"
+		}
+		"04"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"mana_per_hit"			"150"
+		}
+		"05"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"lifesteal_percent"		"30"
 		}
 	}
 
@@ -855,37 +870,7 @@
 				}
 			}
 		}
-	}
-}
 
-"orn_mana_break"
-{
-	// General
-	//-------------------------------------------------------------------------------------------------------------
-	"BaseClass"				"ability_datadriven"
-	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"		
-	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-	"AbilityTextureName"			"nyx_assassin_mana_burn"
-
-	// Special	
-	//-------------------------------------------------------------------------------------------------------------
-	"AbilitySpecial"
-	{
-		"01"
-		{
-			"var_type"				"FIELD_FLOAT"
-			"damage_per_burn"		"1.0"
-		}
-		"02"
-		{
-			"var_type"				"FIELD_INTEGER"
-			"mana_per_hit"			"150"
-		}
-	}
-
-	"Modifiers"
-	{
 		"modifier_mana_break_orb_orn"
 		{
 			"Passive"	"1"
@@ -917,10 +902,31 @@
 					"EffectAttachType"	"attach_hitloc"
 					"Target"		"TARGET"
 				}
+
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_orn_lifesteal"
+					"Duration"		"0.03"
+				}
+			}
+		}
+
+		"modifier_orn_lifesteal"
+		{
+			"IsHidden"			"1"
+			
+			"OnDealDamage"
+			{
+				"Lifesteal"
+				{
+					"Target"			"ATTACKER"
+					"LifestealPercent"	"%lifesteal_percent"
+				}
 			}
 		}
 	}
 }
+
 
 "orn_bash"
 {
@@ -1077,10 +1083,18 @@
 		"modifier_orn_crit_crit"
 		{
 		    "IsHidden"  "1"
+
+		     "States"
+		    {
+		    	"MODIFIER_STATE_CANNOT_MISS"			"MODIFIER_STATE_VALUE_ENABLED"
+		    }
+
+
 		    "Properties"
 		    {
 		        "MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_mult"
 		    }
+
 
 		    "OnAttackLanded"
 		    {
@@ -1093,9 +1107,11 @@
 		}
 	}
 }
+
 "orn_return"
 {
-	"BaseClass"				"ability_datadriven"
+	"BaseClass"						"ability_lua"
+	"ScriptFile"					"abilities\orn_return.lua"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 	"AbilityTextureName"			"nyx_assassin_spiked_carapace"
@@ -1105,85 +1121,7 @@
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"damage_return" "30"
-		}
-	}
-
-	"Modifiers"
-	{
-		"empty_modifier_return_orn"
-		{
-			"Passive"          "1"    
-		    "IsHidden"         "1"
-		}
-		"orn_return_aura"
-		{
-			"Passive"          "1"    
-		    "IsHidden"         "1"
-			"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-
-        	"Aura"        "orn_return"
-        	"Aura_Radius" "500"
-        	"Aura_Teams"  "DOTA_UNIT_TARGET_TEAM_ENEMY"
-        	"Aura_Types"  "DOTA_UNIT_TARGET_ALL"
-        	"Aura_Flags"  "DOTA_UNIT_TARGET_FLAG_MELEE_ONLY"
-        	"Aura_ApplyToCaster" "0"  
-		}
-		"orn_return"
-		{
-			"IsHidden"          "1"
-			"IsPurgable"		"0"
-			"Attributes" 		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
-			"OnAttackLanded"
-			{
-				"RunScript"
-				{
-					"ScriptFile"		"units/DamageReturn.lua"
-					"Function"			"OrnReturn"
-					"damage_return" 	"%damage_return"
-					"attack_damage" 	"%attack_damage"
-				}
-				"RemoveModifier"
-		    	{
-		    		"Target" 			"ATTACKER"
-		    		"ModifierName"		"orn_return"
-		    	}
-			}
-		} 
-	}
-}
-
-"orn_lifesteal"
-{
-	"BaseClass"             		"ability_datadriven"
-	"AbilityTextureName"			"juggernaut_omni_slash"
-
-	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	
-	"AbilitySpecial"
-	{
-		"01"
-		{
-			"var_type"		"FIELD_INTEGER"
-			"lifesteal_percent"		"30"
-		}
-	}
-
-	"Modifiers"
-	{
-		"modifier_orn_lifesteal"
-		{
-			"Passive"			"1"
-			"IsHidden"			"1"
-			
-			"OnDealDamage"
-			{
-				"Lifesteal"
-				{
-					"Target"			"ATTACKER"
-					"LifestealPercent"	"%lifesteal_percent"
-				}
-			}
+			"damage_return" "30" //10
 		}
 	}
 }

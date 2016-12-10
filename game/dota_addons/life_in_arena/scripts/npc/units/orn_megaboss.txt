@@ -4,21 +4,24 @@
 "BaseClass" "npc_dota_creature" 
 "Model" "models/heroes/juggernaut/juggernaut.mdl" 
 "SoundSet" "Hero_Juggernaut" 
-"ModelScale" "1.3" 
+"ModelScale" 		"1.6" 
+"RingRadius"        "105"
 "Level" "1" 
 				"precache"
 		{
-			"model"	"models/heroes/juggernaut/juggernaut.mdl"
-			"model"	"models/items/juggernaut/thousand_faces_hakama/thousand_faces_hakama.mdl"
-			"model"	"models/items/juggernaut/thousand_faces_vest/thousand_faces_vest.mdl"
-			"model"	"models/items/juggernaut/thousand_faces_mask/thousand_faces_mask.mdl"
-			"model"	"models/items/juggernaut/thousand_faces_katana/thousand_faces_katana.mdl"
-			"model"	"models/items/juggernaut/thousand_faces_wraps/thousand_faces_wraps.mdl"
-			"model"	"models/items/juggernaut/dc_legsupdate5/dc_legsupdate5.mdl"
-			"model"	"models/items/juggernaut/dc_armsupdate/dc_armsupdate.mdl"
-			"model"	"models/items/juggernaut/dc_headupdate/dc_headupdate.mdl"
-			"model"	"models/items/juggernaut/dc_backupdate4/dc_backupdate4.mdl"
-			"model"	"models/items/juggernaut/dc_weaponupdate/dc_weaponupdate.mdl"
+			"model"	"models/heroes/juggernaut/juggernaut.vmdl"
+			"model"	"models/items/juggernaut/thousand_faces_hakama/thousand_faces_hakama.vmdl"
+			"model"	"models/items/juggernaut/thousand_faces_vest/thousand_faces_vest.vmdl"
+			"model"	"models/items/juggernaut/thousand_faces_mask/thousand_faces_mask.vmdl"
+			"model"	"models/items/juggernaut/thousand_faces_katana/thousand_faces_katana.vmdl"
+			"model"	"models/items/juggernaut/thousand_faces_wraps/thousand_faces_wraps.vmdl"
+			"model"	"models/items/juggernaut/dc_legsupdate5/dc_legsupdate5.vmdl"
+			"model"	"models/items/juggernaut/dc_armsupdate/dc_armsupdate.vmdl"
+			"model"	"models/items/juggernaut/dc_headupdate/dc_headupdate.vmdl"
+			"model"	"models/items/juggernaut/dc_backupdate4/dc_backupdate4.vmdl"
+			"model"	"models/items/juggernaut/dc_weaponupdate/dc_weaponupdate.vmdl"
+			"particle"  "particles/econ/items/juggernaut/bladekeeper_swordglow.vpcf"
+			"particle"  "particles/econ/items/juggernaut/bladekeeper_headglow.vpcf"
 		}
 		
 "Creature"
@@ -35,16 +38,17 @@
 
 "Ability1" "true_sight" 
 "Ability2" "orn_all_bonuses" 
-"Ability3" "orn_cleave" 
-"Ability4" "orn_mana_break" 
+"Ability3" "orn_cleave_manabreak_lifesteal" 
+"Ability4" "orn_return" 
 "Ability5" "orn_bash" 
 "Ability6" "orn_crit" 
-"Ability7" "orn_return" 
-"Ability8" "orn_lifesteal" 
+"Ability7" "" 
+"Ability8" "" 
 
+"AbilityLayout"	"6"
 
 "ArmorPhysical" "128" 
-"MagicalResistance" "0" 
+"MagicalResistance" "25" 
 
 
 "AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
@@ -63,7 +67,7 @@
 
 "MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND" 
 "MovementSpeed" "300" 
-"MovementTurnRate" "0.4"
+"MovementTurnRate" "0.6"
 
 
 "StatusHealth" "9320" 
@@ -72,13 +76,14 @@
 "StatusManaRegen" "1" 
 
 "TeamName" "DOTA_TEAM_BADGUYS" 
-"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_BASIC"
-"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_STRONG"
+"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_HERO"
+"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_HERO"
 "UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+"AttackType"    "hero"
+"ArmorType"     "heavy" 
 
-
-"VisionDaytimeRange" "10000" 
-"VisionNighttimeRange" "10000" 
+"VisionDaytimeRange" "2000" 
+"VisionNighttimeRange" "2000" 
 
 "HasInventory" "0" 
 }

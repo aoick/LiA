@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"500"	
+	"ItemCost"						"400"	
 	"ItemShopTags"					"int"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@
 {
 	"ID"							"1466"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"870"
+	"ItemCost"						"770"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -33,16 +35,7 @@
 	"ItemQuality"					"common"
 	"AbilityTextureName"			"item_lia_orb_of_frost"
 	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-	
-	"OnUnequip" 
-	{
-		"RunScript"
-		{
-			"ScriptFile" "items\AuraFix.lua"
-			"Function"  "OnUnequip"
-			"ModifierName" "orb_of_frost_aura_Modifier"
-		}
-	}
+
 
 	"Modifiers"
 	{
@@ -51,6 +44,12 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+
+		    "Aura" "orb_of_frost_aura_armor"
+    		"Aura_Radius" "900"
+    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+
 		    "Properties"
 		    {
 				"MODIFIER_PROPERTY_MANA_BONUS"			"%bonus_mana"
@@ -84,55 +83,26 @@
 			}
 			"EffectName"    "particles/generic_gameplay/generic_slowed_cold.vpcf"
 			"EffectAttachType" "attach_hitloc"
-			"Target" "TARGET"
-
 		}
 		"orb_of_frost_aura_armor"
    		{
     	
 	    	"IsBuff" "1"
 	    	"IsPurgable" "0"
-	    	"OnCreated"
-	    	{	
-
-	    		"RunScript"
-	    		{
-	    			"ScriptFile"	"items/StormwindHorn.lua"
-	    			"Function"		"CalcRegeneration"
-	    		}
-
-	    	}
-	    	"OnDestroy"
-	    	{
-				"RunScript"
-    			{
-			        "ScriptFile"    "items/StormwindHorn.lua"
-			        "Function"      "AuraNone"	
-				}
-	    	}
 
 	    	"Properties"
 	    	{
 	     		"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE_UNIQUE" "%bonus_movement_speed_percent"
+	     		"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_attack_speed"
 	    	}
 	    }
-		 "orb_of_frost_aura_Modifier"
-   		{
-    		"Passive" "1"
-    		"IsHidden" "1"
-    		"Aura" "orb_of_frost_aura_armor"
-    		"Aura_Radius" "900"
-    		"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-    		"Aura_Types" "DOTA_UNIT_TARGET_ALL"
-
-   		}
 	}
 	"AbilitySpecial"
 	{
 		"01"
 		{
 			"var_type" "FIELD_INTEGER"
-			"bonus_mana" "500"
+			"bonus_mana" "400"
 		}
 		"02"
 		{
@@ -146,9 +116,9 @@
 	   	}
 		"04"
 	   	{
-		    "var_type" "FIELD_INTEGER"
-		    "regen_percent" "80"
-	   	}
+			"var_type" "FIELD_INTEGER"
+			"bonus_attack_speed" "20"
+		}
 		"05"
 	   	{
 		    "var_type" "FIELD_INTEGER"

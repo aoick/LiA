@@ -2,13 +2,17 @@ require('survival/AIcreeps')
 
 function Spawn(entityKeyValues)
 	--print("Spawn")
+    thisEntity:SetHullRadius(30) 
+	if thisEntity:GetPlayerOwnerID() ~= -1 then
+		return
+	end
+	
 	ABILITY_4_wave_death_coil = thisEntity:FindAbilityByName("4_wave_death_coil")
-
 	thisEntity:SetContextThink( "4_wave_think", Think4Wave , 0.1)
 end
 
 function Think4Wave()
-	if not thisEntity:IsAlive() then
+	if not thisEntity:IsAlive() or thisEntity:IsIllusion() then
 		return nil 
 	end
 
@@ -18,6 +22,10 @@ function Think4Wave()
 
 	AICreepsAttackOneUnit({unit = thisEntity})
 	--print(Survival.AICreepCasts)
+
+	if thisEntity:IsStunned() then 
+		return 2 
+	end
 		
 	if ABILITY_4_wave_death_coil:IsFullyCastable() and Survival.AICreepCasts < Survival.AIMaxCreepCasts then
 		local targets = FindUnitsInRadius(thisEntity:GetTeam(), 
@@ -35,5 +43,5 @@ function Think4Wave()
 		end
 	end	
 	
-	return 1
+	return 2
 end

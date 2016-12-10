@@ -107,7 +107,7 @@
         "Damage"
         {
           "Target"     "TARGET"
-          "Type"       "DAMAGE_TYPE_PHYSICAL"
+          "Type"       "DAMAGE_TYPE_MAGICAL"
           "Damage"     "%damage"
         }
       }
@@ -115,7 +115,7 @@
   }
 }
 
-  "earth_lord_earth_burn_scepter"
+  "earth_lord_earth_burn_staff"
 {
   // General
   //-------------------------------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@
   }
 }
 
- "earth_lord_split_earth_scepter"
+ "earth_lord_split_earth_staff"
 {
   // General
   //-------------------------------------------------------------------------------------------------------------
@@ -535,8 +535,8 @@
             "IsBuff"        "1"
             "IsPurgable"    "1"
 
-            "EffectName"  "particles/econ/items/earth_spirit/earth_spirit_vanquishingdemons_summons/espirit_stoneremnant_base_vanquishingdemons.vpcf"
-            "EffectAttachType"  "follow_origin"
+            "StatusEffectName"     "particles/status_fx/status_effect_medusa_stone_gaze.vpcf"      
+            "StatusEffectPriority"  "10"
             "Properties"
             {
                 "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"        "%bonus_armor"

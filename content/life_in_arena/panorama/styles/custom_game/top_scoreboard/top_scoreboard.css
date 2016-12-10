@@ -1,0 +1,76 @@
+.TopScoreboardRoot
+{
+	width: 100%;
+	height: 100%;
+}
+
+.ScoreboardPlayer
+{
+	border: 1px solid black;
+}
+
+#TeamsContainer
+{
+	box-shadow: none;
+}
+
+#PlayersContainer
+{
+	flow-children:right;
+}
+
+.ScoreboardPlayerWrapper
+{ 
+	transition-property: position;
+	transition-duration: 0.75s;
+}
+
+.ScoreboardPlayer
+{
+	width: 80px;
+	height: 45px;
+	margin-left: 8px;
+	margin-right: 8px;
+	horizontal-align:center;
+	transition-property: box-shadow;
+	transition-duration: 0.3s;
+	transition-timing-function: ease-out;
+}
+
+.PlayerPortraitWrapper
+{
+	flow-children: down;
+}
+
+#PlayerColorBar
+{
+	//border-bottom: 1px solid black;
+	width: 80px;
+	height: 5px;
+}
+
+#HeroIcon
+{
+	border: 0px;
+	border-top: 1px solid black;
+}
+
+.is_local_player #ScoreboardPlayer
+{
+	box-shadow: -3px -3px 3px 6px #FFFFFF88;
+}
+
+
+.ready_to_round #ScoreboardPlayer
+{
+	box-shadow: #00ff00ff 0px 0px 5px 0px;
+	border: 1px solid #00ee00;
+	border-top:1px solid black;
+}
+
+#UltimateIndicatorContainer
+{
+	z-index: 3;
+	horizontal-align:center;
+	margin-top: 35px;
+}

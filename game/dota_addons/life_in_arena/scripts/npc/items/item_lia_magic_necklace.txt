@@ -8,8 +8,10 @@
 	
 	// Item Info
 	//-------------------------------------------------------------------------------------------------------------
-	"ItemCost"						"550"	
+	"ItemCost"						"450"	
 	"ItemShopTags"					"str;agi;int"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
@@ -17,7 +19,7 @@
 	"ItemResult"					"item_lia_magic_necklace"
 	"ItemRequirements"
 	{
-		"01"						"item_lia_staff;item_lia_necklace;item_lia_gloves_of_strength"
+		"01"						"item_lia_staff;item_lia_thugs_dagger;item_lia_gloves_of_strength"
 	}
 }
 
@@ -25,7 +27,7 @@
 {
 	"ID"							"1408"
 	"BaseClass" 					"item_datadriven"
-	"ItemCost"						"1055"
+	"ItemCost"						"1050"
 	"ItemKillable" 					"0" 
 	"ItemDroppable" 				"1"
 	"ItemSellable"                  "1"
@@ -40,6 +42,7 @@
 			"Passive"          "1"    
 		    "IsHidden"         "1"
 		    "Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
+		    "AllowIllusionDuplicate"    "1"
 		    "Properties"
 		    {
 		    	"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all_stats"

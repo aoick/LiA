@@ -1,4 +1,4 @@
-"item_recipe_lia_scepter_of_power"
+"item_recipe_lia_staff_of_power"
 {
 	// General
 	//-------------------------------------------------------------------------------------------------------------
@@ -10,18 +10,20 @@
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemCost"						"200"	
 	"ItemShopTags"					"armor"
+
+	"ItemKillable" 					"0" 
 	
 	// Recipe
 	//-------------------------------------------------------------------------------------------------------------
 	"ItemRecipe"					"1"
-	"ItemResult"					"item_lia_scepter_of_power"
+	"ItemResult"					"item_lia_staff_of_power"
 	"ItemRequirements"
 	{
 		"01"						"item_lia_mask;item_lia_amulet_of_spell_shield;item_lia_runed_bracers"
 	}
 }
 
-"item_lia_scepter_of_power"
+"item_lia_staff_of_power"
 {
 
 		"ID"							"1462"
@@ -35,7 +37,7 @@
 
 	"AbilityCooldown"				"15.0"
 		
-		"AbilityTextureName"			"item_lia_scepter_of_power"
+		"AbilityTextureName"			"item_lia_staff_of_power"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass" "item_datadriven"
 	"AbilitySpecial"
@@ -64,7 +66,7 @@
 			"Passive"			"1"
 			"IsHidden"			"1"
 			"Attributes" 		        "MODIFIER_ATTRIBUTE_MULTIPLE"
-			
+
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%bonus_magic_resist_percentage"
@@ -101,24 +103,6 @@
 				{
 					"ScriptFile"			"items/ScepterOfPower.lua"
 					"Function"				"modifier_item_lia_amulet_of_spell_shield_on_interval_think"
-				}
-			}
-		}
-		//A modifier that is applied to a unit when they receive the modifier_item_sphere_target modifier.
-		//So long as they still have that modifier, this one will remain and provide a public face on the modifier icon bar.
-		//This modifier deletes itself when modifier_item_sphere_target no longer exists on the unit.
-		"modifier_item_lia_scepter_of_power_icon"
-		{
-			"Passive"			"0"
-			"IsHidden"			"0"
-			
-			"ThinkInterval" 		".03"
-			"OnIntervalThink"
-			{
-				"RunScript"
-				{
-					"ScriptFile"			"items/ScepterOfPower.lua"
-					"Function"				"modifier_item_lia_amulet_of_spell_shield_icon_on_interval_think"
 				}
 			}
 		}
